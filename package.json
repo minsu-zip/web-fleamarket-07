@@ -2,11 +2,14 @@
   "name": "web-fleamarket-07",
   "repository": "https://github.com/woowa-techcamp-2022/web-fleamarket-07.git",
   "license": "MIT",
+  "scripts": {
+    "initVscode": "yarn install && yarn dlx @yarnpkg/sdks vscode",
+    "client": "yarn workspace @fleamarket/client"
+  },
   "private": true,
   "workspaces": {
     "packages": [
-      "client",
-      "server"
+      "client"
     ]
   },
   "packageManager": "yarn@3.2.2",
