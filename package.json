@@ -4,18 +4,23 @@
   "license": "MIT",
   "scripts": {
     "initVscode": "yarn install && yarn dlx @yarnpkg/sdks vscode",
-    "client": "yarn workspace @fleamarket/client"
+    "client": "yarn workspace @fleamarket/client",
+    "server": "yarn workspace @fleamarket/server"
   },
   "private": true,
   "workspaces": {
     "packages": [
-      "client"
+      "client",
+      "server"
     ]
   },
   "packageManager": "yarn@3.2.2",
   "devDependencies": {
+    "@typescript-eslint/eslint-plugin": "^5.33.1",
+    "@typescript-eslint/parser": "^5.33.1",
     "@yarnpkg/pnpify": "^4.0.0-rc.14",
     "eslint": "^8.22.0",
+    "eslint-plugin-prettier": "^4.2.1",
     "prettier": "^2.7.1",
     "typescript": "^4.7.4"
   }

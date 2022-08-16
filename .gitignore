@@ -21,6 +21,10 @@ yarn-error.log*
 dist/
 build/
 
+# Tests
+/coverage
+/.nyc_output
+
 # Yarn Zero-Install
 .yarn/*
 !.yarn/patches
