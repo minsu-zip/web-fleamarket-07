@@ -8,6 +8,8 @@ import { MySqlConfigService } from './config/database/config.service';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { LocationModule } from './domain/location/location.module';
 import { UserModule } from './domain/user/user.module';
+import { ProductModule } from './domain/product/product.module';
+import { CategoryModule } from './category/category.module';
 
 @Module({
   imports: [
@@ -23,6 +25,7 @@ import { UserModule } from './domain/user/user.module';
     }),
     LocationModule,
     UserModule,
+    ProductModule,
   ],
   controllers: [AppController],
   providers: [AppService],
