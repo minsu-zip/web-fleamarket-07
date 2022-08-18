@@ -2,6 +2,7 @@ import { CategoryEntity } from 'src/domain/category/entities/category.entity';
 import { ImageEntity } from 'src/domain/image/entities/image.entity';
 import { LikeEntity } from 'src/domain/like/entities/like.entity';
 import { LocationEntity } from 'src/domain/location/entities/location.entity';
+import { RoomEntity } from 'src/domain/room/entities/room.entity';
 import { UserEntity } from 'src/domain/user/entities/user.entity';
 import {
   Column,
@@ -61,4 +62,7 @@ export class ProductEntity {
 
   @OneToMany(() => LikeEntity, (like) => like.product)
   likes: LikeEntity[];
+
+  @OneToMany(() => RoomEntity, (room) => room.product)
+  rooms: RoomEntity[];
 }

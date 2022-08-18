@@ -1,3 +1,4 @@
+import { ProductEntity } from 'src/domain/product/entities/product.entity';
 import { UserEntity } from 'src/domain/user/entities/user.entity';
 import { Column, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
 
@@ -19,4 +20,7 @@ export class RoomEntity {
 
   @ManyToOne(() => UserEntity, (user) => user.buyerRooms)
   buyer: UserEntity;
+
+  @ManyToOne(() => ProductEntity, (product) => product.rooms)
+  product: ProductEntity;
 }
