@@ -9,7 +9,7 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { LocationModule } from './domain/location/location.module';
 import { UserModule } from './domain/user/user.module';
 import { ProductModule } from './domain/product/product.module';
-import { CategoryModule } from './category/category.module';
+import { CategoryModule } from './domain/category/category.module';
 
 @Module({
   imports: [
@@ -26,6 +26,7 @@ import { CategoryModule } from './category/category.module';
     LocationModule,
     UserModule,
     ProductModule,
+    CategoryModule,
   ],
   controllers: [AppController],
   providers: [AppService],
