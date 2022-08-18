@@ -1,5 +1,6 @@
 import { LikeEntity } from 'src/domain/like/entities/like.entity';
 import { LocationEntity } from 'src/domain/location/entities/location.entity';
+import { ProductEntity } from 'src/domain/product/entities/product.entity';
 import {
   Column,
   JoinColumn,
@@ -21,9 +22,6 @@ export class UserEntity {
   @Column({ type: 'int' })
   locationId2: number;
 
-  @OneToMany(() => LikeEntity, (like) => like.user)
-  likes: LikeEntity[];
-
   @ManyToOne(() => LocationEntity, (location) => location.users)
   @JoinColumn({ name: 'locationId1' })
   location1: LocationEntity;
@@ -31,4 +29,10 @@ export class UserEntity {
   @ManyToOne(() => LocationEntity, (location) => location.subUsers)
   @JoinColumn({ name: 'locationId2' })
   location2: LocationEntity;
+
+  @OneToMany(() => ProductEntity, (product) => product.user)
+  products: ProductEntity[];
+
+  @OneToMany(() => LikeEntity, (like) => like.user)
+  likes: LikeEntity[];
 }
