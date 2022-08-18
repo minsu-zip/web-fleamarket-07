@@ -1,5 +1,12 @@
 import { LikeEntity } from 'src/domain/like/entities/like.entity';
-import { Column, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
+import { LocationEntity } from 'src/domain/location/entities/location.entity';
+import {
+  Column,
+  JoinColumn,
+  ManyToOne,
+  OneToMany,
+  PrimaryGeneratedColumn,
+} from 'typeorm';
 
 export class UserEntity {
   @PrimaryGeneratedColumn({ type: 'int' })
@@ -16,4 +23,12 @@ export class UserEntity {
 
   @OneToMany(() => LikeEntity, (like) => like.user)
   likes: LikeEntity[];
+
+  @ManyToOne(() => LocationEntity, (location) => location.users)
+  @JoinColumn({ name: 'locationId1' })
+  location1: LocationEntity;
+
+  @ManyToOne(() => LocationEntity, (location) => location.subUsers)
+  @JoinColumn({ name: 'locationId2' })
+  location2: LocationEntity;
 }

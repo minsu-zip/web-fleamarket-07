@@ -1,8 +1,10 @@
 import { LikeEntity } from 'src/domain/like/entities/like.entity';
+import { LocationEntity } from 'src/domain/location/entities/location.entity';
 import {
   Column,
   CreateDateColumn,
   DeleteDateColumn,
+  ManyToOne,
   OneToMany,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
@@ -44,4 +46,7 @@ export class ProductEntity {
 
   @OneToMany(() => LikeEntity, (like) => like.product)
   likes: LikeEntity[];
+
+  @ManyToOne(() => LocationEntity, (location) => location.products)
+  location: LocationEntity;
 }
