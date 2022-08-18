@@ -1,3 +1,4 @@
+import { ChatEntity } from 'src/domain/chat/entities/chat.entity';
 import { LikeEntity } from 'src/domain/like/entities/like.entity';
 import { LocationEntity } from 'src/domain/location/entities/location.entity';
 import { ProductEntity } from 'src/domain/product/entities/product.entity';
@@ -42,4 +43,7 @@ export class UserEntity {
 
   @OneToMany(() => RoomEntity, (room) => room.seller)
   buyerRooms: RoomEntity[];
+
+  @OneToMany(() => ChatEntity, (chat) => chat.user)
+  chats: ChatEntity[];
 }

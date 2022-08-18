@@ -1,6 +1,7 @@
+import { ChatEntity } from 'src/domain/chat/entities/chat.entity';
 import { ProductEntity } from 'src/domain/product/entities/product.entity';
 import { UserEntity } from 'src/domain/user/entities/user.entity';
-import { Column, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
+import { Column, ManyToOne, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
 
 export class RoomEntity {
   @PrimaryGeneratedColumn({ type: 'int' })
@@ -23,4 +24,7 @@ export class RoomEntity {
 
   @ManyToOne(() => ProductEntity, (product) => product.rooms)
   product: ProductEntity;
+
+  @OneToMany(() => ChatEntity, (chat) => chat.room)
+  chats: ChatEntity[];
 }

@@ -1,4 +1,11 @@
-import { Column, CreateDateColumn, PrimaryGeneratedColumn } from 'typeorm';
+import { RoomEntity } from 'src/domain/room/entities/room.entity';
+import { UserEntity } from 'src/domain/user/entities/user.entity';
+import {
+  Column,
+  CreateDateColumn,
+  ManyToOne,
+  PrimaryGeneratedColumn,
+} from 'typeorm';
 
 export class ChatEntity {
   @PrimaryGeneratedColumn({ type: 'int' })
@@ -15,4 +22,10 @@ export class ChatEntity {
 
   @Column({ type: 'int' })
   userId: number;
+
+  @ManyToOne(() => UserEntity, (user) => user.chats)
+  user: UserEntity;
+
+  @ManyToOne(() => RoomEntity, (room) => room.chats)
+  room: RoomEntity;
 }
