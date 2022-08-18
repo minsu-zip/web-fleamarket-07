@@ -6,7 +6,8 @@ import { validateEnv } from './config/env.validation';
 import { MySqlConfigModule } from './config/database/config.module';
 import { MySqlConfigService } from './config/database/config.service';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { LocationModule } from './location/location.module';
+import { LocationModule } from './domain/location/location.module';
+import { UserModule } from './domain/user/user.module';
 
 @Module({
   imports: [
@@ -21,6 +22,7 @@ import { LocationModule } from './location/location.module';
       inject: [MySqlConfigService],
     }),
     LocationModule,
+    UserModule,
   ],
   controllers: [AppController],
   providers: [AppService],
