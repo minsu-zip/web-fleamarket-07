@@ -12,6 +12,7 @@ import { ProductModule } from './domain/product/product.module';
 import { CategoryModule } from './domain/category/category.module';
 import { ImageModule } from './domain/image/image.module';
 import { RoomModule } from './domain/room/room.module';
+import { ChatModule } from './domain/chat/chat.module';
 
 @Module({
   imports: [
@@ -31,6 +32,7 @@ import { RoomModule } from './domain/room/room.module';
     CategoryModule,
     ImageModule,
     RoomModule,
+    ChatModule,
   ],
   controllers: [AppController],
   providers: [AppService],
