@@ -6,7 +6,6 @@ import { Room } from 'src/domain/room/entities/room.entity';
 import {
   Column,
   Entity,
-  JoinColumn,
   ManyToOne,
   OneToMany,
   PrimaryGeneratedColumn,
@@ -21,17 +20,15 @@ export class User {
   name: string;
 
   @Column({ type: 'int' })
-  locationId1: number;
+  location1Id: number;
 
   @Column({ type: 'int' })
-  locationId2: number;
+  location2Id: number;
 
   @ManyToOne(() => Location, (location) => location.users)
-  @JoinColumn({ name: 'locationId1' })
   location1: Location;
 
   @ManyToOne(() => Location, (location) => location.subUsers)
-  @JoinColumn({ name: 'locationId2' })
   location2: Location;
 
   @OneToMany(() => Product, (product) => product.user)
