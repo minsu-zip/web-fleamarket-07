@@ -9,7 +9,8 @@
     "eslint:recommended",
     "plugin:@typescript-eslint/recommended",
     "react-app",
-    "react-app/jest"
+    "react-app/jest",
+    "plugin:prettier/recommended"
   ],
   // ESLint에 지원할 JavaScript 옵션 설정
   "parserOptions": {
@@ -22,7 +23,7 @@
   // parser 등록
   "parser": "@typescript-eslint/parser",
   // 사용자 규칙 추가할 플러그인 (eslint-plugin-{name}으로 설치)
-  "plugins": ["@typescript-eslint", "prettier"],
+  "plugins": ["@typescript-eslint"],
   "rules": {
     "@typescript-eslint/space-before-function-paren": "off",
     "no-var": "error", // var 변수를 사용하지 않는다.

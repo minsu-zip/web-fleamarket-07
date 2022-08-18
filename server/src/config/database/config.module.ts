@@ -1,5 +1,5 @@
-import { Module } from '@nestjs/common'
-import { MySqlConfigService } from './config.service'
+import { Module } from '@nestjs/common';
+import { MySqlConfigService } from './config.service';
 
 @Module({
   providers: [MySqlConfigService],

@@ -12,7 +12,5 @@
   "jsxSingleQuote": true,
   "trailingComma": "all",
   "useTabs": false,
-  "importOrder": ["^(!@)(.*)$", "^@(.*)$", "^[./]"],
-  "importOrderSeparation": true,
-  "importOrderSortSpecifiers": true
+  "importOrder": ["^(!@)(.*)$", "^@(.*)$", "^[./]"]
 }
