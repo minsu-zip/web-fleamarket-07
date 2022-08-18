@@ -10,6 +10,7 @@ import { LocationModule } from './domain/location/location.module';
 import { UserModule } from './domain/user/user.module';
 import { ProductModule } from './domain/product/product.module';
 import { CategoryModule } from './domain/category/category.module';
+import { ImageModule } from './domain/image/image.module';
 
 @Module({
   imports: [
@@ -27,6 +28,7 @@ import { CategoryModule } from './domain/category/category.module';
     UserModule,
     ProductModule,
     CategoryModule,
+    ImageModule,
   ],
   controllers: [AppController],
   providers: [AppService],
