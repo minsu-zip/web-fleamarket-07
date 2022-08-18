@@ -19,7 +19,7 @@ export class RoomService {
   }
 
   findAllByUser(id: number) {
-    return this.roomRepository.find({ where: { seller: id } });
+    return this.roomRepository.find({ where: { sellerId: id } });
   }
 
   findAllByProduct(id: number) {

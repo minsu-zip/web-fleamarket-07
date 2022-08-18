@@ -1,4 +1,5 @@
-import { Column, PrimaryGeneratedColumn } from 'typeorm';
+import { UserEntity } from 'src/domain/user/entities/user.entity';
+import { Column, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
 
 export class RoomEntity {
   @PrimaryGeneratedColumn({ type: 'int' })
@@ -8,8 +9,14 @@ export class RoomEntity {
   productId: number;
 
   @Column({ type: 'int' })
-  seller: number;
+  sellerId: number;
 
   @Column({ type: 'int' })
-  buyer: number;
+  buyerId: number;
+
+  @ManyToOne(() => UserEntity, (user) => user.sellerRooms)
+  seller: UserEntity;
+
+  @ManyToOne(() => UserEntity, (user) => user.buyerRooms)
+  buyer: UserEntity;
 }
