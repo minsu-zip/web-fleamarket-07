@@ -11,6 +11,7 @@ import { UserModule } from './domain/user/user.module';
 import { ProductModule } from './domain/product/product.module';
 import { CategoryModule } from './domain/category/category.module';
 import { ImageModule } from './domain/image/image.module';
+import { RoomModule } from './domain/room/room.module';
 
 @Module({
   imports: [
@@ -29,6 +30,7 @@ import { ImageModule } from './domain/image/image.module';
     ProductModule,
     CategoryModule,
     ImageModule,
+    RoomModule,
   ],
   controllers: [AppController],
   providers: [AppService],
