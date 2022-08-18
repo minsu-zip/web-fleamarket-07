@@ -1,3 +1,4 @@
+import { ImageEntity } from 'src/domain/image/entities/image.entity';
 import { LikeEntity } from 'src/domain/like/entities/like.entity';
 import { LocationEntity } from 'src/domain/location/entities/location.entity';
 import {
@@ -43,6 +44,9 @@ export class ProductEntity {
 
   @Column({ type: 'int' })
   categoryId: number;
+
+  @OneToMany(() => ImageEntity, (image) => image.product)
+  images: ImageEntity[];
 
   @OneToMany(() => LikeEntity, (like) => like.product)
   likes: LikeEntity[];
