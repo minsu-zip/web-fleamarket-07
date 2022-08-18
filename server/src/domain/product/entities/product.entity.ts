@@ -53,8 +53,8 @@ export class ProductEntity {
   @ManyToOne(() => LocationEntity, (location) => location.products)
   location: LocationEntity;
 
-  @OneToMany(() => CategoryEntity, (category) => category.product)
-  categories: CategoryEntity[];
+  @ManyToOne(() => CategoryEntity, (category) => category.products)
+  category: CategoryEntity;
 
   @OneToMany(() => ImageEntity, (image) => image.product)
   images: ImageEntity[];

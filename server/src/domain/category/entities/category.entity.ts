@@ -1,5 +1,5 @@
 import { ProductEntity } from 'src/domain/product/entities/product.entity';
-import { Column, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
+import { Column, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
 
 export class CategoryEntity {
   @PrimaryGeneratedColumn({ type: 'int' })
@@ -8,9 +8,6 @@ export class CategoryEntity {
   @Column({ type: 'varchar', length: 10 })
   name: string;
 
-  @Column({ type: 'int' })
-  productId: number;
-
-  @ManyToOne(() => ProductEntity, (product) => product.categories)
-  product: ProductEntity;
+  @OneToMany(() => ProductEntity, (product) => product.category)
+  products: ProductEntity[];
 }
