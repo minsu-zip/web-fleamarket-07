@@ -1,20 +1,22 @@
-import { CategoryEntity } from 'src/domain/category/entities/category.entity';
-import { ImageEntity } from 'src/domain/image/entities/image.entity';
-import { LikeEntity } from 'src/domain/like/entities/like.entity';
-import { LocationEntity } from 'src/domain/location/entities/location.entity';
-import { RoomEntity } from 'src/domain/room/entities/room.entity';
-import { UserEntity } from 'src/domain/user/entities/user.entity';
+import { Category } from 'src/domain/category/entities/category.entity';
+import { Image } from 'src/domain/image/entities/image.entity';
+import { Like } from 'src/domain/like/entities/like.entity';
+import { Location } from 'src/domain/location/entities/location.entity';
+import { Room } from 'src/domain/room/entities/room.entity';
+import { User } from 'src/domain/user/entities/user.entity';
 import {
   Column,
   CreateDateColumn,
   DeleteDateColumn,
+  Entity,
   ManyToOne,
   OneToMany,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
 
-export class ProductEntity {
+@Entity()
+export class Product {
   @PrimaryGeneratedColumn({ type: 'int' })
   id: number;
 
@@ -48,21 +50,21 @@ export class ProductEntity {
   @Column({ type: 'int' })
   categoryId: number;
 
-  @ManyToOne(() => UserEntity, (user) => user.products)
-  user: UserEntity;
+  @ManyToOne(() => User, (user) => user.products)
+  user: User;
 
-  @ManyToOne(() => LocationEntity, (location) => location.products)
-  location: LocationEntity;
+  @ManyToOne(() => Location, (location) => location.products)
+  location: Location;
 
-  @ManyToOne(() => CategoryEntity, (category) => category.products)
-  category: CategoryEntity;
+  @ManyToOne(() => Category, (category) => category.products)
+  category: Category;
 
-  @OneToMany(() => ImageEntity, (image) => image.product)
-  images: ImageEntity[];
+  @OneToMany(() => Image, (image) => image.product)
+  images: Image[];
 
-  @OneToMany(() => LikeEntity, (like) => like.product)
-  likes: LikeEntity[];
+  @OneToMany(() => Like, (like) => like.product)
+  likes: Like[];
 
-  @OneToMany(() => RoomEntity, (room) => room.product)
-  rooms: RoomEntity[];
+  @OneToMany(() => Room, (room) => room.product)
+  rooms: Room[];
 }

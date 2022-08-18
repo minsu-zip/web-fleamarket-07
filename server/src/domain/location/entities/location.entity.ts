@@ -1,20 +1,21 @@
-import { ProductEntity } from 'src/domain/product/entities/product.entity';
-import { UserEntity } from 'src/domain/user/entities/user.entity';
-import { Column, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
+import { Product } from 'src/domain/product/entities/product.entity';
+import { User } from 'src/domain/user/entities/user.entity';
+import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
 
-export class LocationEntity {
+@Entity()
+export class Location {
   @PrimaryGeneratedColumn({ type: 'int' })
   id: number;
 
   @Column({ type: 'varchar', length: 10 })
   region: string;
 
-  @OneToMany(() => UserEntity, (user) => user.location1)
-  users: UserEntity[];
+  @OneToMany(() => User, (user) => user.location1)
+  users: User[];
 
-  @OneToMany(() => UserEntity, (user) => user.location2)
-  subUsers: UserEntity[];
+  @OneToMany(() => User, (user) => user.location2)
+  subUsers: User[];
 
-  @OneToMany(() => ProductEntity, (product) => product.location)
-  products: ProductEntity[];
+  @OneToMany(() => Product, (product) => product.location)
+  products: Product[];
 }

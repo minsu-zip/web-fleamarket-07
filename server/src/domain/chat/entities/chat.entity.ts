@@ -1,13 +1,15 @@
-import { RoomEntity } from 'src/domain/room/entities/room.entity';
-import { UserEntity } from 'src/domain/user/entities/user.entity';
+import { Room } from 'src/domain/room/entities/room.entity';
+import { User } from 'src/domain/user/entities/user.entity';
 import {
   Column,
   CreateDateColumn,
+  Entity,
   ManyToOne,
   PrimaryGeneratedColumn,
 } from 'typeorm';
 
-export class ChatEntity {
+@Entity()
+export class Chat {
   @PrimaryGeneratedColumn({ type: 'int' })
   id: number;
 
@@ -23,9 +25,9 @@ export class ChatEntity {
   @Column({ type: 'int' })
   userId: number;
 
-  @ManyToOne(() => UserEntity, (user) => user.chats)
-  user: UserEntity;
+  @ManyToOne(() => User, (user) => user.chats)
+  user: User;
 
-  @ManyToOne(() => RoomEntity, (room) => room.chats)
-  room: RoomEntity;
+  @ManyToOne(() => Room, (room) => room.chats)
+  room: Room;
 }

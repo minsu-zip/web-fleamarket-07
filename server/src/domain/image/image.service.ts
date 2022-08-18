@@ -1,24 +1,24 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { DeleteResult, Repository } from 'typeorm';
-import { ImageEntity } from './entities/image.entity';
+import { Image } from './entities/image.entity';
 
 @Injectable()
 export class ImageService {
   constructor(
-    @InjectRepository(ImageEntity)
-    private imageRepository: Repository<ImageEntity>,
+    @InjectRepository(Image)
+    private imageRepository: Repository<Image>,
   ) {
     this.imageRepository = imageRepository;
   }
 
-  async create(createImageDto: ImageEntity): Promise<ImageEntity> {
+  async create(createImageDto: Image): Promise<Image> {
     const newImage = this.imageRepository.create(createImageDto);
     const image = await this.imageRepository.save(newImage);
     return image;
   }
 
-  async update(id: number, updateImageDto): Promise<ImageEntity> {
+  async update(id: number, updateImageDto): Promise<Image> {
     const pureImage = await this.imageRepository.findOneBy({ id });
 
     await this.imageRepository.update(id, updateImageDto);

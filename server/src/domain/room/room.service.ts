@@ -1,18 +1,18 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { DeleteResult, Repository } from 'typeorm';
-import { RoomEntity } from './entities/room.entity';
+import { Room } from './entities/room.entity';
 
 @Injectable()
 export class RoomService {
   constructor(
-    @InjectRepository(RoomEntity)
-    private roomRepository: Repository<RoomEntity>,
+    @InjectRepository(Room)
+    private roomRepository: Repository<Room>,
   ) {
     this.roomRepository = roomRepository;
   }
 
-  async create(createRoomDto: RoomEntity): Promise<RoomEntity> {
+  async create(createRoomDto: Room): Promise<Room> {
     const newRoom = this.roomRepository.create(createRoomDto);
     const room = await this.roomRepository.save(newRoom);
     return room;
@@ -26,7 +26,7 @@ export class RoomService {
     return this.roomRepository.find({ where: { productId: id } });
   }
 
-  async update(id: number, updateRoomDto): Promise<RoomEntity> {
+  async update(id: number, updateRoomDto): Promise<Room> {
     const pureRoom = await this.roomRepository.findOneBy({ id });
 
     await this.roomRepository.update(id, updateRoomDto);

@@ -1,17 +1,19 @@
-import { ChatEntity } from 'src/domain/chat/entities/chat.entity';
-import { LikeEntity } from 'src/domain/like/entities/like.entity';
-import { LocationEntity } from 'src/domain/location/entities/location.entity';
-import { ProductEntity } from 'src/domain/product/entities/product.entity';
-import { RoomEntity } from 'src/domain/room/entities/room.entity';
+import { Chat } from 'src/domain/chat/entities/chat.entity';
+import { Like } from 'src/domain/like/entities/like.entity';
+import { Location } from 'src/domain/location/entities/location.entity';
+import { Product } from 'src/domain/product/entities/product.entity';
+import { Room } from 'src/domain/room/entities/room.entity';
 import {
   Column,
+  Entity,
   JoinColumn,
   ManyToOne,
   OneToMany,
   PrimaryGeneratedColumn,
 } from 'typeorm';
 
-export class UserEntity {
+@Entity()
+export class User {
   @PrimaryGeneratedColumn({ type: 'int' })
   id: number;
 
@@ -24,26 +26,26 @@ export class UserEntity {
   @Column({ type: 'int' })
   locationId2: number;
 
-  @ManyToOne(() => LocationEntity, (location) => location.users)
+  @ManyToOne(() => Location, (location) => location.users)
   @JoinColumn({ name: 'locationId1' })
-  location1: LocationEntity;
+  location1: Location;
 
-  @ManyToOne(() => LocationEntity, (location) => location.subUsers)
+  @ManyToOne(() => Location, (location) => location.subUsers)
   @JoinColumn({ name: 'locationId2' })
-  location2: LocationEntity;
+  location2: Location;
 
-  @OneToMany(() => ProductEntity, (product) => product.user)
-  products: ProductEntity[];
+  @OneToMany(() => Product, (product) => product.user)
+  products: Product[];
 
-  @OneToMany(() => LikeEntity, (like) => like.user)
-  likes: LikeEntity[];
+  @OneToMany(() => Like, (like) => like.user)
+  likes: Like[];
 
-  @OneToMany(() => RoomEntity, (room) => room.seller)
-  sellerRooms: RoomEntity[];
+  @OneToMany(() => Room, (room) => room.seller)
+  sellerRooms: Room[];
 
-  @OneToMany(() => RoomEntity, (room) => room.seller)
-  buyerRooms: RoomEntity[];
+  @OneToMany(() => Room, (room) => room.seller)
+  buyerRooms: Room[];
 
-  @OneToMany(() => ChatEntity, (chat) => chat.user)
-  chats: ChatEntity[];
+  @OneToMany(() => Chat, (chat) => chat.user)
+  chats: Chat[];
 }
