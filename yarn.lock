@@ -2056,6 +2056,7 @@ __metadata:
     "@types/supertest": ^2.0.11
     class-transformer: ^0.5.1
     class-validator: ^0.13.2
+    cross-env: ^7.0.3
     jest: 28.1.2
     mysql2: ^2.3.3
     reflect-metadata: ^0.1.13
@@ -6790,9 +6791,9 @@ __metadata:
   linkType: hard
 
 "electron-to-chromium@npm:^1.4.202":
-  version: 1.4.223
-  resolution: "electron-to-chromium@npm:1.4.223"
-  checksum: a0994e42ed3611ea535ea1ab30d63b61a798e2721fd216ca116fdc7b9f6a9ae4d133bf0d3c2f42b1dbeaf3a3f08aeab9f4f03f015032e93dc0fd1de4721c675b
+  version: 1.4.224
+  resolution: "electron-to-chromium@npm:1.4.224"
+  checksum: c28eeab10e073af51aa1de2199cc4d40a42c1052f870b926fb97449c690dc29f167f6ffdf44d501ce3ab283aac8a70f2e1e5714e55d9454ae447904b82ae8b26
   languageName: node
   linkType: hard
 
