@@ -1,1 +1,1 @@
-export default null;
+export { TProduct, EProductStatus } from './types/product';
