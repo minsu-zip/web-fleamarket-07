@@ -1,18 +1,50 @@
 import EProductStatus from './EProductStatus';
 
+type Timage = {
+  image: string;
+};
+
 type TProduct = {
   id: number;
   title: string;
-  content: string;
-  price: number;
-  hit: number;
-  status: EProductStatus;
-  userId: number;
+  price?: number;
+  hit?: number;
+  titleImage?: Timage;
+  likes?: number;
+  isLike: false;
+  chats?: number;
+  createdAt?: Date;
+  updatedAt?: Date;
+  deletedAt?: Date;
   locationId: number;
-  categoryId: number;
-  createdAt: Date;
-  updatedAt: Date;
-  deletedAt: Date;
+  locationNumber: string;
+  userId: number;
+  userName: string;
 };
 
-export default TProduct;
+type TProductDetail = TProduct & {
+  content?: string;
+  categoryId: number;
+  categoryName: string;
+  status: EProductStatus;
+  images?: Timage[];
+};
+
+type TProductCreate = {
+  title: string;
+  content?: string;
+  price: number;
+  images?: Timage[];
+};
+
+type TProductUpdate = {
+  title?: string;
+  content?: string;
+  price?: number;
+  images?: Timage[];
+  status?: EProductStatus;
+  categoryId?: number;
+  isLike?: boolean;
+};
+
+export { TProduct, TProductDetail, TProductCreate, TProductUpdate };
