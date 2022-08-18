@@ -5,13 +5,18 @@
   "scripts": {
     "initVscode": "yarn install && yarn dlx @yarnpkg/sdks vscode",
     "client": "yarn workspace @fleamarket/client",
-    "server": "yarn workspace @fleamarket/server"
+    "server": "yarn workspace @fleamarket/server",
+    "common": "yarn workspace @fleamarket/common",
+    "ss": "yarn common build && yarn server start",
+    "sd": "yarn common build && yarn server start:dev",
+    "cs": "yarn common build && yarn client start"
   },
   "private": true,
   "workspaces": {
     "packages": [
       "client",
-      "server"
+      "server",
+      "common"
     ]
   },
   "packageManager": "yarn@3.2.2",
