@@ -1,7 +1,9 @@
+import { LikeEntity } from 'src/domain/like/entities/like.entity';
 import {
   Column,
   CreateDateColumn,
   DeleteDateColumn,
+  OneToMany,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
@@ -39,4 +41,7 @@ export class ProductEntity {
 
   @Column({ type: 'int' })
   categoryId: number;
+
+  @OneToMany(() => LikeEntity, (like) => like.product)
+  likes: LikeEntity[];
 }
