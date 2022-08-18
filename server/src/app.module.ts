@@ -13,6 +13,7 @@ import { CategoryModule } from './domain/category/category.module';
 import { ImageModule } from './domain/image/image.module';
 import { RoomModule } from './domain/room/room.module';
 import { ChatModule } from './domain/chat/chat.module';
+import { LikeModule } from './domain/like/like.module';
 
 @Module({
   imports: [
@@ -33,6 +34,7 @@ import { ChatModule } from './domain/chat/chat.module';
     ImageModule,
     RoomModule,
     ChatModule,
+    LikeModule,
   ],
   controllers: [AppController],
   providers: [AppService],
