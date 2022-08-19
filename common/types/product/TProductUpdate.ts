@@ -1,4 +1,4 @@
-import EProductStatus from './EProductStatus';
+import { EProductStatus } from './EProductStatus';
 import TImage from '../TImage';
 
 type TProductUpdate = {
