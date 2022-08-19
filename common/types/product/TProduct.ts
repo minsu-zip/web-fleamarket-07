@@ -1,15 +1,11 @@
-import EProductStatus from './EProductStatus';
-
-type Timage = {
-  image: string;
-};
+import TImage from '../TImage';
 
 type TProduct = {
   id: number;
   title: string;
   price?: number;
   hit?: number;
-  titleImage?: Timage;
+  titleImage?: TImage;
   likes?: number;
   isLike: false;
   chats?: number;
@@ -22,30 +18,4 @@ type TProduct = {
   userName: string;
 };
 
-type TProductDetail = TProduct & {
-  content?: string;
-  categoryId: number;
-  categoryName: string;
-  status: EProductStatus;
-  images?: Timage[];
-};
-
-type TProductCreate = {
-  title: string;
-  content?: string;
-  price: number;
-  images?: Timage[];
-  categoryId: number;
-};
-
-type TProductUpdate = {
-  title?: string;
-  content?: string;
-  price?: number;
-  images?: Timage[];
-  status?: EProductStatus;
-  categoryId?: number;
-  isLike?: boolean;
-};
-
-export { TProduct, TProductDetail, TProductCreate, TProductUpdate };
+export default TProduct;
