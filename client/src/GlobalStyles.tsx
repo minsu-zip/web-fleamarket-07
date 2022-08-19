@@ -16,6 +16,10 @@ const GlobalStyle = () => (
         user-select: none;
         font-weight: normal;
         font-style: normal;
+
+        max-width: 412px;
+        height: 100%;
+        margin: 0 auto;
       }
       h1,
       h2,
