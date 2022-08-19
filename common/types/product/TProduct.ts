@@ -35,6 +35,7 @@ type TProductCreate = {
   content?: string;
   price: number;
   images?: Timage[];
+  categoryId: number;
 };
 
 type TProductUpdate = {
