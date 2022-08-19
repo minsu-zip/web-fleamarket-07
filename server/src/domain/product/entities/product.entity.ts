@@ -14,7 +14,7 @@ import {
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
-import { EProductStatus } from '@fleamarket/common/index';
+import { ProductStatus, EProductStatus } from '@fleamarket/common';
 
 @Entity()
 export class Product {
@@ -33,7 +33,7 @@ export class Product {
   @Column({ type: 'int' })
   hit: number;
 
-  @Column({ type: 'enum', enum: EProductStatus })
+  @Column({ type: 'enum', enum: Object.values(ProductStatus) })
   status: EProductStatus;
 
   @CreateDateColumn()
