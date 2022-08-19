@@ -13,6 +13,7 @@ import {
   ProductDetail,
   SignUp,
   SignIn,
+  NotFound,
 } from '@src/pages';
 
 const queryClient = new QueryClient();
@@ -25,6 +26,7 @@ const App: React.FC = () => {
         <RecoilRoot>
           <BrowserRouter>
             <Routes>
+              <Route path='*' element={<NotFound />} />
               <Route path='/' element={<Main />} />
               <Route path='/category' element={<Category />} />
               <Route path='/locationEdit' element={<LocationEdit />} />
