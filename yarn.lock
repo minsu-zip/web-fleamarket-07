@@ -1807,6 +1807,24 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@emotion/css@npm:^11.10.0":
+  version: 11.10.0
+  resolution: "@emotion/css@npm:11.10.0"
+  dependencies:
+    "@emotion/babel-plugin": ^11.10.0
+    "@emotion/cache": ^11.10.0
+    "@emotion/serialize": ^1.1.0
+    "@emotion/sheet": ^1.2.0
+    "@emotion/utils": ^1.2.0
+  peerDependencies:
+    "@babel/core": ^7.0.0
+  peerDependenciesMeta:
+    "@babel/core":
+      optional: true
+  checksum: 677b90607a9525d0f18f4b13e1e781ed04a7878f25fb20174c06c24d5022bf9a206406980be717e82a362fdea01a8ae97248934877292112a7df0af136fe90f9
+  languageName: node
+  linkType: hard
+
 "@emotion/hash@npm:^0.9.0":
   version: 0.9.0
   resolution: "@emotion/hash@npm:0.9.0"
@@ -1938,9 +1956,11 @@ __metadata:
   resolution: "@fleamarket/client@workspace:client"
   dependencies:
     "@craco/craco": ^6.4.5
+    "@emotion/css": ^11.10.0
     "@emotion/react": ^11.10.0
     "@emotion/styled": ^11.10.0
     "@fleamarket/common": "workspace:common"
+    "@mui/icons-material": ^5.8.4
     "@mui/material": ^5.10.1
     "@types/node": ^18.6.3
     "@types/react": ^18.0.15
@@ -2606,6 +2626,22 @@ __metadata:
   version: 5.10.1
   resolution: "@mui/core-downloads-tracker@npm:5.10.1"
   checksum: 275fbabd9beb6d4cbbe5d6cf2a7621fb827bb7ad8be2fdd218ac3b1cc7c2ee9f69cbb71022b8a6f9ecaadbc21225015b33232fc3827dabe8db5c12fbf642cfc9
+  languageName: node
+  linkType: hard
+
+"@mui/icons-material@npm:^5.8.4":
+  version: 5.8.4
+  resolution: "@mui/icons-material@npm:5.8.4"
+  dependencies:
+    "@babel/runtime": ^7.17.2
+  peerDependencies:
+    "@mui/material": ^5.0.0
+    "@types/react": ^17.0.0 || ^18.0.0
+    react: ^17.0.0 || ^18.0.0
+  peerDependenciesMeta:
+    "@types/react":
+      optional: true
+  checksum: 1df0ffb08670628968b803c7048fc645df5e2870860759626d80a355fdef62498e60e4ebed2d47ca8b3600e6ecb6db1829bec5acf3a766ff41e518007c7e2f5b
   languageName: node
   linkType: hard
 
