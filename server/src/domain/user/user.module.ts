@@ -5,10 +5,11 @@ import { UserController } from './user.controller';
 import { User } from './entities/user.entity';
 import { ConfigModule } from '@nestjs/config';
 import { LocationModule } from '../location/location.module';
+import { UserAuthService } from './user.auth.service';
 
 @Module({
   imports: [TypeOrmModule.forFeature([User]), ConfigModule, LocationModule],
   controllers: [UserController],
-  providers: [UserService],
+  providers: [UserService, UserAuthService],
 })
 export class UserModule {}

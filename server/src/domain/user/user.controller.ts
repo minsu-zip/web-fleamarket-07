@@ -11,12 +11,14 @@ import {
 } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { Response } from 'express';
+import { UserAuthService } from './user.auth.service';
 import { UserService } from './user.service';
 
 @Controller('user')
 export class UserController {
   constructor(
     private readonly userService: UserService,
+    private readonly userAuthService: UserAuthService,
     private readonly configService: ConfigService,
   ) {}
 
@@ -24,8 +26,8 @@ export class UserController {
   async loginGithub(@Query('code') code: string, @Res() res: Response) {
     if (!code) return res.status(HttpStatus.BAD_REQUEST).end();
 
-    const userId = await this.userService.attachGithubId(code);
-    await this.userService.verifyUser(userId);
+    const userId = await this.userAuthService.attachGithubId(code);
+    await this.userService.findByName(userId);
 
     const FRONT_URL = this.configService.get<string>('FRONT_URL');
     return res.redirect(FRONT_URL);
@@ -34,12 +36,6 @@ export class UserController {
   @Post()
   create(@Body() createUserDto) {
     return this.userService.create(createUserDto);
-  }
-
-  @Get('test')
-  async test(@Res() res: Response) {
-    const data = await this.userService.verifyUser('hi');
-    return res.send(data);
   }
 
   @Get(':id')
