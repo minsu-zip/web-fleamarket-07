@@ -1,18 +1,19 @@
 import { createTheme } from '@mui/material/styles';
+import { COLOR } from './style';
 
 const theme = createTheme({
   palette: {
     primary: {
-      main: '#2ac1bc',
-      contrastText: '#FFFFFF',
-      light: '#a0e1e0',
-      dark: '#219a95',
+      main: COLOR.primary,
+      contrastText: COLOR.titleActive,
+      light: COLOR.primary2,
+      dark: COLOR.primary3,
     },
     action: {
-      hover: '#219a95',
-      selected: '#a0e1e0',
-      disabledBackground: '#a0e1e0',
-      disabled: '#ffffff',
+      hover: COLOR.primary3,
+      selected: COLOR.primary2,
+      disabledBackground: COLOR.primary3,
+      disabled: COLOR.placeholder,
     },
   },
 });
