@@ -65,7 +65,7 @@ const ProductItem: React.FC<IProps> = ({ product }) => {
           </div>
 
           <IconDiv>
-            {chats > 0 ? (
+            {chats > 0 && (
               <ChatWrapper
                 className={css`
                   ${TEXT_SMALL}
@@ -74,9 +74,9 @@ const ProductItem: React.FC<IProps> = ({ product }) => {
                 <ChatBubbleOutlineIcon />
                 <span>{chats}</span>
               </ChatWrapper>
-            ) : null}
+            )}
 
-            {likes > 0 ? (
+            {likes > 0 && (
               <ChatWrapper
                 className={css`
                   ${TEXT_SMALL}
@@ -85,7 +85,7 @@ const ProductItem: React.FC<IProps> = ({ product }) => {
                 <FavoriteBorderIcon />
                 <span>{likes}</span>
               </ChatWrapper>
-            ) : null}
+            )}
           </IconDiv>
         </ContentDiv>
       </ContainerDiv>
