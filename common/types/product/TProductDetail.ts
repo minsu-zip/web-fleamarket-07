@@ -7,6 +7,7 @@ type TProductDetail = TProduct & {
   categoryId: number;
   categoryName: string;
   status: EProductStatus;
+  hits: number;
   images?: TImage[];
 };
 
