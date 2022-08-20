@@ -1,9 +1,7 @@
 import styled from '@emotion/styled';
 import { TProduct } from '@fleamarket/common';
-import { IconButton } from '@mui/material';
-import Dir from './ImageLarge.png';
+import Dir from './ImageLarge.png'; // 예시 이미지
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
-import FavoriteIcon from '@mui/icons-material/Favorite';
 import ChatBubbleOutlineIcon from '@mui/icons-material/ChatBubbleOutline';
 import {
   TEXT_LINK_MEDIUM,
@@ -12,6 +10,7 @@ import {
   COLOR,
 } from '@constants/style';
 import { css } from '@emotion/css';
+import Heart from '@components/molecule/Heart';
 
 interface IProps {
   product: TProduct;
@@ -35,13 +34,8 @@ const ProductItem: React.FC<IProps> = ({ product }) => {
             >
               {title}
             </TitleSpan>
-            <IconButton>
-              {isLike ? (
-                <FavoriteIcon sx={{ color: COLOR.error }} />
-              ) : (
-                <FavoriteBorderIcon />
-              )}
-            </IconButton>
+
+            <Heart isLike={isLike}></Heart>
           </TopWrapperDiv>
 
           <div>
@@ -120,6 +114,7 @@ const TopWrapperDiv = styled.div`
 const IconDiv = styled.div`
   display: flex;
   justify-content: flex-end;
+  color: ${COLOR.background2};
 `;
 
 const TitleSpan = styled.span`
