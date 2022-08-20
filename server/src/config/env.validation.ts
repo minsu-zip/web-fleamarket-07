@@ -29,6 +29,15 @@ class EnvironmentVariables {
 
   @IsNumber()
   DB_PORT = 3306;
+
+  @IsString()
+  FRONT_URL: string;
+
+  @IsString()
+  GITHUB_ID: string;
+
+  @IsString()
+  GITHUB_SECRET: string;
 }
 
 export function validateEnv(config: Record<string, unknown>) {

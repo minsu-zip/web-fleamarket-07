@@ -22,14 +22,14 @@ export class User {
   @Column({ type: 'int' })
   location1Id: number;
 
-  @Column({ type: 'int' })
-  location2Id: number;
+  @Column({ type: 'int', default: null })
+  location2Id!: number;
 
   @ManyToOne(() => Location, (location) => location.users)
   location1: Location;
 
   @ManyToOne(() => Location, (location) => location.subUsers)
-  location2: Location;
+  location2!: Location;
 
   @OneToMany(() => Product, (product) => product.user)
   products: Product[];

@@ -1,8 +1,15 @@
 import { Product } from 'src/domain/product/entities/product.entity';
 import { User } from 'src/domain/user/entities/user.entity';
-import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
+import {
+  Column,
+  Entity,
+  OneToMany,
+  PrimaryGeneratedColumn,
+  Unique,
+} from 'typeorm';
 
 @Entity()
+@Unique(['region'])
 export class Location {
   @PrimaryGeneratedColumn({ type: 'int' })
   id: number;

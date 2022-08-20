@@ -17,4 +17,15 @@ export class LocationService {
     const location = await this.locationRepository.save(newLocation);
     return location;
   }
+
+  async getDefault(): Promise<Location> {
+    const tempLocation = this.locationRepository.create({ region: '역삼동' });
+    let location = await this.locationRepository.findOneBy(tempLocation);
+
+    if (!location) {
+      location = await this.locationRepository.save(tempLocation);
+    }
+
+    return location;
+  }
 }
