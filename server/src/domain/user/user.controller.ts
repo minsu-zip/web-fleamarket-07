@@ -11,14 +11,14 @@ import {
 } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { Response } from 'express';
-import { UserAuthService } from './user.auth.service';
+import { AuthService } from '../auth/auth.service';
 import { UserService } from './user.service';
 
 @Controller('user')
 export class UserController {
   constructor(
     private readonly userService: UserService,
-    private readonly userAuthService: UserAuthService,
+    private readonly authService: AuthService,
     private readonly configService: ConfigService,
   ) {}
 
@@ -26,8 +26,14 @@ export class UserController {
   async loginGithub(@Query('code') code: string, @Res() res: Response) {
     if (!code) return res.status(HttpStatus.BAD_REQUEST).end();
 
-    const userId = await this.userAuthService.attachGithubId(code);
-    await this.userService.findByName(userId);
+    const userId = await this.authService.attachGithubId(code);
+    const { id, name } = await this.userService.findByName(userId);
+
+    const token = this.authService.signToken({ id, name });
+    const maxAge = this.configService.get<number>('JWT_EXP');
+    res.cookie('auth', token, {
+      maxAge,
+    });
 
     const FRONT_URL = this.configService.get<string>('FRONT_URL');
     return res.redirect(FRONT_URL);

@@ -1,15 +1,44 @@
 import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
-import { InjectRepository } from '@nestjs/typeorm';
-import { User } from './entities/user.entity';
 import axios, { AxiosResponse } from 'axios';
+import * as jwt from 'jsonwebtoken';
+import type { Algorithm, SignOptions } from 'jsonwebtoken';
 
 @Injectable()
-export class UserAuthService {
-  constructor(
-    @InjectRepository(User)
-    private readonly configService: ConfigService,
-  ) {}
+export class AuthService {
+  constructor(private readonly configService: ConfigService) {}
+
+  verifyToken(token) {
+    try {
+      const secretKey = this.configService.get<string>('JWT_KEY');
+      const decodeResult = jwt.verify(token, secretKey);
+      return decodeResult;
+    } catch (error) {
+      let message = '검증되지 않은 토큰입니다';
+      if (error.name === 'TokenExpiredError') {
+        message = '만료된 토큰입니다.';
+      }
+
+      throw new HttpException(
+        {
+          status: HttpStatus.UNAUTHORIZED,
+          message,
+        },
+        HttpStatus.UNAUTHORIZED,
+      );
+    }
+  }
+
+  signToken(data) {
+    const expiresIn = this.configService.get<number>('JWT_EXP');
+    const algorithm = this.configService.get<Algorithm>('JWT_ALG');
+    const issuer = this.configService.get<string>('JWT_ISSUER');
+    const options: SignOptions = { expiresIn, algorithm, issuer };
+
+    const secretKey = this.configService.get<string>('JWT_KEY');
+    const token = jwt.sign(data, secretKey, options);
+    return token;
+  }
 
   async attachGithubId(code: string): Promise<string> {
     const accessUrl = 'https://github.com/login/oauth/access_token';
