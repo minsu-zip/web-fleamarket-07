@@ -24,7 +24,6 @@ export const TEXT_SMALL = `
   font-style: normal;
   font-weight: 400;
   font-size: 14px;
-  color : #888888;
 `;
 
 export const TEXT_X_SMALL = `
@@ -65,6 +64,7 @@ export const COLOR = Object.freeze({
   placeholder: '#C1C5C5',
   line: '#CCD3D3',
   background: '#F5F5F5',
+  background2: '#888888',
   offWhite: '#FCFCFC',
   error: '#F45452',
   lightError: '#FFD4D3',
