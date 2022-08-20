@@ -55,9 +55,11 @@ export const TEXT_LINK_X_SMALL = `
 `;
 
 export const COLOR = Object.freeze({
-  primary: '#2AC1BC',
-  primary2: '#A0E1E0',
-  primary3: '#4CB8B8',
+  primary: '#f7e500',
+  primary2: '#F8F400',
+  primary3: '#ffe100',
+  title: '#3a1d1d',
+  point: '#002bef',
   titleActive: '#1E2019',
   body: '#626666',
   label: '#8D9393',
@@ -68,8 +70,6 @@ export const COLOR = Object.freeze({
   error: '#F45452',
   lightError: '#FFD4D3',
   darkError: '#CD6766',
-  darkGreen: '#394032',
   white: '#ffffff',
-  yellow: '#fbc02d',
   orange: '#ffa000',
 });
