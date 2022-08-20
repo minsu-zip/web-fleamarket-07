@@ -27,7 +27,7 @@ const ProductItem: React.FC<IProps> = ({ product }) => {
           <Image src={Dir}></Image>
         </div>
         <ContentDiv>
-          <TitleHeader>
+          <TopWrapperDiv>
             <TitleSpan
               className={css`
                 ${TEXT_LINK_MEDIUM}
@@ -42,7 +42,7 @@ const ProductItem: React.FC<IProps> = ({ product }) => {
                 <FavoriteBorderIcon />
               )}
             </IconButton>
-          </TitleHeader>
+          </TopWrapperDiv>
 
           <div>
             <span
@@ -66,25 +66,25 @@ const ProductItem: React.FC<IProps> = ({ product }) => {
 
           <IconDiv>
             {chats > 0 && (
-              <ChatWrapper
+              <ChatWrapperDiv
                 className={css`
                   ${TEXT_SMALL}
                 `}
               >
                 <ChatBubbleOutlineIcon />
                 <span>{chats}</span>
-              </ChatWrapper>
+              </ChatWrapperDiv>
             )}
 
             {likes > 0 && (
-              <ChatWrapper
+              <ChatWrapperDiv
                 className={css`
                   ${TEXT_SMALL}
                 `}
               >
                 <FavoriteBorderIcon />
                 <span>{likes}</span>
-              </ChatWrapper>
+              </ChatWrapperDiv>
             )}
           </IconDiv>
         </ContentDiv>
@@ -111,7 +111,7 @@ const Image = styled.img`
   border-radius: 10px;
 `;
 
-const TitleHeader = styled.div`
+const TopWrapperDiv = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -128,7 +128,7 @@ const TitleSpan = styled.span`
   text-overflow: ellipsis;
   white-space: nowrap;
 `;
-const ChatWrapper = styled.div`
+const ChatWrapperDiv = styled.div`
   display: flex;
   align-items: center;
   justify-content: flex-end;
