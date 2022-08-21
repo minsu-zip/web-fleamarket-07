@@ -21,6 +21,9 @@ const GlobalStyle = () => (
         height: 100%;
         margin: 0 auto;
       }
+      #root {
+        overflow: hidden;
+      }
       h1,
       h2,
       h3,
