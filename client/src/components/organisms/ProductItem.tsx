@@ -10,7 +10,7 @@ import {
   COLOR,
 } from '@constants/style';
 import { css } from '@emotion/css';
-import Heart from '@components/molecule/Heart';
+import Heart from '@components/molecules/Heart';
 
 interface IProps {
   product: TProduct;

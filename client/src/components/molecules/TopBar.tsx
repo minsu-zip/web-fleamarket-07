@@ -4,23 +4,20 @@ import { IconButton } from '@mui/material';
 import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos';
 import { TEXT_MEDIUM, COLOR } from '@constants/style';
 import { css } from '@emotion/css';
+import { useNavigate } from 'react-router-dom';
 
 interface IProps {
   title: string;
   children?: React.ReactNode;
-  onBackClick?(event: React.MouseEvent<HTMLDivElement>): void;
   onClick?(event: React.MouseEvent<HTMLDivElement>): void;
 }
 
-const TopBar: React.FC<IProps> = ({
-  title,
-  children,
-  onBackClick,
-  onClick,
-}) => {
+const TopBar: React.FC<IProps> = ({ title, children, onClick }) => {
+  const navigate = useNavigate();
+
   return (
     <ContainerDiv>
-      <IconWrapperDiv onClick={onBackClick}>
+      <IconWrapperDiv onClick={() => navigate(-1)}>
         <IconButton size='large' sx={{ color: 'black' }}>
           <ArrowBackIosIcon />
         </IconButton>
