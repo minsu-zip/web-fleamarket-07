@@ -10,7 +10,11 @@ const Animator = ({ children }: PropsWithChildren) => {
 
   if (isAnimating) {
     return (
-      <SliderDiv animate={animationType} onAnimationEnd={endAnimation}>
+      <SliderDiv
+        key={cur.location?.pathname}
+        animate={animationType}
+        onAnimationEnd={endAnimation}
+      >
         {!isReverse && <WrapperDiv>{prev.element}</WrapperDiv>}
         <WrapperDiv>{cur.element}</WrapperDiv>
         {isReverse && <WrapperDiv>{prev.element}</WrapperDiv>}
@@ -26,7 +30,6 @@ const SliderDiv = styled.div<{ animate?: EAnimate }>`
   height: 100%;
 
   ${({ animate }) => getAnimationCSS(animate)}
-  pointer-events: none;
 `;
 
 const WrapperDiv = styled.div`
