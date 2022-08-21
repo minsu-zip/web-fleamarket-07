@@ -4,6 +4,7 @@ const GlobalStyle = () => (
   <Global
     styles={css`
       @import url(‘https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@100;300;400;500;700;900&display=swap’);
+      html,
       body,
       #root {
         width: 100%;
@@ -20,6 +21,9 @@ const GlobalStyle = () => (
         max-width: 412px;
         height: 100%;
         margin: 0 auto;
+      }
+      #root {
+        overflow: hidden;
       }
       h1,
       h2,

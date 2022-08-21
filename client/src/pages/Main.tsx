@@ -1,4 +1,4 @@
-import MenuHeader from '@components/molecules/MenuHeader';
+import MenuHeader from '@components/organisms/MenuHeader';
 import ProductItem from '@components/organisms/ProductItem';
 import React from 'react';
 import styled from '@emotion/styled';
