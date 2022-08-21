@@ -115,7 +115,6 @@ const Main: React.FC = () => {
       {productList.map((item) => (
         <>
           <ProductItem product={item} />
-          <br />
         </>
       ))}
 
