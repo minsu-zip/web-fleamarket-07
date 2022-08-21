@@ -9,6 +9,7 @@ import {
   SignUp,
   SignIn,
   NotFound,
+  Menu,
 } from '@src/pages';
 import Animator from '@components/Animator';
 
@@ -18,6 +19,7 @@ const App: React.FC = () => {
       <Routes>
         <Route path='*' element={<NotFound />} />
         <Route path='/' element={<Main />} />
+        <Route path='/menu' element={<Menu />} />
         <Route path='/category' element={<Category />} />
         <Route path='/locationEdit' element={<LocationEdit />} />
         <Route path='/newProduct' element={<NewProduct />} />

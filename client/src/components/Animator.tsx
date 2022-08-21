@@ -6,9 +6,10 @@ import { EAnimate, getAnimationCSS, getIsReverse } from '@constants/slideStyle';
 const Animator = ({ children }: PropsWithChildren) => {
   const { controller, endAnimation } = useAnimator({ children });
   const { prev, cur, isAnimating, animationType } = controller;
-  const isReverse = getIsReverse(animationType);
 
   if (isAnimating) {
+    const isReverse = getIsReverse(animationType);
+
     return (
       <SliderDiv
         key={cur.location?.pathname}
@@ -20,9 +21,9 @@ const Animator = ({ children }: PropsWithChildren) => {
         {isReverse && <WrapperDiv>{prev.element}</WrapperDiv>}
       </SliderDiv>
     );
-  } else {
-    return <WrapperDiv>{cur.element}</WrapperDiv>;
   }
+
+  return <WrapperDiv>{cur.element}</WrapperDiv>;
 };
 
 const SliderDiv = styled.div<{ animate?: EAnimate }>`

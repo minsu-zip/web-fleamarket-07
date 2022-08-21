@@ -34,6 +34,21 @@ const slideHorizontal = keyframes`
   }
 `;
 
+export const getOppositeAnimation = (animate?: EAnimate) => {
+  switch (animate) {
+    case SLIDE_STATE.UP:
+      return SLIDE_STATE.DOWN;
+    case SLIDE_STATE.DOWN:
+      return SLIDE_STATE.UP;
+    case SLIDE_STATE.RIGHT:
+      return SLIDE_STATE.LEFT;
+    case SLIDE_STATE.LEFT:
+      return SLIDE_STATE.RIGHT;
+    default:
+      return undefined;
+  }
+};
+
 export const getIsReverse = (animate?: EAnimate) => {
   switch (animate) {
     case SLIDE_STATE.DOWN:
