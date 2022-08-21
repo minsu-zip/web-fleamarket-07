@@ -1,6 +1,10 @@
 import MenuHeader from '@components/molecules/MenuHeader';
 import ProductItem from '@components/organisms/ProductItem';
 import React from 'react';
+import styled from '@emotion/styled';
+import { Fab } from '@mui/material';
+import AddIcon from '@mui/icons-material/Add';
+import { useNavigate } from 'react-router-dom';
 
 const productList = [
   {
@@ -102,8 +106,10 @@ const productList = [
 ];
 
 const Main: React.FC = () => {
+  const navigate = useNavigate();
+
   return (
-    <>
+    <ContainerDiv>
       <MenuHeader />
 
       {productList.map((item) => (
@@ -112,8 +118,21 @@ const Main: React.FC = () => {
           <br />
         </>
       ))}
-    </>
+
+      <FabWrapper color='primary' onClick={() => navigate('newPRoduct')}>
+        <AddIcon />
+      </FabWrapper>
+    </ContainerDiv>
   );
 };
 
+const ContainerDiv = styled.div`
+  position: relative;
+`;
+
+const FabWrapper = styled(Fab)({
+  position: 'fixed',
+  bottom: '16px',
+  right: '16px',
+});
 export default Main;
