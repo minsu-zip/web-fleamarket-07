@@ -1,7 +1,7 @@
 import React from 'react';
 import { IconButton, SvgIconTypeMap } from '@mui/material';
-import MemoryOutlinedIcon from '@mui/icons-material/MemoryOutlined'; // 디지털기기
-import CoffeeMakerOutlinedIcon from '@mui/icons-material/CoffeeMakerOutlined'; // 생활가전
+import DesktopMacOutlinedIcon from '@mui/icons-material/DesktopMacOutlined'; // 디지털기기
+import ElectricalServicesOutlinedIcon from '@mui/icons-material/ElectricalServicesOutlined'; // 생활가전
 import ChairOutlinedIcon from '@mui/icons-material/ChairOutlined'; // 가구/인테리어
 import SportsEsportsOutlinedIcon from '@mui/icons-material/SportsEsportsOutlined'; // 게임/취미
 import LocalDiningOutlinedIcon from '@mui/icons-material/LocalDiningOutlined'; // 생활/가공식품
@@ -28,8 +28,8 @@ interface MuiIconObject {
 }
 
 const category: MuiIconObject = {
-  디지털기기: MemoryOutlinedIcon,
-  생활가전: CoffeeMakerOutlinedIcon,
+  디지털기기: DesktopMacOutlinedIcon,
+  생활가전: ElectricalServicesOutlinedIcon,
   '가구/인테리어': ChairOutlinedIcon,
   '게임/취미': SportsEsportsOutlinedIcon,
   '생활/가공식품': LocalDiningOutlinedIcon,
