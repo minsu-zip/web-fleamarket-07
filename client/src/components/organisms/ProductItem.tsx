@@ -54,7 +54,7 @@ const ProductItem: React.FC<IProps> = ({ product }) => {
                 ${TEXT_LINK_SMALL}
               `}
             >
-              {price === 0 ? '무료나눔' : price?.toLocaleString()}원
+              {price === 0 ? '무료나눔' : `${price?.toLocaleString()}원`}
             </span>
           </div>
 
