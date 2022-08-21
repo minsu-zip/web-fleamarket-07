@@ -1,17 +1,19 @@
 import { PropsWithChildren } from 'react';
 import styled from '@emotion/styled';
-import { keyframes } from '@emotion/css';
 import useAnimator from '@hooks/useAnimator';
+import { EAnimate, getAnimationCSS, getIsReverse } from '@constants/slideStyle';
 
 const Animator = ({ children }: PropsWithChildren) => {
   const { controller, endAnimation } = useAnimator({ children });
-  const { prev, cur, isAnimating } = controller;
+  const { prev, cur, isAnimating, animationType } = controller;
+  const isReverse = getIsReverse(animationType);
 
   if (isAnimating) {
     return (
-      <SliderDiv onAnimationEnd={endAnimation}>
-        <WrapperDiv>{prev.element}</WrapperDiv>
-        <WrapperDiv>{cur.element}</WrapperDiv>;
+      <SliderDiv animate={animationType} onAnimationEnd={endAnimation}>
+        {!isReverse && <WrapperDiv>{prev.element}</WrapperDiv>}
+        <WrapperDiv>{cur.element}</WrapperDiv>
+        {isReverse && <WrapperDiv>{prev.element}</WrapperDiv>}
       </SliderDiv>
     );
   } else {
@@ -19,21 +21,11 @@ const Animator = ({ children }: PropsWithChildren) => {
   }
 };
 
-const slideAnimation = keyframes`
-  0% {
-    transform: translateX(0);
-  }
-  100% {
-    transform: translateX(calc(-100%));
-  }
-`;
-
-const SliderDiv = styled.div`
+const SliderDiv = styled.div<{ animate?: EAnimate }>`
   width: 100%;
   height: 100%;
 
-  display: flex;
-  animation: ${slideAnimation} ease-in-out 0.25s forwards;
+  ${({ animate }) => getAnimationCSS(animate)}
   pointer-events: none;
 `;
 

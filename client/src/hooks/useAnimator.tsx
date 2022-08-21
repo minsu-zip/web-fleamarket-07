@@ -1,3 +1,4 @@
+import { EAnimate } from '@constants/slideStyle';
 import {
   cloneElement,
   isValidElement,
@@ -15,6 +16,7 @@ type TRouteInfo = {
 interface IController {
   prev: TRouteInfo;
   cur: TRouteInfo;
+  animationType?: EAnimate;
   isAnimating: boolean;
 }
 
@@ -23,6 +25,11 @@ const cloneChildren = (children: ReactNode, location: Location) => {
 
   return cloneElement(children, { location });
 };
+
+const initialRouteInfo = Object.freeze({
+  location: undefined,
+  element: undefined,
+});
 
 const useAnimator = ({ children }: PropsWithChildren) => {
   const location = useLocation();
@@ -35,23 +42,32 @@ const useAnimator = ({ children }: PropsWithChildren) => {
       location,
       element: cloneChildren(children, location),
     },
+    animationType: undefined,
     isAnimating: false,
   });
 
   useEffect(() => {
+    if (location === controller.cur.location) return;
+
+    const animationType = (location.state as { animate: EAnimate })?.animate;
+    const isAnimating = !!animationType;
+
     setController((prevState) => ({
-      prev: prevState.cur,
+      prev: isAnimating ? prevState.cur : initialRouteInfo,
       cur: {
         location,
         element: cloneChildren(children, location),
       },
-      isAnimating: true,
+      animationType,
+      isAnimating,
     }));
-  }, [location]);
+  }, [location, controller, setController, children]);
 
   const endAnimation = () => {
     setController((prevState) => ({
       ...prevState,
+      prev: initialRouteInfo,
+      animationType: undefined,
       isAnimating: false,
     }));
   };
