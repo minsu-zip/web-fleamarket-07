@@ -92,6 +92,7 @@ const ContainerDiv = styled.div`
   padding: 16px;
   width: 100%;
   height: 100%;
+  border-bottom: 1px solid ${COLOR.placeholder};
 `;
 
 const ContentDiv = styled.div`
