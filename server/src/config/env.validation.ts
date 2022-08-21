@@ -1,5 +1,6 @@
 import { plainToInstance } from 'class-transformer';
 import { IsEnum, IsNumber, IsString, validateSync } from 'class-validator';
+import { Algorithm } from 'jsonwebtoken';
 
 export enum Environment {
   Development = 'development',
@@ -38,6 +39,18 @@ class EnvironmentVariables {
 
   @IsString()
   GITHUB_SECRET: string;
+
+  @IsString()
+  JWT_KEY: string;
+
+  @IsString()
+  JWT_ALG: Algorithm;
+
+  @IsNumber()
+  JWT_EXP: number;
+
+  @IsString()
+  JWT_ISSUER: string;
 }
 
 export function validateEnv(config: Record<string, unknown>) {
