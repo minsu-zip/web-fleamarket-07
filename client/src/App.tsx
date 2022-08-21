@@ -14,6 +14,7 @@ import {
   SignUp,
   SignIn,
   NotFound,
+  Menu,
 } from '@src/pages';
 
 const queryClient = new QueryClient();
@@ -29,6 +30,7 @@ const App: React.FC = () => {
               <Route path='*' element={<NotFound />} />
               <Route path='/' element={<Main />} />
               <Route path='/category' element={<Category />} />
+              <Route path='/menu' element={<Menu />} />
               <Route path='/locationEdit' element={<LocationEdit />} />
               <Route path='/newProduct' element={<NewProduct />} />
               <Route path='/productDetail' element={<ProductDetail />} />
