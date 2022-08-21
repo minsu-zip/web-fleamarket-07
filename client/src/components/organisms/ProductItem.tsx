@@ -10,7 +10,7 @@ import {
   COLOR,
 } from '@constants/style';
 import { css } from '@emotion/css';
-import Heart from '@components/molecule/Heart';
+import Heart from '@components/molecules/Heart';
 
 interface IProps {
   product: TProduct;
@@ -54,7 +54,7 @@ const ProductItem: React.FC<IProps> = ({ product }) => {
                 ${TEXT_LINK_SMALL}
               `}
             >
-              {price === 0 ? '무료나눔' : price?.toLocaleString()}원
+              {price === 0 ? '무료나눔' : `${price?.toLocaleString()}원`}
             </span>
           </div>
 
@@ -92,6 +92,7 @@ const ContainerDiv = styled.div`
   padding: 16px;
   width: 100%;
   height: 100%;
+  border-bottom: 1px solid ${COLOR.placeholder};
 `;
 
 const ContentDiv = styled.div`
