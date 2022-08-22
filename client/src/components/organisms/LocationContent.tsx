@@ -1,18 +1,25 @@
 import { TEXT_SMALL, COLOR } from '@constants/style';
 import styled from '@emotion/styled';
-import { Button } from '@mui/material';
-import React, { useState } from 'react';
+import { Button, Modal } from '@mui/material';
+import { useState } from 'react';
 import AddOutlinedIcon from '@mui/icons-material/AddOutlined';
 import DeleteIcon from '@mui/icons-material/Delete';
+import LocationModal from '@components/molecules/LocationModal';
+
 const LocationContent = () => {
   // 위치 데이터 전역에서 받아오기
   const [location, setLocation] = useState<string[]>(['역삼동', '강남구']);
 
-  const addLocation = () => {
-    // 모달 오픈
+  const [open, setOpen] = useState(false);
+  const handleOpen = () => setOpen(true);
+  const handleClose = () => setOpen(false);
+
+  const addLocation = (locationName: string): void => {
+    // locationName 추가 로직 및 API 요청 로직 작성
+    setOpen(false);
   };
 
-  const removeLocatin = (index: number) => {
+  const removeLocation = (index: number) => {
     // 지역 삭제
     if (location.length < 2) return;
 
@@ -31,8 +38,8 @@ const LocationContent = () => {
             key={item}
             size='large'
             variant='contained'
-            endIcon={<DeleteIcon />}
-            onClick={() => removeLocatin(index)}
+            endIcon={location.length === 1 ? <></> : <DeleteIcon />}
+            onClick={() => removeLocation(index)}
           >
             {item}
           </IconButton>
@@ -44,13 +51,20 @@ const LocationContent = () => {
               variant='outlined'
               endIcon={<AddOutlinedIcon />}
               sx={{ color: COLOR.title, borderColor: COLOR.title }}
-              onClick={addLocation}
+              onClick={handleOpen}
             >
               지역 추가
             </IconButton>
           </>
         )}
       </ButtonWrapperDiv>
+
+      <LocationModal
+        open={open}
+        handleOpen={handleOpen}
+        handleClose={handleClose}
+        addLocation={addLocation}
+      />
     </ContainerDiv>
   );
 };
@@ -71,7 +85,7 @@ const ButtonWrapperDiv = styled.div`
 `;
 
 const IconButton = styled(Button)({
-  minWidth: '160px',
+  width: '160px',
 });
 
 export default LocationContent;
