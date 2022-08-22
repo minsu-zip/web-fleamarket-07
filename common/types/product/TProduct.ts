@@ -1,20 +1,21 @@
-import TImage from '../TImage';
+import TCategory from 'types/TCategory';
+import TLocation from 'types/TLocation';
+import TUser from 'types/TUser';
+import { EProductStatus } from './EProductStatus';
 
 type TProduct = {
   id: number;
   title: string;
+  content: string;
   price: number;
-  titleImage?: TImage;
-  likes: number;
-  isLike: boolean;
-  chats: number;
+  hit: number;
+  status: EProductStatus;
+  userId: TUser['id'];
+  locationId: TLocation['id'];
+  categoryId: TCategory['id'];
   createdAt?: Date;
   updatedAt?: Date;
   deletedAt?: Date;
-  locationId: number;
-  locationName: string;
-  userId: number;
-  userName: string;
 };
 
 export default TProduct;

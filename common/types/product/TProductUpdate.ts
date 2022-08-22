@@ -1,14 +1,5 @@
-import { EProductStatus } from './EProductStatus';
-import TImage from '../TImage';
+import TProductCreate from './TProductCreate';
 
-type TProductUpdate = {
-  title?: string;
-  content?: string;
-  price?: number;
-  images?: TImage[];
-  status?: EProductStatus;
-  categoryId?: number;
-  isLike?: boolean;
-};
+type TProductUpdate = Partial<TProductCreate>;
 
 export default TProductUpdate;

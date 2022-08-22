@@ -3,4 +3,4 @@ type TCategory = {
   name: string;
 };
 
-export { TCategory };
+export default TCategory;
