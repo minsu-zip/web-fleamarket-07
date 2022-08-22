@@ -51,6 +51,18 @@ class EnvironmentVariables {
 
   @IsString()
   JWT_ISSUER: string;
+
+  @IsString()
+  AWS_BUCKET_NAME: string;
+
+  @IsString()
+  AWS_ACCESS_KEY: string;
+
+  @IsString()
+  AWS_SECRET_KEY: string;
+
+  @IsString()
+  AWS_REGION: string;
 }
 
 export function validateEnv(config: Record<string, unknown>) {
