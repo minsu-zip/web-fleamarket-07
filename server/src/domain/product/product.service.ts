@@ -70,7 +70,7 @@ export class ProductService {
         .groupBy('p.id, image.id')
         .execute();
 
-      return data as any;
+      return data as TProductSummary[];
     } catch (e) {
       console.log(e);
       throw new HttpException(
