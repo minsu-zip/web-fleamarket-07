@@ -2,7 +2,7 @@ import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { DeleteResult, Repository } from 'typeorm';
 import { Product } from './entities/product.entity';
-import type { TProductAllQuery } from '@fleamarket/common';
+import type { TProductAllQuery, TProductSummary } from '@fleamarket/common';
 
 @Injectable()
 export class ProductService {
@@ -19,7 +19,10 @@ export class ProductService {
     return product;
   }
 
-  async findAllByQuery(query: TProductAllQuery) {
+  async findAllByQuery(
+    query: TProductAllQuery,
+    userId = 2,
+  ): Promise<TProductSummary[]> {
     const { locationId, categoryId } = query;
     if (!locationId) {
       throw new HttpException(
@@ -33,9 +36,41 @@ export class ProductService {
     if (!categoryId) query = { locationId };
 
     try {
-      const data = await this.productRepository.find({ where: query });
-      return data;
+      const data = await this.productRepository
+        .createQueryBuilder('p')
+        .leftJoin('p.rooms', 'room')
+        .leftJoin('p.category', 'category')
+        .leftJoin('p.user', 'user')
+        .leftJoin('p.location', 'location')
+        .leftJoin('p.likes', 'like')
+        .leftJoinAndSelect(
+          'image',
+          'image',
+          'image.id = (SELECT i.id FROM image i WHERE i.product_id = p.id LIMIT 1)',
+        )
+        .select(
+          [
+            'p.id as id',
+            'p.title as title',
+            'p.price as price',
+            'p.created_at as createdAt',
+            'p.updated_at as updatedAt',
+            'p.deleted_at as deletedAt',
+          ].join(','),
+        )
+        .addSelect('user.id as userId, user.name as userName')
+        .addSelect('location.id as locationId, location.region as locationName')
+        .addSelect('category.name', 'categoryName')
+        .addSelect('COUNT(room.id)', 'rooms')
+        .addSelect('COUNT(like.product_id)', 'likes')
+        .addSelect('image.url', 'titleImage')
+        .where('p.locationId = :id', { id: locationId })
+        .groupBy('p.id, image.id')
+        .execute();
+
+      return data as any;
     } catch (e) {
+      console.log(e);
       throw new HttpException(
         {
           status: HttpStatus.INTERNAL_SERVER_ERROR,
