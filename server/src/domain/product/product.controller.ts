@@ -25,7 +25,8 @@ export class ProductController {
 
   @Get()
   async findAll(@Query() query: TProductAllQuery, @Res() res: Response) {
-    const data = await this.productService.findAllByQuery(query);
+    // TODO : User 정보를 가져와서 id 넘겨주기
+    const data = await this.productService.findAllByQuery(query, undefined);
     return res.status(HttpStatus.OK).json(data);
   }
 

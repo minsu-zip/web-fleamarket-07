@@ -21,7 +21,7 @@ export class ProductService {
 
   async findAllByQuery(
     query: TProductAllQuery,
-    userId = 2,
+    userId: number,
   ): Promise<TProductSummary[]> {
     const { locationId, categoryId } = query;
     if (!locationId) {
@@ -34,6 +34,7 @@ export class ProductService {
       );
     }
     if (!categoryId) query = { locationId };
+    if (!userId) userId = 0;
 
     try {
       const data = await this.productRepository
@@ -43,7 +44,7 @@ export class ProductService {
         .leftJoin('p.user', 'user')
         .leftJoin('p.location', 'location')
         .leftJoin('p.likes', 'like')
-        .leftJoinAndSelect(
+        .leftJoin(
           'image',
           'image',
           'image.id = (SELECT i.id FROM image i WHERE i.product_id = p.id LIMIT 1)',
@@ -63,6 +64,7 @@ export class ProductService {
         .addSelect('category.name', 'categoryName')
         .addSelect('COUNT(room.id)', 'rooms')
         .addSelect('COUNT(like.product_id)', 'likes')
+        .addSelect(`SUM(like.user_id = ${userId})`, 'isLike')
         .addSelect('image.url', 'titleImage')
         .where('p.locationId = :id', { id: locationId })
         .groupBy('p.id, image.id')
