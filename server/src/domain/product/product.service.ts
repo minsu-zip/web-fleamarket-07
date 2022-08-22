@@ -2,6 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { DeleteResult, Repository } from 'typeorm';
 import { Product } from './entities/product.entity';
+import type { TProductAllQuery } from '@fleamarket/common';
 
 @Injectable()
 export class ProductService {
@@ -18,8 +19,11 @@ export class ProductService {
     return product;
   }
 
-  findAll() {
-    return this.productRepository.find();
+  findAllByQuery(query: TProductAllQuery) {
+    const { locationId, categoryId } = query;
+    if (!categoryId) query = { locationId };
+
+    return this.productRepository.find({ where: query });
   }
 
   async findOne(id: number) {

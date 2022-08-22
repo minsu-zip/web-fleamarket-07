@@ -6,8 +6,14 @@ import {
   Patch,
   Param,
   Delete,
+  Query,
+  Res,
+  HttpStatus,
+  HttpException,
 } from '@nestjs/common';
+import { Response } from 'express';
 import { ProductService } from './product.service';
+import type { TProductAllQuery } from '@fleamarket/common';
 
 @Controller('product')
 export class ProductController {
@@ -19,8 +25,19 @@ export class ProductController {
   }
 
   @Get()
-  findAll() {
-    return this.productService.findAll();
+  async findAll(@Query() query: TProductAllQuery, @Res() res: Response) {
+    const { locationId } = query;
+    if (!locationId)
+      throw new HttpException(
+        {
+          status: HttpStatus.BAD_REQUEST,
+          message: '물품 요청 : 잘못된 위치 아이디입니다.',
+        },
+        HttpStatus.BAD_REQUEST,
+      );
+
+    const data = await this.productService.findAllByQuery(query);
+    return res.status(HttpStatus.OK).json(data);
   }
 
   @Get(':id')
