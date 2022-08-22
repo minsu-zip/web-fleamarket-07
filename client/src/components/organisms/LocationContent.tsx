@@ -16,6 +16,9 @@ const LocationContent = () => {
 
   const addLocation = (locationName: string): void => {
     // locationName 추가 로직 및 API 요청 로직 작성
+    if (location.length === 2) return;
+
+    setLocation([...location, locationName]);
     setOpen(false);
   };
 
@@ -25,7 +28,7 @@ const LocationContent = () => {
 
     const newLocation = [...location];
     newLocation.splice(index, 1);
-    setLocation(newLocation);
+    setLocation([...newLocation]);
   };
 
   return (
