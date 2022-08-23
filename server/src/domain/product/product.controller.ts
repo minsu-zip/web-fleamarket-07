@@ -6,8 +6,13 @@ import {
   Patch,
   Param,
   Delete,
+  Query,
+  Res,
+  HttpStatus,
 } from '@nestjs/common';
+import { Response } from 'express';
 import { ProductService } from './product.service';
+import type { TProductAllQuery } from '@fleamarket/common';
 
 @Controller('product')
 export class ProductController {
@@ -19,8 +24,10 @@ export class ProductController {
   }
 
   @Get()
-  findAll() {
-    return this.productService.findAll();
+  async findAll(@Query() query: TProductAllQuery, @Res() res: Response) {
+    // TODO : User 정보를 가져와서 id 넘겨주기
+    const data = await this.productService.findAllByQuery(query, undefined);
+    return res.status(HttpStatus.OK).json({ products: data });
   }
 
   @Get(':id')

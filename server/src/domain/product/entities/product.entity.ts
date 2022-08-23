@@ -21,7 +21,7 @@ export class Product {
   @PrimaryGeneratedColumn({ type: 'int' })
   id: number;
 
-  @Column({ type: 'varchar', length: 10 })
+  @Column({ type: 'varchar', length: 50 })
   title: string;
 
   @Column({ type: 'text' })
