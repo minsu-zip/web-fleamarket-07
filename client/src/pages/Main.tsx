@@ -103,6 +103,38 @@ const productList = [
     userId: 0,
     userName: '',
   },
+  {
+    id: 3,
+    title: '도자기asdsad',
+    price: 123123,
+    titleImage: undefined,
+    likes: 3,
+    isLike: false,
+    chats: 2,
+    createdAt: undefined,
+    updatedAt: undefined,
+    deletedAt: undefined,
+    locationId: 1,
+    locationName: '역삼동',
+    userId: 0,
+    userName: '',
+  },
+  {
+    id: 3,
+    title: '도자기asdsad',
+    price: 123123,
+    titleImage: undefined,
+    likes: 3,
+    isLike: false,
+    chats: 2,
+    createdAt: undefined,
+    updatedAt: undefined,
+    deletedAt: undefined,
+    locationId: 1,
+    locationName: '역삼동',
+    userId: 0,
+    userName: '',
+  },
 ];
 
 const Main: React.FC = () => {
@@ -111,13 +143,11 @@ const Main: React.FC = () => {
   return (
     <ContainerDiv>
       <MenuHeader />
-
-      {productList.map((item) => (
-        <>
+      <ItemWrapperDiv>
+        {productList.map((item) => (
           <ProductItem product={item} />
-        </>
-      ))}
-
+        ))}
+      </ItemWrapperDiv>
       <FabWrapper color='primary' onClick={() => navigate('newPRoduct')}>
         <AddIcon />
       </FabWrapper>
@@ -126,12 +156,24 @@ const Main: React.FC = () => {
 };
 
 const ContainerDiv = styled.div`
+  width: 100%;
+  height: 100%;
   position: relative;
+
+  display: flex;
+  flex-direction: column;
+  overflow: none;
+`;
+
+const ItemWrapperDiv = styled.div`
+  flex: 1;
+  overflow-y: scroll;
 `;
 
 const FabWrapper = styled(Fab)({
-  position: 'fixed',
-  bottom: '16px',
-  right: '16px',
+  position: 'absolute',
+  right: '1rem',
+  bottom: '1rem',
 });
+
 export default Main;

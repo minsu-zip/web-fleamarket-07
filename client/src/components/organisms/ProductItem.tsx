@@ -20,70 +20,68 @@ const ProductItem: React.FC<IProps> = ({ product }) => {
   const { title, price, isLike, likes, chats, locationName } = product;
 
   return (
-    <>
-      <ContainerDiv>
+    <ContainerDiv>
+      <div>
+        <Image src={Dir}></Image>
+      </div>
+      <ContentDiv>
+        <TopWrapperDiv>
+          <TitleSpan
+            className={css`
+              ${TEXT_LINK_MEDIUM}
+            `}
+          >
+            {title}
+          </TitleSpan>
+
+          <Heart isLike={isLike}></Heart>
+        </TopWrapperDiv>
+
         <div>
-          <Image src={Dir}></Image>
+          <span
+            className={css`
+              ${TEXT_SMALL}
+            `}
+          >
+            {locationName} {`∙ 2분전`}
+          </span>
         </div>
-        <ContentDiv>
-          <TopWrapperDiv>
-            <TitleSpan
-              className={css`
-                ${TEXT_LINK_MEDIUM}
-              `}
-            >
-              {title}
-            </TitleSpan>
 
-            <Heart isLike={isLike}></Heart>
-          </TopWrapperDiv>
+        <div style={{ paddingTop: '8px' }}>
+          <span
+            className={css`
+              ${TEXT_LINK_SMALL}
+            `}
+          >
+            {price === 0 ? '무료나눔' : `${price?.toLocaleString()}원`}
+          </span>
+        </div>
 
-          <div>
-            <span
+        <IconDiv>
+          {chats > 0 && (
+            <ChatWrapperDiv
               className={css`
                 ${TEXT_SMALL}
               `}
             >
-              {locationName} {`∙ 2분전`}
-            </span>
-          </div>
+              <ChatBubbleOutlineIcon />
+              <span>{chats}</span>
+            </ChatWrapperDiv>
+          )}
 
-          <div style={{ paddingTop: '8px' }}>
-            <span
+          {likes > 0 && (
+            <ChatWrapperDiv
               className={css`
-                ${TEXT_LINK_SMALL}
+                ${TEXT_SMALL}
               `}
             >
-              {price === 0 ? '무료나눔' : `${price?.toLocaleString()}원`}
-            </span>
-          </div>
-
-          <IconDiv>
-            {chats > 0 && (
-              <ChatWrapperDiv
-                className={css`
-                  ${TEXT_SMALL}
-                `}
-              >
-                <ChatBubbleOutlineIcon />
-                <span>{chats}</span>
-              </ChatWrapperDiv>
-            )}
-
-            {likes > 0 && (
-              <ChatWrapperDiv
-                className={css`
-                  ${TEXT_SMALL}
-                `}
-              >
-                <FavoriteBorderIcon />
-                <span>{likes}</span>
-              </ChatWrapperDiv>
-            )}
-          </IconDiv>
-        </ContentDiv>
-      </ContainerDiv>
-    </>
+              <FavoriteBorderIcon />
+              <span>{likes}</span>
+            </ChatWrapperDiv>
+          )}
+        </IconDiv>
+      </ContentDiv>
+    </ContainerDiv>
   );
 };
 
@@ -91,7 +89,6 @@ const ContainerDiv = styled.div`
   display: flex;
   padding: 16px;
   width: 100%;
-  height: 100%;
   border-bottom: 1px solid ${COLOR.placeholder};
 `;
 
