@@ -4,14 +4,14 @@ import { Box, Button, Modal, Typography } from '@mui/material';
 import React, { useState } from 'react';
 
 interface IPros {
-  open: boolean;
+  isOpen: boolean;
   handleOpen(): void;
   handleClose(): void;
   addLocation(locationName: string): void;
 }
 
 const LocationModal: React.FC<IPros> = ({
-  open,
+  isOpen,
   handleOpen,
   handleClose,
   addLocation,
@@ -25,7 +25,7 @@ const LocationModal: React.FC<IPros> = ({
 
   return (
     <Modal
-      open={open}
+      open={isOpen}
       onClose={handleClose}
       aria-labelledby='modal-modal-title'
       aria-describedby='modal-modal-description'

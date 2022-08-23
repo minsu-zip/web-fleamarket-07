@@ -1,6 +1,6 @@
 import { TEXT_SMALL, COLOR } from '@constants/style';
 import styled from '@emotion/styled';
-import { Button, Modal } from '@mui/material';
+import { Button } from '@mui/material';
 import { useState } from 'react';
 import AddOutlinedIcon from '@mui/icons-material/AddOutlined';
 import DeleteIcon from '@mui/icons-material/Delete';
@@ -10,16 +10,16 @@ const LocationContent = () => {
   // 위치 데이터 전역에서 받아오기
   const [location, setLocation] = useState<string[]>(['역삼동', '강남구']);
 
-  const [open, setOpen] = useState(false);
-  const handleOpen = () => setOpen(true);
-  const handleClose = () => setOpen(false);
+  const [isOpen, setIsOpen] = useState(false);
+  const handleOpen = () => setIsOpen(true);
+  const handleClose = () => setIsOpen(false);
 
   const addLocation = (locationName: string): void => {
     // locationName 추가 로직 및 API 요청 로직 작성
     if (location.length === 2) return;
 
     setLocation([...location, locationName]);
-    setOpen(false);
+    setIsOpen(false);
   };
 
   const removeLocation = (index: number) => {
@@ -41,7 +41,7 @@ const LocationContent = () => {
             key={item}
             size='large'
             variant='contained'
-            endIcon={location.length === 1 ? <></> : <DeleteIcon />}
+            endIcon={location.length === 1 && <DeleteIcon />}
             onClick={() => removeLocation(index)}
           >
             {item}
@@ -49,21 +49,19 @@ const LocationContent = () => {
         ))}
 
         {location.length < 2 && (
-          <>
-            <IconButton
-              variant='outlined'
-              endIcon={<AddOutlinedIcon />}
-              sx={{ color: COLOR.title, borderColor: COLOR.title }}
-              onClick={handleOpen}
-            >
-              지역 추가
-            </IconButton>
-          </>
+          <IconButton
+            variant='outlined'
+            endIcon={<AddOutlinedIcon />}
+            sx={{ color: COLOR.title, borderColor: COLOR.title }}
+            onClick={handleOpen}
+          >
+            지역 추가
+          </IconButton>
         )}
       </ButtonWrapperDiv>
 
       <LocationModal
-        open={open}
+        isOpen={isOpen}
         handleOpen={handleOpen}
         handleClose={handleClose}
         addLocation={addLocation}
