@@ -1,6 +1,6 @@
+import React from 'react';
 import styled from '@emotion/styled';
-import { TProductSummary } from '@fleamarket/common';
-import Dir from './ImageLarge.png'; // 예시 이미지
+import { css } from '@emotion/css';
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
 import ChatBubbleOutlineIcon from '@mui/icons-material/ChatBubbleOutline';
 import {
@@ -9,21 +9,21 @@ import {
   TEXT_LINK_SMALL,
   COLOR,
 } from '@constants/style';
-import { css } from '@emotion/css';
 import Heart from '@components/molecules/Heart';
+import ImageBox from '@components/atoms/ImageBox';
+import type { TProductSummary } from '@fleamarket/common';
 
 interface IProps {
   product: TProductSummary;
 }
 
 const ProductItem: React.FC<IProps> = ({ product }) => {
-  const { title, price, isLike, likes, chats, locationName } = product;
+  const { title, titleImage, price, isLike, likes, chats, locationName } =
+    product;
 
   return (
     <ContainerDiv>
-      <div>
-        <Image src={Dir}></Image>
-      </div>
+      <ImageBox src={titleImage}></ImageBox>
       <ContentDiv>
         <TopWrapperDiv>
           <TitleSpan
@@ -95,12 +95,6 @@ const ContainerDiv = styled.div`
 const ContentDiv = styled.div`
   flex: 1;
   padding-left: 16px;
-`;
-
-const Image = styled.img`
-  width: 100%;
-  height: 100%;
-  border-radius: 10px;
 `;
 
 const TopWrapperDiv = styled.div`

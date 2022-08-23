@@ -48,8 +48,8 @@ const Main: React.FC = () => {
   return (
     <MainLayout>
       <ContentWrapperDiv id='item'>
-        {productList.map((item, i) => (
-          <ProductItem key={i} product={item} />
+        {productList.map((product) => (
+          <ProductItem key={product.id} product={product} />
         ))}
       </ContentWrapperDiv>
       <MainLayout.FAB />
