@@ -57,7 +57,8 @@ export class UserController {
   }
 
   @Get(':name')
-  findOne(@Param('name') name: string) {
+  @UseGuards(AuthGuard)
+  findOne(@Param('name') name: string, @Req() req: Request & { user: User }) {
     return this.userService.findByName(name);
   }
 
