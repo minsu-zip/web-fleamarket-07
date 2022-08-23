@@ -40,7 +40,9 @@ export class AuthService {
     return token;
   }
 
-  async attachGithubId(code: string): Promise<string> {
+  async attachGithubId(
+    code: string,
+  ): Promise<{ login: string; avatar: string }> {
     const accessUrl = 'https://github.com/login/oauth/access_token';
     const accessBody = {
       code,
@@ -69,8 +71,11 @@ export class AuthService {
       headers: { Authorization: `token ${access_token}` },
     });
 
-    const { login }: { login: string } = userData;
+    const userInfo = {
+      login: userData.login,
+      avatar: userData.avatar_url,
+    };
 
-    return login;
+    return userInfo;
   }
 }
