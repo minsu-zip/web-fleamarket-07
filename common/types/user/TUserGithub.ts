@@ -1,15 +1,9 @@
-type TUserGithub = {
-  id: number;
-  name: string;
-  avatar: string;
-  location1: {
-    id: number;
-    region: string;
-  };
-  location2?: {
-    id: number;
-    region: string;
-  };
+import TLocation from 'types/TLocation';
+import TUser from './TUser';
+
+type TUserGithub = Pick<TUser, 'id' | 'name' | 'avatar'> & {
+  location1: TLocation;
+  location2?: TLocation;
 };
 
 export default TUserGithub;

@@ -1,11 +1,11 @@
 import TImage from '../TImage';
+import TProduct from './TProduct';
 
-type TProductCreate = {
-  title: string;
-  content?: string;
-  price: number;
+type TProductCreate = Pick<
+  TProduct,
+  'title' | 'content' | 'price' | 'categoryId'
+> & {
   images?: TImage[];
-  categoryId: number;
 };
 
 export default TProductCreate;

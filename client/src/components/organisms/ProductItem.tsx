@@ -1,5 +1,5 @@
 import styled from '@emotion/styled';
-import { TProduct } from '@fleamarket/common';
+import { TProductSummary } from '@fleamarket/common';
 import Dir from './ImageLarge.png'; // 예시 이미지
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
 import ChatBubbleOutlineIcon from '@mui/icons-material/ChatBubbleOutline';
@@ -13,11 +13,11 @@ import { css } from '@emotion/css';
 import Heart from '@components/molecules/Heart';
 
 interface IProps {
-  product: TProduct;
+  product: TProductSummary;
 }
 
 const ProductItem: React.FC<IProps> = ({ product }) => {
-  const { id, title, price, isLike, likes, chats, locationName } = product;
+  const { title, price, isLike, likes, chats, locationName } = product;
 
   return (
     <>
