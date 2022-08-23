@@ -8,7 +8,6 @@ import {
   COLOR,
   TEXT_LINK_SMALL,
 } from '@constants/style';
-import Heart from '@components/molecules/Heart';
 import ImageBox from '@components/atoms/ImageBox';
 import type { TProductSummary } from '@fleamarket/common';
 import { getTimeGapString } from '@utils/time';
@@ -20,16 +19,8 @@ interface IProps extends React.PropsWithChildren {
 }
 
 const ProductItem: React.FC<IProps> = ({ product, children }) => {
-  const {
-    title,
-    titleImage,
-    price,
-    isLike,
-    likes,
-    chats,
-    locationName,
-    createdAt,
-  } = product;
+  const { title, titleImage, price, likes, chats, locationName, createdAt } =
+    product;
 
   return (
     <ContainerDiv>
@@ -48,9 +39,7 @@ const ProductItem: React.FC<IProps> = ({ product, children }) => {
             </div>
           </MainInfosDiv>
 
-          <BtnWrapperDiv>
-            <Heart isLike={!!isLike}></Heart>
-          </BtnWrapperDiv>
+          <BtnWrapperDiv>{children}</BtnWrapperDiv>
         </section>
 
         <section className='sub'>
@@ -114,7 +103,7 @@ const ContentDiv = styled.div`
 
 const MainInfosDiv = styled.div`
   flex: 1;
-  max-width: 220px;
+  max-width: 214px;
   padding: 0.4rem 0;
 
   display: flex;

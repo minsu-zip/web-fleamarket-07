@@ -7,6 +7,7 @@ import Guide from '@components/atoms/Guide';
 import { COLOR } from '@constants/style';
 import type { TProductSummary } from '@fleamarket/common';
 import { getProductAllAPI } from '@apis/product';
+import Heart from '@components/molecules/Heart';
 
 const Main: React.FC = () => {
   // 1. TODO : Location ID 를 동적으로 관리하기
@@ -49,7 +50,9 @@ const Main: React.FC = () => {
     <MainLayout>
       <ContentWrapperDiv id='item'>
         {productList.map((product) => (
-          <ProductItem key={product.id} product={product} />
+          <ProductItem key={product.id} product={product}>
+            <Heart isLike={!!product.isLike}></Heart>
+          </ProductItem>
         ))}
       </ContentWrapperDiv>
       <MainLayout.FAB />
