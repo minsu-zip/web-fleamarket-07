@@ -5,6 +5,7 @@ import styled from '@emotion/styled';
 import { Fab } from '@mui/material';
 import AddIcon from '@mui/icons-material/Add';
 import { useNavigate } from 'react-router-dom';
+import { COLOR } from '@constants/style';
 
 const productList = [
   {
@@ -143,7 +144,7 @@ const Main: React.FC = () => {
   return (
     <ContainerDiv>
       <MenuHeader />
-      <ItemWrapperDiv>
+      <ItemWrapperDiv id='item'>
         {productList.map((item) => (
           <ProductItem product={item} />
         ))}
@@ -163,11 +164,27 @@ const ContainerDiv = styled.div`
   display: flex;
   flex-direction: column;
   overflow: none;
+
+  &:hover > #item::-webkit-scrollbar-thumb {
+    background-color: ${COLOR.title};
+  }
 `;
 
 const ItemWrapperDiv = styled.div`
   flex: 1;
   overflow-y: scroll;
+
+  &::-webkit-scrollbar {
+    width: 0.25rem;
+  }
+
+  &::-webkit-scrollbar-track {
+    border-radius: 10px;
+  }
+
+  &::-webkit-scrollbar-thumb {
+    border-radius: 10px;
+  }
 `;
 
 const FabWrapper = styled(Fab)({
