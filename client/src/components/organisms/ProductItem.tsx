@@ -11,6 +11,7 @@ import {
 import Heart from '@components/molecules/Heart';
 import ImageBox from '@components/atoms/ImageBox';
 import type { TProductSummary } from '@fleamarket/common';
+import { getTimeGapString } from '@utils/time';
 
 const ICON_SIZE = { width: '1.2rem', height: '1.2rem' };
 
@@ -19,8 +20,16 @@ interface IProps extends React.PropsWithChildren {
 }
 
 const ProductItem: React.FC<IProps> = ({ product, children }) => {
-  const { title, titleImage, price, isLike, likes, chats, locationName } =
-    product;
+  const {
+    title,
+    titleImage,
+    price,
+    isLike,
+    likes,
+    chats,
+    locationName,
+    createdAt,
+  } = product;
 
   return (
     <ContainerDiv>
@@ -30,7 +39,9 @@ const ProductItem: React.FC<IProps> = ({ product, children }) => {
           <MainInfosDiv>
             <h3 className='title'>{title}</h3>
             <div className='location'>
-              {locationName} {`∙ 2분전`}
+              {locationName}
+              <span>∙</span>
+              {getTimeGapString(new Date(createdAt ?? 0))}
             </div>
             <div className='price'>
               {price === 0 ? '무료나눔' : `${price?.toLocaleString()}원`}
@@ -103,7 +114,7 @@ const ContentDiv = styled.div`
 
 const MainInfosDiv = styled.div`
   flex: 1;
-  max-width: 214px;
+  max-width: 220px;
   padding: 0.4rem 0;
 
   display: flex;
