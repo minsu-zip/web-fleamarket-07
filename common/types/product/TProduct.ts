@@ -1,6 +1,6 @@
 import TCategory from 'types/TCategory';
 import TLocation from 'types/TLocation';
-import TUser from 'types/TUser';
+import { TUser } from 'types/user';
 import { EProductStatus } from './EProductStatus';
 
 type TProduct = {
