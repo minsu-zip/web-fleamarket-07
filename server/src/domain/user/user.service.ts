@@ -3,6 +3,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { User } from './entities/user.entity';
 import { LocationService } from '../location/location.service';
+import { TUserGithub } from '@fleamarket/common';
 
 @Injectable()
 export class UserService {
@@ -20,23 +21,31 @@ export class UserService {
     return user;
   }
 
-  findOne(id: number) {
-    return this.userRepository.findOneBy({ id });
-  }
-
-  async findByName(name: string): Promise<User> {
-    let user = await this.userRepository.findOneBy({ name });
+  async findByName(name: string, avatar?: string): Promise<TUserGithub> {
+    let user = await this.userRepository.findOne({
+      where: { name },
+      relations: { location1: true, location2: true },
+    });
 
     if (!user) {
       const location = await this.locationService.getDefault();
       const newUser = await this.userRepository.create({
         name,
         location1: location,
+        avatar,
       });
       user = await this.userRepository.save(newUser);
     }
 
-    return user;
+    const tokenUser = {
+      id: user.id,
+      name: user.name,
+      avatar: user.avatar,
+      location1: user.location1,
+      location2: user.location2,
+    };
+
+    return tokenUser;
   }
 
   async update(id: number, updateUserDto): Promise<User> {
