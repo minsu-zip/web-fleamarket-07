@@ -3,7 +3,7 @@ import { TProduct } from './product';
 type TImage = {
   id: number;
   url: string;
-  productId: Pick<TProduct, 'id'>;
+  productId: TProduct['id'];
 };
 
 export default TImage;
