@@ -49,6 +49,7 @@ const ImageBox: React.FC<IProps> = ({ src, type, alt = 'product' }) => {
 };
 
 const ContainerDiv = styled.div<{ type?: EImageSize }>`
+  flex: 0 0 auto;
   ${({ type }) => {
     switch (type) {
       case EImageSize.small:

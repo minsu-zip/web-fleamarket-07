@@ -1,23 +1,24 @@
 import React from 'react';
 import styled from '@emotion/styled';
-import { css } from '@emotion/css';
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
 import ChatBubbleOutlineIcon from '@mui/icons-material/ChatBubbleOutline';
 import {
   TEXT_LINK_MEDIUM,
   TEXT_SMALL,
-  TEXT_LINK_SMALL,
   COLOR,
+  TEXT_LINK_SMALL,
 } from '@constants/style';
 import Heart from '@components/molecules/Heart';
 import ImageBox from '@components/atoms/ImageBox';
 import type { TProductSummary } from '@fleamarket/common';
 
-interface IProps {
+const ICON_SIZE = { width: '1.2rem', height: '1.2rem' };
+
+interface IProps extends React.PropsWithChildren {
   product: TProductSummary;
 }
 
-const ProductItem: React.FC<IProps> = ({ product }) => {
+const ProductItem: React.FC<IProps> = ({ product, children }) => {
   const { title, titleImage, price, isLike, likes, chats, locationName } =
     product;
 
@@ -25,100 +26,115 @@ const ProductItem: React.FC<IProps> = ({ product }) => {
     <ContainerDiv>
       <ImageBox src={titleImage}></ImageBox>
       <ContentDiv>
-        <TopWrapperDiv>
-          <TitleSpan
-            className={css`
-              ${TEXT_LINK_MEDIUM}
-            `}
-          >
-            {title}
-          </TitleSpan>
+        <section className='main'>
+          <MainInfosDiv>
+            <h3 className='title'>{title}</h3>
+            <div className='location'>
+              {locationName} {`∙ 2분전`}
+            </div>
+            <div className='price'>
+              {price === 0 ? '무료나눔' : `${price?.toLocaleString()}원`}
+            </div>
+          </MainInfosDiv>
 
-          <Heart isLike={isLike}></Heart>
-        </TopWrapperDiv>
+          <BtnWrapperDiv>
+            <Heart isLike={!!isLike}></Heart>
+          </BtnWrapperDiv>
+        </section>
 
-        <div>
-          <span
-            className={css`
-              ${TEXT_SMALL}
-            `}
-          >
-            {locationName} {`∙ 2분전`}
-          </span>
-        </div>
-
-        <div style={{ paddingTop: '8px' }}>
-          <span
-            className={css`
-              ${TEXT_LINK_SMALL}
-            `}
-          >
-            {price === 0 ? '무료나눔' : `${price?.toLocaleString()}원`}
-          </span>
-        </div>
-
-        <IconDiv>
+        <section className='sub'>
           {chats > 0 && (
-            <ChatWrapperDiv
-              className={css`
-                ${TEXT_SMALL}
-              `}
-            >
-              <ChatBubbleOutlineIcon />
-              <span>{chats}</span>
-            </ChatWrapperDiv>
+            <>
+              <ChatBubbleOutlineIcon sx={ICON_SIZE} />
+              <span>{chats || 0}</span>
+            </>
           )}
-
           {likes > 0 && (
-            <ChatWrapperDiv
-              className={css`
-                ${TEXT_SMALL}
-              `}
-            >
-              <FavoriteBorderIcon />
+            <>
+              <FavoriteBorderIcon sx={ICON_SIZE} />
               <span>{likes}</span>
-            </ChatWrapperDiv>
+            </>
           )}
-        </IconDiv>
+        </section>
       </ContentDiv>
     </ContainerDiv>
   );
 };
 
 const ContainerDiv = styled.div`
-  display: flex;
-  padding: 16px;
   width: 100%;
-  border-bottom: 1px solid ${COLOR.placeholder};
+  padding: 16px;
+  display: flex;
+  flex-direction: row;
+  border-bottom: 1px solid ${COLOR.line};
+  &:last-child {
+    border-bottom: none;
+  }
 `;
 
 const ContentDiv = styled.div`
   flex: 1;
-  padding-left: 16px;
+  margin-left: 16px;
+
+  display: flex;
+  flex-direction: column;
+
+  & > .main {
+    flex: 0 0 auto;
+    width: 100%;
+
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+  }
+  & > .sub {
+    ${TEXT_SMALL}
+    flex: 1;
+    width: 100%;
+
+    display: flex;
+    align-items: flex-end;
+    justify-content: flex-end;
+    column-gap: 0.5rem;
+
+    color: ${COLOR.label};
+  }
 `;
 
-const TopWrapperDiv = styled.div`
+const MainInfosDiv = styled.div`
+  flex: 1;
+  max-width: 214px;
+  padding: 0.4rem 0;
+
   display: flex;
-  justify-content: space-between;
-  align-items: center;
+  flex-direction: column;
+  row-gap: 0.5rem;
+
+  & > * {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+  & > .title {
+    ${TEXT_LINK_MEDIUM}
+    margin: 0;
+    flex: 1;
+  }
+  & > .location {
+    ${TEXT_SMALL}
+    color: ${COLOR.label};
+  }
+  & > .price {
+    ${TEXT_LINK_SMALL}
+  }
 `;
 
-const IconDiv = styled.div`
-  display: flex;
-  justify-content: flex-end;
-  color: ${COLOR.background2};
+const BtnWrapperDiv = styled.div`
+  flex: 0 0 auto;
+
+  position: relative;
+  top: -0.5rem;
+  right: -0.5rem;
 `;
 
-const TitleSpan = styled.span`
-  width: 120px;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-`;
-const ChatWrapperDiv = styled.div`
-  display: flex;
-  align-items: center;
-  justify-content: flex-end;
-  padding-left: 18px;
-`;
 export default ProductItem;
