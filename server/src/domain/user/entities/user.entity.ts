@@ -19,6 +19,9 @@ export class User {
   @Column({ type: 'varchar', length: 10 })
   name: string;
 
+  @Column({ type: 'text' })
+  avatar: string;
+
   @Column({ type: 'int' })
   location1Id: number;
 
