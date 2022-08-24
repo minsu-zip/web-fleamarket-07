@@ -31,8 +31,17 @@ export class ProductController {
   }
 
   @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.productService.findOne(+id);
+  async findOne(@Param('id') id: string, @Res() res: Response) {
+    // TODO : User 정보 가져와서 id 넘겨주기
+    const productId = Number(id);
+    if (isNaN(productId))
+      res.status(HttpStatus.BAD_REQUEST).json({
+        message: '물품 요청 : 요청하려는 물품이 올바른가요?',
+        status: HttpStatus.BAD_REQUEST,
+      });
+
+    const data = await this.productService.findOne(+id, undefined);
+    return res.status(HttpStatus.OK).json({ product: data });
   }
 
   @Patch(':id')
