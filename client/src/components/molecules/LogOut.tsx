@@ -2,11 +2,25 @@ import TopBar from './TopBar';
 import { TUserGithub } from '@fleamarket/common';
 import { Avatar, Badge, Button } from '@mui/material';
 import styled from '@emotion/styled';
+import { useCallback } from 'react';
+import { useSetRecoilState } from 'recoil';
+import { authAtom } from '@stores/AuthRecoil';
+import { useNavigate } from 'react-router-dom';
+import { logoutAPI } from '@apis/user';
 
 interface IProps {
   auth: TUserGithub;
 }
 const LogOut: React.FC<IProps> = ({ auth }) => {
+  const setAuth = useSetRecoilState(authAtom);
+  const navigate = useNavigate();
+
+  const handleLogout = useCallback(async () => {
+    await logoutAPI();
+    setAuth(null);
+    navigate('/');
+  }, [navigate, setAuth]);
+
   return (
     <>
       <TopBar title='내 계정' />
@@ -27,7 +41,11 @@ const LogOut: React.FC<IProps> = ({ auth }) => {
           <AuthNameSpan>{auth.name}</AuthNameSpan>
         </div>
         <div style={{ width: '50%', marginTop: '20px' }}>
-          <Button variant='contained' sx={{ width: '100%' }}>
+          <Button
+            variant='contained'
+            sx={{ width: '100%' }}
+            onClick={handleLogout}
+          >
             로그아웃
           </Button>
         </div>
