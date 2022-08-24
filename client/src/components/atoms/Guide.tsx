@@ -1,8 +1,30 @@
 import React from 'react';
 import styled from '@emotion/styled';
-import { COLOR } from '@constants/style';
+import { COLOR, TEXT_MEDIUM } from '@constants/style';
 
-const Loading: React.FC = () => {
+interface IProps {
+  message?: string;
+}
+
+const Empty: React.FC<IProps> = ({ message }) => {
+  return (
+    <ContainerDiv>
+      <img src='/empty.png' alt='error' />
+      <h3>{message ?? '텅 비어있어요'}</h3>
+    </ContainerDiv>
+  );
+};
+
+const Error: React.FC<IProps> = ({ message }) => {
+  return (
+    <ContainerDiv>
+      <img src='/error.png' alt='error' />
+      <h3>{message ?? '오류가 있어요'}</h3>
+    </ContainerDiv>
+  );
+};
+
+const Loading: React.FC<IProps> = ({ message }) => {
   return (
     <ContainerDiv>
       <LoaderDiv>
@@ -15,18 +37,36 @@ const Loading: React.FC = () => {
         <div></div>
         <div></div>
       </LoaderDiv>
+      <h3>{message ?? '정보를 가져오고 있어요'}</h3>
     </ContainerDiv>
   );
 };
 
 const ContainerDiv = styled.div`
   flex: 0 0 auto;
+
   width: 100%;
   height: 100%;
-
   display: flex;
+  flex-direction: column;
   justify-content: center;
   align-items: center;
+
+  & > img {
+    width: 70%;
+    aspect-ratio: 1/1;
+    -webkit-user-drag: none;
+    -khtml-user-drag: none;
+    -moz-user-drag: none;
+    -o-user-drag: none;
+  }
+
+  & > h3 {
+    ${TEXT_MEDIUM}
+    margin-top: 2rem;
+
+    color: ${COLOR.label};
+  }
 `;
 
 const LoaderDiv = styled.div`
@@ -116,4 +156,5 @@ const LoaderDiv = styled.div`
   }
 `;
 
-export default Loading;
+const Guide = { Empty, Error, Loading };
+export default Guide;

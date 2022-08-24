@@ -51,6 +51,7 @@ const MenuHeader: React.FC = () => {
           alt='userProfile'
           src={userProfile}
           sx={{ width: 30, height: 30 }}
+          onClick={() => navigate('signIn')}
         />
         <IconButtonWrapper size='large' onClick={() => navigate('menu')}>
           <MenuOutlinedIcon />
@@ -61,6 +62,7 @@ const MenuHeader: React.FC = () => {
 };
 
 const ContainerDiv = styled.div`
+  flex: 0 0 auto;
   background-color: ${COLOR.primary};
   display: flex;
   justify-content: space-between;
