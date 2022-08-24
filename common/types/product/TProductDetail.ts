@@ -5,7 +5,7 @@ import { TUser } from 'types/user';
 import TCategory from 'types/TCategory';
 
 type TProductDetail = TProduct & {
-  images: TImage[];
+  images: TImage['url'][];
   userName: TUser['name'];
   locationName: TLocation['region'];
   categoryName: TCategory['name'];
