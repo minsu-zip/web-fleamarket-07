@@ -7,6 +7,7 @@ import {
   TEXT_SMALL,
   COLOR,
   TEXT_LINK_SMALL,
+  TEXT_ELLIPSIS,
 } from '@constants/style';
 import ImageBox from '@components/molecules/ImageBox';
 import type { TProductSummary } from '@fleamarket/common';
@@ -128,9 +129,7 @@ const MainInfosDiv = styled.div`
   row-gap: 0.5rem;
 
   & > * {
-    overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;
+    ${TEXT_ELLIPSIS}
   }
   & > .title {
     ${TEXT_LINK_MEDIUM}
