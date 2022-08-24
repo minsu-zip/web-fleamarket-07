@@ -2,6 +2,7 @@ import * as React from 'react';
 import Button from '@mui/material/Button';
 import Menu from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
+import { COLOR } from '@constants/style';
 
 interface IProps {
   dropDownList?: string[];
@@ -47,7 +48,11 @@ const Dropdown: React.FC<IProps> = ({
       >
         {dropDownList?.map((item, index) => (
           <MenuItem key={item} onClick={handleClose(item)}>
-            {item}
+            {item !== '삭제하기' ? (
+              item
+            ) : (
+              <span style={{ color: COLOR.error }}>{item}</span>
+            )}
           </MenuItem>
         ))}
       </Menu>
