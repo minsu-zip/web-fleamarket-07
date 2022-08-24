@@ -10,10 +10,12 @@ import {
   Res,
   HttpStatus,
   HttpException,
+  UseGuards,
 } from '@nestjs/common';
 import { Response } from 'express';
 import { ProductService } from './product.service';
 import type { TProductAllQuery } from '@fleamarket/common';
+import { AuthGuard } from '../auth/auth.guard';
 
 @Controller('product')
 export class ProductController {
@@ -43,6 +45,13 @@ export class ProductController {
 
     const data = await this.productService.findOne(+id, undefined);
     return res.status(HttpStatus.OK).json({ product: data });
+  }
+
+  @Get('saleList/:userId')
+  @UseGuards(AuthGuard)
+  async userSaleList(@Param('userId') userId: number, @Res() res: Response) {
+    const data = await this.productService.userSaleList(userId);
+    return res.status(HttpStatus.OK).json({ userSaleList: data });
   }
 
   @Patch(':id')
