@@ -54,6 +54,13 @@ export class UserController {
     return this.userService.create(createUserDto);
   }
 
+  @Post('logout')
+  async logout(@Res() res: Response) {
+    await this.userService.logout(res);
+
+    res.status(HttpStatus.OK).send();
+  }
+
   @Get(':name')
   @UseGuards(AuthGuard)
   findOne(@Param('name') name: string) {
