@@ -4,6 +4,7 @@ import { Repository } from 'typeorm';
 import { User } from './entities/user.entity';
 import { LocationService } from '../location/location.service';
 import { TUserGithub } from '@fleamarket/common';
+import { Response } from 'express';
 
 @Injectable()
 export class UserService {
@@ -53,5 +54,9 @@ export class UserService {
 
     await this.userRepository.update(id, updateUserDto);
     return { ...pureUser, ...updateUserDto };
+  }
+
+  async logout(res: Response) {
+    res.clearCookie('auth');
   }
 }
