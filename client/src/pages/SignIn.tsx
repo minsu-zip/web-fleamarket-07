@@ -8,14 +8,16 @@ import { COLOR } from '@constants/style';
 import { GITHUB_ID } from '@constants/envs';
 import LogOut from '@components/molecules/LogOut';
 
+const loginLink = `https://github.com/login/oauth/authorize?client_id=${GITHUB_ID}`;
+
 const SignIn: React.FC = () => {
   const Auth = useRecoilValue(authAtom);
   const [buttonStatus, setButtonStatus] = useState(false);
 
-  const handleLoginIn = useCallback(() => {
+  const handleLoginIn = () => {
     setButtonStatus(true);
-    window.location.href = `https://github.com/login/oauth/authorize?client_id=${GITHUB_ID}`;
-  }, []);
+    window.location.href = loginLink;
+  };
 
   if (Auth?.id) {
     return <LogOut auth={Auth} />;
