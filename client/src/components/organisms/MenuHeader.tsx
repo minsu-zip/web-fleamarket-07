@@ -8,6 +8,7 @@ import FmdGoodOutlinedIcon from '@mui/icons-material/FmdGoodOutlined';
 import { Avatar, IconButton } from '@mui/material';
 import MenuOutlinedIcon from '@mui/icons-material/MenuOutlined';
 import Dropdown from '@components/molecules/Dropdown';
+import { SLIDE_STATE } from '@constants/slideStyle';
 
 const dropDownList = ['역삼동', '내 동네 설정하기'];
 
@@ -27,7 +28,12 @@ const MenuHeader: React.FC = () => {
   return (
     <ContainerDiv>
       <div>
-        <IconButtonWrapper size='large' onClick={() => navigate('category')}>
+        <IconButtonWrapper
+          size='large'
+          onClick={() =>
+            navigate('category', { state: { animate: SLIDE_STATE.RIGHT } })
+          }
+        >
           <AutoAwesomeMosaicOutlinedIcon />
         </IconButtonWrapper>
       </div>
@@ -53,7 +59,12 @@ const MenuHeader: React.FC = () => {
           sx={{ width: 30, height: 30 }}
           onClick={() => navigate('signIn')}
         />
-        <IconButtonWrapper size='large' onClick={() => navigate('menu')}>
+        <IconButtonWrapper
+          size='large'
+          onClick={() =>
+            navigate('menu', { state: { animate: SLIDE_STATE.LEFT } })
+          }
+        >
           <MenuOutlinedIcon />
         </IconButtonWrapper>
       </UserWrapperDiv>
