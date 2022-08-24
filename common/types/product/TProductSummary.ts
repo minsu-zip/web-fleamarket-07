@@ -8,7 +8,7 @@ type TProductSummary = Omit<
   titleImage?: TImage['url'];
   likes: number;
   isLike: boolean;
-  chats: number;
+  rooms: number;
   locationName: string;
   userName: string;
 };

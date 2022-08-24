@@ -11,7 +11,7 @@ type TProductDetail = TProduct & {
   categoryName: TCategory['name'];
   likes: number;
   isLike: boolean;
-  chatCount: number;
+  rooms: number;
 };
 
 export default TProductDetail;

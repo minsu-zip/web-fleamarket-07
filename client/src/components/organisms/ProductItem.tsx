@@ -19,7 +19,7 @@ interface IProps extends React.PropsWithChildren {
 }
 
 const ProductItem: React.FC<IProps> = ({ product, children }) => {
-  const { title, titleImage, price, likes, chats, locationName, createdAt } =
+  const { title, titleImage, price, likes, rooms, locationName, createdAt } =
     product;
 
   return (
@@ -43,10 +43,10 @@ const ProductItem: React.FC<IProps> = ({ product, children }) => {
         </section>
 
         <section className='sub'>
-          {chats > 0 && (
+          {rooms > 0 && (
             <>
               <ChatBubbleOutlineIcon sx={ICON_SIZE} />
-              <span>{chats || 0}</span>
+              <span>{rooms || 0}</span>
             </>
           )}
           {likes > 0 && (
