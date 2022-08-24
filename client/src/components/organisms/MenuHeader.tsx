@@ -62,6 +62,7 @@ const MenuHeader: React.FC = () => {
 };
 
 const ContainerDiv = styled.div`
+  flex: 0 0 auto;
   background-color: ${COLOR.primary};
   display: flex;
   justify-content: space-between;
