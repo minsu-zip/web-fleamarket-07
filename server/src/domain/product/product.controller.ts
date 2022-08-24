@@ -9,6 +9,7 @@ import {
   Query,
   Res,
   HttpStatus,
+  HttpException,
 } from '@nestjs/common';
 import { Response } from 'express';
 import { ProductService } from './product.service';
@@ -34,11 +35,11 @@ export class ProductController {
   async findOne(@Param('id') id: string, @Res() res: Response) {
     // TODO : User 정보 가져와서 id 넘겨주기
     const productId = Number(id);
-    if (isNaN(productId))
-      res.status(HttpStatus.BAD_REQUEST).json({
-        message: '물품 요청 : 요청하려는 물품이 올바른가요?',
-        status: HttpStatus.BAD_REQUEST,
-      });
+    if (isNaN(productId) || productId < 0)
+      throw new HttpException(
+        '물품 요청 : 요청하려는 물품이 올바른가요?',
+        HttpStatus.BAD_REQUEST,
+      );
 
     const data = await this.productService.findOne(+id, undefined);
     return res.status(HttpStatus.OK).json({ product: data });

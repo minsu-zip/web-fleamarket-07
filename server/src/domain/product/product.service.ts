@@ -26,10 +26,7 @@ export class ProductService {
     const { locationId, categoryId } = query;
     if (!locationId) {
       throw new HttpException(
-        {
-          status: HttpStatus.BAD_REQUEST,
-          message: '물품 요청 : 잘못된 위치 아이디입니다.',
-        },
+        '물품 요청 : 잘못된 위치 아이디입니다.',
         HttpStatus.BAD_REQUEST,
       );
     }
@@ -72,12 +69,8 @@ export class ProductService {
 
       return data as TProductSummary[];
     } catch (e) {
-      console.log(e);
       throw new HttpException(
-        {
-          status: HttpStatus.INTERNAL_SERVER_ERROR,
-          message: '물품 요청 : 물품을 찾는데 문제가 있습니다.',
-        },
+        '물품 요청 : 물품들을 찾는데 문제가 있습니다',
         HttpStatus.INTERNAL_SERVER_ERROR,
       );
     }
@@ -121,22 +114,15 @@ export class ProductService {
 
       if (product.length !== 1)
         throw {
-          httpMessage: '존재하지 않는 물품입니다',
+          httpMessage: '물품 요청 : 존재하지 않는 물품입니다',
           status: HttpStatus.BAD_REQUEST,
         };
 
       return product[0];
     } catch ({ httpMessage, status }) {
+      httpMessage = httpMessage ?? '물품 요청 : 물품을 찾는데 문제가 있습니다';
       const httpStatus = status ?? HttpStatus.INTERNAL_SERVER_ERROR;
-      throw new HttpException(
-        {
-          status: httpStatus,
-          message: `물품 요청 : ${
-            httpMessage ?? '물품을 찾는데 문제가 있습니다'
-          }`,
-        },
-        httpStatus,
-      );
+      throw new HttpException(httpMessage, httpStatus);
     }
   }
 
