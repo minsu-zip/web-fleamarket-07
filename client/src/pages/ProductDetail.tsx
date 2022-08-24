@@ -7,10 +7,9 @@ import Heart from '@components/molecules/Heart';
 import TopBar from '@components/molecules/TopBar';
 import { getProductDetailAPI } from '@apis/product';
 import Guide from '@components/atoms/Guide';
-import { COLOR, TEXT_LINK_SMALL } from '@constants/style';
+import { COLOR, SCROLLBAR_THUMB, TEXT_LINK_SMALL } from '@constants/style';
 import type { TProductDetail } from '@fleamarket/common';
-import Carousel from 'react-material-ui-carousel';
-import ImageBox, { EImageSize } from '@components/molecules/ImageBox';
+import ProductContent from '@components/organisms/ProductContent';
 
 const ProductDetail: React.FC = () => {
   const { id: productId } = useParams();
@@ -45,8 +44,7 @@ const ProductDetail: React.FC = () => {
       </ContainerDiv>
     );
 
-  console.log(isLoading, isDetailEmpty, details);
-  const { price, isLike, images } = details;
+  const { price, isLike } = details;
 
   return (
     <ContainerDiv>
@@ -58,27 +56,7 @@ const ProductDetail: React.FC = () => {
         />
       </nav>
       <div className='body'>
-        <Carousel
-          className='carousel'
-          indicatorContainerProps={{
-            style: {
-              marginTop: '-40px',
-              paddingBottom: '18px',
-              zIndex: 10000,
-              position: 'relative',
-            },
-          }}
-        >
-          {images?.map((url, index: number) => (
-            <ImageBox
-              key={index}
-              src={url}
-              alt={'products'}
-              type={EImageSize.full}
-            />
-          ))}
-        </Carousel>
-        <div>1</div>
+        <ProductContent details={details} />
       </div>
       <footer className='foot'>
         <Heart isLike={!!isLike} />
@@ -92,6 +70,7 @@ const ProductDetail: React.FC = () => {
 const ContainerDiv = styled.div<{ backgroundColor?: string }>`
   width: 100%;
   height: 100%;
+  padding: 0;
 
   display: flex;
   flex-direction: column;
@@ -108,6 +87,30 @@ const ContainerDiv = styled.div<{ backgroundColor?: string }>`
   & > .body {
     width: 100%;
     flex: 1;
+    overflow-x: hidden;
+    overflow-y: auto;
+    scrollbar-gutter: stable;
+
+    &::-webkit-scrollbar {
+      width: 0;
+      height: 0;
+      background-color: ${COLOR.background};
+    }
+    @media screen and (min-width: 520px) {
+      &:hover {
+        &::-webkit-scrollbar {
+          width: 3px;
+          height: 3px;
+          background-color: ${COLOR.background};
+        }
+        &::-webkit-scrollbar-thumb {
+          width: 3px;
+          height: 3px;
+          background-color: ${COLOR.title};
+        }
+      }
+    }
+
     & .carousel > div > div > div {
       height: 412px !important;
     }
@@ -120,6 +123,8 @@ const ContainerDiv = styled.div<{ backgroundColor?: string }>`
 
     display: flex;
     align-items: flex;
+
+    border-top: 1px solid ${COLOR.line};
 
     & > div:first-of-type {
       padding-right: 1rem;
@@ -135,10 +140,12 @@ const ChatButton = styled(Button)`
 `;
 
 const PriceSpan = styled.span`
-  ${TEXT_LINK_SMALL};
+  ${SCROLLBAR_THUMB}
+  ${TEXT_LINK_SMALL}
   margin: 0 1rem;
   overflow-x: scroll;
   overflow-y: hidden;
+  white-space: nowrap;
 
   flex: 1;
   display: flex;
@@ -147,18 +154,6 @@ const PriceSpan = styled.span`
 
   white-space: nowrap;
   scrollbar-width: none;
-
-  &::-webkit-scrollbar {
-    width: 2px;
-    height: 2px;
-    background-color: transparent;
-  }
-  &:hover {
-    &::-webkit-scrollbar-thumb {
-      border-radius: 10px;
-      background-color: ${COLOR.title};
-    }
-  }
 `;
 
 export default ProductDetail;
