@@ -7,23 +7,27 @@ const Animator = ({ children }: PropsWithChildren) => {
   const { controller, endAnimation } = useAnimator({ children });
   const { prev, cur, isAnimating, animationType } = controller;
 
-  if (isAnimating) {
-    const isReverse = getIsReverse(animationType);
+  const isReverse = getIsReverse(animationType);
 
-    return (
-      <SliderDiv
-        key={cur.location?.pathname}
-        animate={animationType}
-        onAnimationEnd={endAnimation}
-      >
-        {!isReverse && <WrapperDiv>{prev.element}</WrapperDiv>}
-        <WrapperDiv>{cur.element}</WrapperDiv>
-        {isReverse && <WrapperDiv>{prev.element}</WrapperDiv>}
-      </SliderDiv>
-    );
-  }
-
-  return <WrapperDiv>{cur.element}</WrapperDiv>;
+  return (
+    <SliderDiv
+      key={cur.location?.pathname}
+      animate={animationType}
+      onAnimationEnd={endAnimation}
+    >
+      {isAnimating && !isReverse ? (
+        <WrapperDiv>{prev.element}</WrapperDiv>
+      ) : (
+        <div></div>
+      )}
+      <WrapperDiv>{cur.element}</WrapperDiv>
+      {isAnimating && isReverse ? (
+        <WrapperDiv>{prev.element}</WrapperDiv>
+      ) : (
+        <div></div>
+      )}
+    </SliderDiv>
+  );
 };
 
 const SliderDiv = styled.div<{ animate?: EAnimate }>`
