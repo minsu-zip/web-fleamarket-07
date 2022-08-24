@@ -133,7 +133,7 @@ const BtnWrapperDiv = styled.div`
   flex: 0 0 auto;
 
   position: relative;
-  top: -0.5rem;
+  top: -0.3rem;
   right: -0.5rem;
 `;
 
