@@ -8,7 +8,7 @@ import {
   COLOR,
   TEXT_LINK_SMALL,
 } from '@constants/style';
-import ImageBox from '@components/atoms/ImageBox';
+import ImageBox from '@components/molecules/ImageBox';
 import type { TProductSummary } from '@fleamarket/common';
 import { getTimeGapString } from '@utils/time';
 
