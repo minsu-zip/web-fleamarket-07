@@ -17,7 +17,7 @@ interface IProps {
 }
 
 const ProductItem: React.FC<IProps> = ({ product }) => {
-  const { title, price, isLike, likes, chats, locationName } = product;
+  const { title, price, isLike, likes, rooms, locationName } = product;
 
   return (
     <>
@@ -59,14 +59,14 @@ const ProductItem: React.FC<IProps> = ({ product }) => {
           </div>
 
           <IconDiv>
-            {chats > 0 && (
+            {rooms > 0 && (
               <ChatWrapperDiv
                 className={css`
                   ${TEXT_SMALL}
                 `}
               >
                 <ChatBubbleOutlineIcon />
-                <span>{chats}</span>
+                <span>{rooms}</span>
               </ChatWrapperDiv>
             )}
 
