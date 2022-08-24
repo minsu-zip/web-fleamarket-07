@@ -9,13 +9,11 @@ import {
   Res,
   HttpStatus,
   UseGuards,
-  Req,
 } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
-import { Request, Response } from 'express';
+import { Response } from 'express';
 import { AuthGuard } from '../auth/auth.guard';
 import { AuthService } from '../auth/auth.service';
-import { User } from './entities/user.entity';
 import { UserService } from './user.service';
 
 @Controller('user')
@@ -58,7 +56,7 @@ export class UserController {
 
   @Get(':name')
   @UseGuards(AuthGuard)
-  findOne(@Param('name') name: string, @Req() req: Request & { user: User }) {
+  findOne(@Param('name') name: string) {
     return this.userService.findByName(name);
   }
 
