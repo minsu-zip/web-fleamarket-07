@@ -1,7 +1,7 @@
 export * from './types/product';
-export * from './types/TCategory';
-export * from './types/TImage';
 export * from './types/user';
-export * from './types/TRoom';
-export * from './types/TChat';
+export { default as TCategory } from './types/TCategory';
+export { default as TImage } from './types/TImage';
+export { default as TRoom } from './types/TRoom';
+export { default as TChat } from './types/TChat';
 export * from './constants/events';

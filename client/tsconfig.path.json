@@ -8,7 +8,7 @@
       "@pages/*": ["./pages/*"],
       "@utils/*": ["./utils/*"],
       "@apis/*": ["./apis/*"],
-      "@socket/*": ["./socket/*"],
+      "@sockets/*": ["./sockets/*"],
       "@stores/*": ["./stores/*"],
       "@src/*": ["./*"]
     }
