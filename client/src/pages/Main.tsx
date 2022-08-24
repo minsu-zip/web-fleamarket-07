@@ -16,7 +16,7 @@ const Main: React.FC = () => {
     isLoading,
     isError,
     data: productList,
-  } = useQuery<TProductSummary[]>(
+  } = useQuery<TProductSummary[] | undefined>(
     'products',
     () => getProductAllAPI({ locationId: 1 }),
     {
