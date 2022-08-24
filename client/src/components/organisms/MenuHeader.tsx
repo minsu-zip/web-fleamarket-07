@@ -51,6 +51,7 @@ const MenuHeader: React.FC = () => {
           alt='userProfile'
           src={userProfile}
           sx={{ width: 30, height: 30 }}
+          onClick={() => navigate('signIn')}
         />
         <IconButtonWrapper size='large' onClick={() => navigate('menu')}>
           <MenuOutlinedIcon />

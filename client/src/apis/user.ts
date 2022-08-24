@@ -14,3 +14,17 @@ export const getUserAPI = async (name: string) => {
     console.error(error);
   }
 };
+
+export const logoutAPI = async () => {
+  try {
+    await axiosAuth.post(
+      'user/logout',
+      {},
+      {
+        withCredentials: true,
+      },
+    );
+  } catch (error) {
+    console.error('로그아웃 실패', error);
+  }
+};
