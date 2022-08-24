@@ -58,7 +58,7 @@ export class UserController {
   async logout(@Res() res: Response) {
     await this.userService.logout(res);
 
-    res.status(HttpStatus.OK).send();
+    res.status(HttpStatus.NO_CONTENT).end();
   }
 
   @Get(':name')
