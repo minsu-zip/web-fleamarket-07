@@ -1,7 +1,8 @@
 import axios, { AxiosRequestConfig } from 'axios';
 import { setInterceptor } from './interceptor';
-const API_END_POINT = process.env.REACT_APP_API_END_POINT;
-const BASE_URL = API_END_POINT as string;
+import { API_END_POINT } from '@constants/envs';
+
+const BASE_URL = API_END_POINT;
 
 const axiosInstance = (url: string, options?: AxiosRequestConfig<object>) => {
   const instance = axios.create({

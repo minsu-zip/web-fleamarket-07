@@ -16,3 +16,6 @@ function validateEnvironment(obj: { [name: string]: string }) {
 }
 
 export const GITHUB_ID = validateEnvironment({ GITHUB_ID: 'string' }) as string;
+export const API_END_POINT = validateEnvironment({
+  API_END_POINT: 'string',
+}) as string;

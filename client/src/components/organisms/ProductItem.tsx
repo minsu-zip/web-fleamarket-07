@@ -1,133 +1,140 @@
+import React from 'react';
 import styled from '@emotion/styled';
-import { TProductSummary } from '@fleamarket/common';
-import Dir from './ImageLarge.png'; // 예시 이미지
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
 import ChatBubbleOutlineIcon from '@mui/icons-material/ChatBubbleOutline';
 import {
   TEXT_LINK_MEDIUM,
   TEXT_SMALL,
-  TEXT_LINK_SMALL,
   COLOR,
+  TEXT_LINK_SMALL,
 } from '@constants/style';
-import { css } from '@emotion/css';
-import Heart from '@components/molecules/Heart';
+import ImageBox from '@components/molecules/ImageBox';
+import type { TProductSummary } from '@fleamarket/common';
+import { getTimeGapString } from '@utils/time';
 
-interface IProps {
+const ICON_SIZE = { width: '1.2rem', height: '1.2rem' };
+
+interface IProps extends React.PropsWithChildren {
   product: TProductSummary;
 }
 
-const ProductItem: React.FC<IProps> = ({ product }) => {
-  const { title, price, isLike, likes, chats, locationName } = product;
+const ProductItem: React.FC<IProps> = ({ product, children }) => {
+  const { title, titleImage, price, likes, chats, locationName, createdAt } =
+    product;
 
   return (
-    <>
-      <ContainerDiv>
-        <div>
-          <Image src={Dir}></Image>
-        </div>
-        <ContentDiv>
-          <TopWrapperDiv>
-            <TitleSpan
-              className={css`
-                ${TEXT_LINK_MEDIUM}
-              `}
-            >
-              {title}
-            </TitleSpan>
-
-            <Heart isLike={isLike}></Heart>
-          </TopWrapperDiv>
-
-          <div>
-            <span
-              className={css`
-                ${TEXT_SMALL}
-              `}
-            >
-              {locationName} {`∙ 2분전`}
-            </span>
-          </div>
-
-          <div style={{ paddingTop: '8px' }}>
-            <span
-              className={css`
-                ${TEXT_LINK_SMALL}
-              `}
-            >
+    <ContainerDiv>
+      <ImageBox src={titleImage}></ImageBox>
+      <ContentDiv>
+        <section className='main'>
+          <MainInfosDiv>
+            <h3 className='title'>{title}</h3>
+            <div className='location'>
+              {locationName}
+              <span>∙</span>
+              {getTimeGapString(new Date(createdAt ?? 0))}
+            </div>
+            <div className='price'>
               {price === 0 ? '무료나눔' : `${price?.toLocaleString()}원`}
-            </span>
-          </div>
+            </div>
+          </MainInfosDiv>
 
-          <IconDiv>
-            {chats > 0 && (
-              <ChatWrapperDiv
-                className={css`
-                  ${TEXT_SMALL}
-                `}
-              >
-                <ChatBubbleOutlineIcon />
-                <span>{chats}</span>
-              </ChatWrapperDiv>
-            )}
+          <BtnWrapperDiv>{children}</BtnWrapperDiv>
+        </section>
 
-            {likes > 0 && (
-              <ChatWrapperDiv
-                className={css`
-                  ${TEXT_SMALL}
-                `}
-              >
-                <FavoriteBorderIcon />
-                <span>{likes}</span>
-              </ChatWrapperDiv>
-            )}
-          </IconDiv>
-        </ContentDiv>
-      </ContainerDiv>
-    </>
+        <section className='sub'>
+          {chats > 0 && (
+            <>
+              <ChatBubbleOutlineIcon sx={ICON_SIZE} />
+              <span>{chats || 0}</span>
+            </>
+          )}
+          {likes > 0 && (
+            <>
+              <FavoriteBorderIcon sx={ICON_SIZE} />
+              <span>{likes}</span>
+            </>
+          )}
+        </section>
+      </ContentDiv>
+    </ContainerDiv>
   );
 };
 
 const ContainerDiv = styled.div`
-  display: flex;
-  padding: 16px;
   width: 100%;
-  height: 100%;
-  border-bottom: 1px solid ${COLOR.placeholder};
+  padding: 16px;
+  display: flex;
+  flex-direction: row;
+  border-bottom: 1px solid ${COLOR.line};
+  &:last-child {
+    border-bottom: none;
+  }
 `;
 
 const ContentDiv = styled.div`
   flex: 1;
-  padding-left: 16px;
-`;
+  margin-left: 16px;
 
-const Image = styled.img`
-  width: 100%;
-  height: 100%;
-  border-radius: 10px;
-`;
-
-const TopWrapperDiv = styled.div`
   display: flex;
-  justify-content: space-between;
-  align-items: center;
+  flex-direction: column;
+
+  & > .main {
+    flex: 0 0 auto;
+    width: 100%;
+
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+  }
+  & > .sub {
+    ${TEXT_SMALL}
+    flex: 1;
+    width: 100%;
+
+    display: flex;
+    align-items: flex-end;
+    justify-content: flex-end;
+    column-gap: 0.5rem;
+
+    color: ${COLOR.label};
+  }
 `;
 
-const IconDiv = styled.div`
+const MainInfosDiv = styled.div`
+  flex: 1;
+  max-width: 214px;
+  padding: 0.4rem 0;
+
   display: flex;
-  justify-content: flex-end;
-  color: ${COLOR.background2};
+  flex-direction: column;
+  row-gap: 0.5rem;
+
+  & > * {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+  & > .title {
+    ${TEXT_LINK_MEDIUM}
+    margin: 0;
+    flex: 1;
+  }
+  & > .location {
+    ${TEXT_SMALL}
+    color: ${COLOR.label};
+  }
+  & > .price {
+    ${TEXT_LINK_SMALL}
+  }
 `;
 
-const TitleSpan = styled.span`
-  width: 120px;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
+const BtnWrapperDiv = styled.div`
+  flex: 0 0 auto;
+
+  position: relative;
+  top: -0.5rem;
+  right: -0.5rem;
 `;
-const ChatWrapperDiv = styled.div`
-  display: flex;
-  align-items: center;
-  justify-content: flex-end;
-  padding-left: 18px;
-`;
+
 export default ProductItem;

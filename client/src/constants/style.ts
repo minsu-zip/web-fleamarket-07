@@ -54,6 +54,13 @@ export const TEXT_LINK_X_SMALL = `
   font-size: 12px;
 `;
 
+export const IMAGE_PROTECT_DRAGGABLE = `
+  -webkit-user-drag: none;
+  -khtml-user-drag: none;
+  -moz-user-drag: none;
+  -o-user-drag: none;
+`;
+
 export const COLOR = Object.freeze({
   primary: '#f7e500',
   primary2: '#F8F400',
