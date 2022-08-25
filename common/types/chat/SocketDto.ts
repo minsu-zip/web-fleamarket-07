@@ -3,6 +3,7 @@ import TChat from './TChat';
 
 export type TChatConnect = {
   roomId: TRoom['id'];
+  authToken: string;
 };
 
 export type TChatEntered = {
