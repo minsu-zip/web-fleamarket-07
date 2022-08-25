@@ -1,5 +1,5 @@
-import type { TProduct } from './product';
-import type { TUser } from './user';
+import type { TProduct } from '../product';
+import type { TUser } from '../user';
 
 type TRoom = {
   id: number;

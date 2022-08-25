@@ -1,5 +1,5 @@
 import { TUser } from 'types/user';
-import TRoom from '../TRoom';
+import TRoom from '../room/TRoom';
 import TChat from './TChat';
 
 export type TChatConnect = {
