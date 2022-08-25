@@ -5,6 +5,8 @@ import ProductItem from './ProductItem';
 import { useQuery } from 'react-query';
 import MoreVertIcon from '@mui/icons-material/MoreVert';
 import Dropdown from '@components/molecules/Dropdown';
+import Guide from '@components/atoms/Guide';
+import styled from '@emotion/styled';
 
 const dropDownList = ['수정하기', '삭제하기'];
 
@@ -18,14 +20,35 @@ const SaleList = () => {
     }
   };
 
-  const { data: userSaleList } = useQuery<TProductSummary[]>(
-    '',
-    () => userSaleListAPI(1),
-    {
-      refetchOnWindowFocus: false,
-      retry: 0,
-    },
-  );
+  const {
+    data: userSaleList,
+    isLoading,
+    isError,
+  } = useQuery<TProductSummary[]>('', () => userSaleListAPI(3), {
+    refetchOnWindowFocus: false,
+    retry: 0,
+  });
+
+  if (isError)
+    return (
+      <GuideWrapper>
+        <Guide.Error />
+      </GuideWrapper>
+    );
+
+  if (isLoading)
+    return (
+      <GuideWrapper>
+        <Guide.Loading />
+      </GuideWrapper>
+    );
+
+  if (!userSaleList || userSaleList.length === 0)
+    return (
+      <GuideWrapper>
+        <Guide.Empty />
+      </GuideWrapper>
+    );
 
   return (
     <>
@@ -39,5 +62,9 @@ const SaleList = () => {
     </>
   );
 };
+
+const GuideWrapper = styled.div`
+  margin-top: 100px;
+`;
 
 export default SaleList;
