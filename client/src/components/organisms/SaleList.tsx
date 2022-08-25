@@ -7,10 +7,14 @@ import MoreVertIcon from '@mui/icons-material/MoreVert';
 import Dropdown from '@components/molecules/Dropdown';
 import Guide from '@components/atoms/Guide';
 import styled from '@emotion/styled';
+import { useRecoilValue } from 'recoil';
+import { authAtom } from '@stores/AuthRecoil';
 
 const dropDownList = ['수정하기', '삭제하기'];
 
 const SaleList = () => {
+  const Auth = useRecoilValue(authAtom);
+
   const handleClick = (value: string) => {
     // 함수 로직 작성 나중에 실제 데이터 이용시 수정
     if (value === '수정하기') {
@@ -24,7 +28,7 @@ const SaleList = () => {
     data: userSaleList,
     isLoading,
     isError,
-  } = useQuery<TProductSummary[]>('', () => userSaleListAPI(3), {
+  } = useQuery<TProductSummary[]>('', () => userSaleListAPI(Auth?.id), {
     refetchOnWindowFocus: false,
     retry: 0,
   });
