@@ -39,6 +39,21 @@ export const userSaleListAPI = async (
   return userSaleList;
 };
 
+export const userLikeListAPI = async (
+  userId?: number,
+): Promise<TProductSummary[]> => {
+  const response = await axiosAuth.get(`product/likeList/${userId}`);
+  const status = Math.floor(response.status / 100) * 100;
+
+  if (status !== 200) {
+    throw new Error('잘못된 응답값입니다.');
+  }
+
+  const { userLikeList } = response.data;
+
+  return userLikeList;
+};
+
 export const getProductDetailAPI = async ({
   productId,
 }: {
