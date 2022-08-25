@@ -8,13 +8,20 @@ interface IProps {
 }
 
 const useChat = ({ roomId }: IProps) => {
-  const [chats, setChats] = useState<{ [id: number]: TChatReceive }>({});
+  const [chats, setChats] = useState<TChatReceive[]>([]);
 
-  const setRefinedChats = (newChat: TChatReceive) => {
-    setChats((prev) => ({ ...prev, [newChat.id]: newChat }));
+  const setInitialChats = (chats: TChatReceive[]) => {
+    setChats((prev) => [...chats]);
   };
 
-  const socket = useMemo(() => Socket.chat({ setChats: setRefinedChats }), []);
+  const setRefinedChats = (newChat: TChatReceive) => {
+    setChats((prev) => [...prev, newChat]);
+  };
+
+  const socket = useMemo(
+    () => Socket.chat({ setInitialChats, setRefinedChats }),
+    [],
+  );
   useLayoutEffect(() => {
     const { connect, disconnect } = socket;
     connect({ roomId, authToken: getCookie('auth') ?? '' });

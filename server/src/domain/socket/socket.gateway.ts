@@ -42,8 +42,9 @@ export class SocketGateway implements OnGatewayConnection, OnGatewayDisconnect {
   // 누가 들어왔을 때 : 읽었다는 것을 알려주기 위함
   @UseGuards(AuthSocketGuard)
   @SubscribeMessage(EChatEvent.connect)
-  handleConnect(client: Socket, connectDto: TChatConnect) {
-    this.chatSocketService.connectChat(client, connectDto);
+  async handleConnect(client: Socket, connectDto: TChatConnect) {
+    await this.chatSocketService.connectChat(client, connectDto);
+    await this.chatSocketService.initialChat(client);
   }
   // 나갈 때
   @SubscribeMessage(EChatEvent.leaving)

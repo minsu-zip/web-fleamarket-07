@@ -24,6 +24,9 @@ export class ChatService {
   }
 
   findAllByRoom(id: number): Promise<Chat[]> {
-    return this.chatRepository.find({ where: { roomId: id } });
+    return this.chatRepository.find({
+      where: { roomId: id },
+      select: ['id', 'content', 'createdAt', 'userId'],
+    });
   }
 }

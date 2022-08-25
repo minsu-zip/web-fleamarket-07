@@ -33,8 +33,6 @@ export class ChatSocketService {
 
       client.data.roomId = roomCode;
       client.join(roomCode);
-
-      client.emit(EChatEvent.entered);
     } catch ({ message }) {
       throw new WsException(
         message ?? '채팅 연결 오류 : 서버 데이터에 문제가 있습니다.',
@@ -48,6 +46,13 @@ export class ChatSocketService {
     const { roomId } = client.data;
     client.to(roomId).emit(EChatEvent.leaving);
     client.leave(roomId);
+  }
+
+  async initialChat(client: Socket) {
+    const { roomId } = client.data;
+
+    const chats = await this.chatService.findAllByRoom(roomId);
+    client.emit(EChatEvent.entered, { chats });
   }
 
   async sendChat(client: Socket, sendDto: TChatSending) {

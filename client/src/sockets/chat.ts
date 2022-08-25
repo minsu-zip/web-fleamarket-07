@@ -7,7 +7,8 @@ import {
 } from '@fleamarket/common';
 
 interface IProps {
-  setChats: (newChat: TChatReceive) => void;
+  setInitialChats: (chats: TChatReceive[]) => void;
+  setRefinedChats: (newChat: TChatReceive) => void;
 }
 
 interface IReturns {
@@ -18,14 +19,18 @@ interface IReturns {
 
 const chat =
   (socket: Socket) =>
-  ({ setChats }: IProps): IReturns => {
+  ({ setInitialChats, setRefinedChats }: IProps): IReturns => {
     const connect = (connectDto: TChatConnect) => {
-      socket.on(EChatEvent.entered, () => {
-        console.log('entered');
-      });
+      socket.once(
+        EChatEvent.entered,
+        ({ chats }: { chats: TChatReceive[] }) => {
+          console.log('entered');
+          setInitialChats(chats);
+        },
+      );
       socket.on(EChatEvent.receive, (newChat: TChatReceive) => {
         console.log('received', newChat);
-        setChats(newChat);
+        setRefinedChats(newChat);
       });
       socket.on(EChatEvent.leaving, () => {
         console.log('leaving');
