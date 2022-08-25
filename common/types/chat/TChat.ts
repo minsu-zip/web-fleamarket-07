@@ -1,5 +1,5 @@
-import TRoom from './TRoom';
-import type { TUser } from './user';
+import TRoom from '../TRoom';
+import type { TUser } from '../user';
 
 type TChat = {
   id: number;
