@@ -1,8 +1,12 @@
 import TRoom from '../TRoom';
 import TChat from './TChat';
 
-export type TChatEntering = {
+export type TChatConnect = {
   roomId: TRoom['id'];
+};
+
+export type TChatEntered = {
+  chats: TChat[];
 };
 
 export type TChatSending = {
