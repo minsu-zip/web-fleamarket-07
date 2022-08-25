@@ -1,9 +1,8 @@
 import { axiosAuth } from './util';
-import { TProductAllQuery, TProductSummary } from '@fleamarket/common';
 import {
   TProductAllQuery,
-  TProductDetail,
   TProductSummary,
+  TProductDetail,
 } from '@fleamarket/common';
 
 export const getProductAllAPI = async ({
@@ -38,6 +37,8 @@ export const userSaleListAPI = async (
   const { userSaleList } = response.data;
 
   return userSaleList;
+};
+
 export const getProductDetailAPI = async ({
   productId,
 }: {
