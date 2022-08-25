@@ -3117,6 +3117,7 @@ __metadata:
     "@nestjs/core": ^9.0.0
     "@nestjs/mapped-types": "*"
     "@nestjs/platform-express": ^9.0.0
+    "@nestjs/platform-socket.io": ^9.0.11
     "@nestjs/schematics": ^9.0.0
     "@nestjs/testing": ^9.0.0
     "@nestjs/typeorm": ^9.0.1
@@ -3127,6 +3128,7 @@ __metadata:
     "@types/multer": ^1.4.7
     "@types/multer-s3": ^3.0.0
     "@types/node": ^16.0.0
+    "@types/socket.io": ^3.0.2
     "@types/supertest": ^2.0.11
     "@typescript-eslint/eslint-plugin": ^5.33.1
     "@typescript-eslint/parser": ^5.33.1
@@ -3135,6 +3137,7 @@ __metadata:
     class-transformer: ^0.5.1
     class-validator: ^0.13.2
     cross-env: ^7.0.3
+    dotenv: ^16.0.1
     eslint: ^8.22.0
     eslint-config-prettier: ^8.5.0
     eslint-plugin-prettier: ^4.2.1
@@ -4188,6 +4191,20 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@nestjs/platform-socket.io@npm:^9.0.11":
+  version: 9.0.11
+  resolution: "@nestjs/platform-socket.io@npm:9.0.11"
+  dependencies:
+    socket.io: 4.5.1
+    tslib: 2.4.0
+  peerDependencies:
+    "@nestjs/common": ^9.0.0
+    "@nestjs/websockets": ^9.0.0
+    rxjs: ^7.1.0
+  checksum: 0b7eba29e51bd6cedb5613144a725dae7d41bfed65e719a58474912fb111669c4ba4c6e43bc153408d8a3b6218d3e79651c785603ff526bab61170a7782fa71d
+  languageName: node
+  linkType: hard
+
 "@nestjs/schematics@npm:^9.0.0":
   version: 9.0.1
   resolution: "@nestjs/schematics@npm:9.0.1"
@@ -5162,6 +5179,15 @@ __metadata:
     "@types/mime": "*"
     "@types/node": "*"
   checksum: b6ac93d471fb0f53ddcac1f9b67572a09cd62806f7db5855244b28f6f421139626f24799392566e97d1ffc61b12f9de7f30380c39fcae3c8a161fe161d44edf2
+  languageName: node
+  linkType: hard
+
+"@types/socket.io@npm:^3.0.2":
+  version: 3.0.2
+  resolution: "@types/socket.io@npm:3.0.2"
+  dependencies:
+    socket.io: "*"
+  checksum: 168cf77e48b466582bd69d1c25930bb657225e742288d658a03a1e8af254350daa61f9441ec2be0d8354f1dcc747966e4342000bce875549fe54ec03e2fafec3
   languageName: node
   linkType: hard
 
@@ -8172,7 +8198,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"dotenv@npm:16.0.1, dotenv@npm:^16.0.0":
+"dotenv@npm:16.0.1, dotenv@npm:^16.0.0, dotenv@npm:^16.0.1":
   version: 16.0.1
   resolution: "dotenv@npm:16.0.1"
   checksum: f459ffce07b977b7f15d8cc4ee69cdff77d4dd8c5dc8c85d2d485ee84655352c2415f9dd09d42b5b5985ced3be186130871b34e2f3e2569ebc72fbc2e8096792
@@ -15727,7 +15753,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"socket.io@npm:^4.5.1":
+"socket.io@npm:*, socket.io@npm:4.5.1, socket.io@npm:^4.5.1":
   version: 4.5.1
   resolution: "socket.io@npm:4.5.1"
   dependencies:
