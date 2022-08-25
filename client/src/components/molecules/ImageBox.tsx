@@ -9,6 +9,7 @@ export enum EImageSize {
   small = 'SMALL',
   medium = 'MEDIUM',
   large = 'LARGE',
+  full = 'FULL',
 }
 
 interface IProps extends React.PropsWithChildren {
@@ -23,22 +24,8 @@ const ImageBox: React.FC<IProps> = ({ src, type, alt = 'product' }) => {
 
   return (
     <ContainerDiv type={type}>
-      {isLoading && (
-        <Skeleton
-          animation={'wave'}
-          variant='rounded'
-          sx={{
-            width: '100%',
-            height: '100%',
-            '::after': {
-              background:
-                'linear-gradient( 90deg, transparent, rgba(0, 0, 0, 0.04), transparent )',
-            },
-          }}
-        />
-      )}
+      {isLoading && <BoxSkeleton animation={'wave'} variant='rounded' />}
       <img
-        className={isLoading ? 'waiting' : ''}
         src={source}
         alt={alt}
         onLoad={() => setIsLoading(false)}
@@ -62,6 +49,11 @@ const ContainerDiv = styled.div<{ type?: EImageSize }>`
           width: 4.75rem;
           height: 4.75rem;
         `;
+      case EImageSize.full:
+        return `
+          width: 100%;
+          aspect-ratio: 1/1;
+        `;
       default:
         return `
           width: 6.625rem;
@@ -70,20 +62,39 @@ const ContainerDiv = styled.div<{ type?: EImageSize }>`
     }
   }}
 
-  border: 1px solid ${COLOR.line};
-  border-radius: 8px;
+  ${({ type }) =>
+    type !== EImageSize.full
+      ? `
+    border: 1px solid ${COLOR.line};
+    border-radius: 8px;
+  `
+      : ''}
+  
   background-color: ${COLOR.background};
   overflow: hidden;
+
+  position: relative;
 
   & > img {
     ${IMAGE_PROTECT_DRAGGABLE}
     width: 100%;
     height: 100%;
     object-fit: cover;
+    position: absolute;
   }
-  & > .waiting {
-    width: 0px;
-    height: 0px;
+`;
+
+const BoxSkeleton = styled(Skeleton)`
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  &::after {
+    background: linear-gradient(
+      90deg,
+      transparent,
+      rgba(0, 0, 0, 0.04),
+      transparent
+    );
   }
 `;
 

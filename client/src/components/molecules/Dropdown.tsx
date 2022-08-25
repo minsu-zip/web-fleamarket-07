@@ -33,12 +33,15 @@ const Dropdown: React.FC<IProps> = ({
         aria-haspopup='true'
         aria-expanded={open ? 'true' : undefined}
         onClick={handleOpen}
-        sx={{ color: 'black' }}
+        sx={{ color: 'black', padding: 0 }}
       >
         {children}
       </Button>
       <Menu
         id='basic-menu'
+        sx={{
+          marginTop: '0.5rem',
+        }}
         anchorEl={anchorEl}
         open={open}
         onClose={() => setAnchorEl(null)}

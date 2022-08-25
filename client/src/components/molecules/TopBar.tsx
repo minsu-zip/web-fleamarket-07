@@ -7,16 +7,22 @@ import { css } from '@emotion/css';
 import { useNavigate } from 'react-router-dom';
 
 interface IProps {
-  title: string;
+  title?: string;
   children?: React.ReactNode;
   onClick?(event: React.MouseEvent<HTMLDivElement>): void;
+  background?: string;
 }
 
-const TopBar: React.FC<IProps> = ({ title, children, onClick }) => {
+const TopBar: React.FC<IProps> = ({
+  title = '',
+  children,
+  onClick,
+  background,
+}) => {
   const navigate = useNavigate();
 
   return (
-    <ContainerDiv>
+    <ContainerDiv background={background}>
       <IconWrapperDiv onClick={() => navigate(-1)}>
         <IconButton size='large' sx={{ color: 'black' }}>
           <ArrowBackIosIcon />
@@ -42,8 +48,13 @@ const TopBar: React.FC<IProps> = ({ title, children, onClick }) => {
   );
 };
 
-const ContainerDiv = styled.div`
-  background-color: ${COLOR.background};
+const ContainerDiv = styled.div<{ background?: string }>`
+  flex: 0 0 auto;
+  width: 100%;
+  height: 56px;
+  padding: 0 0.75rem;
+
+  background: ${({ background }) => background ?? COLOR.background};
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -51,6 +62,10 @@ const ContainerDiv = styled.div`
 
 const IconWrapperDiv = styled.div`
   min-width: 50px;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
 `;
 
 export default TopBar;

@@ -1,5 +1,10 @@
 import { axiosAuth } from './util';
 import { TProductAllQuery, TProductSummary } from '@fleamarket/common';
+import {
+  TProductAllQuery,
+  TProductDetail,
+  TProductSummary,
+} from '@fleamarket/common';
 
 export const getProductAllAPI = async ({
   locationId,
@@ -33,4 +38,17 @@ export const userSaleListAPI = async (
   const { userSaleList } = response.data;
 
   return userSaleList;
+export const getProductDetailAPI = async ({
+  productId,
+}: {
+  productId?: string;
+}): Promise<TProductDetail> => {
+  const response = await axiosAuth.get(`product/${productId}`);
+
+  const status = Math.floor(response.status / 100) * 100;
+  if (status !== 200) throw response;
+
+  const { product } = response.data;
+
+  return product;
 };

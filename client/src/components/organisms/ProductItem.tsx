@@ -7,10 +7,13 @@ import {
   TEXT_SMALL,
   COLOR,
   TEXT_LINK_SMALL,
+  TEXT_ELLIPSIS,
 } from '@constants/style';
 import ImageBox from '@components/molecules/ImageBox';
 import type { TProductSummary } from '@fleamarket/common';
 import { getTimeGapString } from '@utils/time';
+import { useNavigate } from 'react-router-dom';
+import { SLIDE_STATE } from '@constants/slideStyle';
 
 const ICON_SIZE = { width: '1.2rem', height: '1.2rem' };
 
@@ -19,11 +22,24 @@ interface IProps extends React.PropsWithChildren {
 }
 
 const ProductItem: React.FC<IProps> = ({ product, children }) => {
-  const { title, titleImage, price, likes, rooms, locationName, createdAt } =
-    product;
+  const navigate = useNavigate();
+  const {
+    id,
+    title,
+    titleImage,
+    price,
+    likes,
+    rooms,
+    locationName,
+    createdAt,
+  } = product;
+
+  const moveToProduct = () => {
+    navigate(`/product/${id}`, { state: { animate: SLIDE_STATE.UP } });
+  };
 
   return (
-    <ContainerDiv>
+    <ContainerDiv onClick={moveToProduct}>
       <ImageBox src={titleImage}></ImageBox>
       <ContentDiv>
         <section className='main'>
@@ -70,6 +86,8 @@ const ContainerDiv = styled.div`
   &:last-child {
     border-bottom: none;
   }
+
+  cursor: pointer;
 `;
 
 const ContentDiv = styled.div`
@@ -111,9 +129,7 @@ const MainInfosDiv = styled.div`
   row-gap: 0.5rem;
 
   & > * {
-    overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;
+    ${TEXT_ELLIPSIS}
   }
   & > .title {
     ${TEXT_LINK_MEDIUM}
