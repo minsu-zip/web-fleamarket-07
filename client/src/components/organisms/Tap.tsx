@@ -8,6 +8,7 @@ import { COLOR } from '@constants/style';
 import React, { useState } from 'react';
 
 import SaleList from './SaleList';
+import ChatList from './ChatList';
 
 interface TabPanelProps {
   children?: React.ReactNode;
@@ -34,7 +35,7 @@ function TabPanel(props: TabPanelProps) {
 
 const Tap = () => {
   const theme = useTheme();
-  const [value, setValue] = useState(0);
+  const [value, setValue] = useState(2);
   const handleChange = (event: React.SyntheticEvent, newValue: number) => {
     setValue(newValue);
   };
@@ -72,7 +73,7 @@ const Tap = () => {
           Item Two
         </TabPanel>
         <TabPanel value={value} index={2} dir={theme.direction}>
-          Item Three
+          <ChatList />
         </TabPanel>
       </SwipeableViews>
     </Box>
