@@ -1,56 +1,47 @@
 import { Socket } from 'socket.io-client';
 import {
-  EChatEvent,
+  ERoomEvent,
   TRoomConnect,
-  TChatReceive,
-  TChatSending,
+  TRoomReceive,
+  TRoomEntered,
+  TRoomState,
 } from '@fleamarket/common';
 
 interface IProps {
-  setInitialChats: (chats: TChatReceive[]) => void;
-  setRefinedChats: (newChat: TChatReceive) => void;
+  setRooms: React.Dispatch<React.SetStateAction<TRoomState | undefined>>;
 }
 
 interface IReturns {
-  sendMessage: (chatContent: TChatSending) => void;
   connect: (connectDto: TRoomConnect) => void;
   disconnect: () => void;
 }
 
-const chat =
+const room =
   (socket: Socket) =>
-  ({ setInitialChats, setRefinedChats }: IProps): IReturns => {
+  ({ setRooms }: IProps): IReturns => {
     const connect = (connectDto: TRoomConnect) => {
-      socket.once(
-        EChatEvent.entered,
-        ({ chats }: { chats: TChatReceive[] }) => {
-          console.log('entered');
-          setInitialChats(chats);
-        },
-      );
-      socket.on(EChatEvent.receive, (newChat: TChatReceive) => {
-        console.log('received', newChat);
-        setRefinedChats(newChat);
-      });
-      socket.on(EChatEvent.leaving, () => {
-        console.log('leaving');
-      });
-      socket.emit(EChatEvent.connect, connectDto);
-    };
+      socket.once(ERoomEvent.entered, ({ rooms }: TRoomEntered) => {
+        console.log('entered');
+        setRooms(() =>
+          rooms.reduce((acc, room) => {
+            acc[room.id] = room;
 
-    const sendMessage = (sendDto: TChatSending) => {
-      console.log('send');
-      socket.emit(EChatEvent.sending, sendDto);
+            return acc;
+          }, {} as TRoomState),
+        );
+      });
+      socket.on(ERoomEvent.receive, (newRoom: TRoomReceive) => {
+        console.log('received', newRoom);
+      });
+      socket.emit(ERoomEvent.connect, connectDto);
     };
 
     const disconnect = () => {
-      socket.emit(EChatEvent.leaving);
-      socket.off(EChatEvent.entered);
-      socket.off(EChatEvent.receive);
-      socket.off(EChatEvent.leaving);
+      socket.off(ERoomEvent.entered);
+      socket.off(ERoomEvent.receive);
     };
 
-    return { sendMessage, connect, disconnect };
+    return { connect, disconnect };
   };
 
-export default chat;
+export default room;

@@ -8,7 +8,7 @@ export type TRoomConnect = {
 };
 
 export type TRoomEntered = {
-  chats: TRoomReceive[];
+  rooms: TRoomReceive[];
 };
 
 export type TRoomReceive = {
@@ -17,4 +17,8 @@ export type TRoomReceive = {
   sellerId: TUser['id'];
   buyerId: TUser['id'];
   lastChat: TChatReceive;
+};
+
+export type TRoomState = {
+  [id: number | string]: TRoomReceive;
 };
