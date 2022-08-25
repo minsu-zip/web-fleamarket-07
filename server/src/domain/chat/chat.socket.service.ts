@@ -23,6 +23,13 @@ export class ChatSocketService {
 
       const data = await this.roomService.findOne(roomId);
       if (!data) throw Error('채팅 연결 오류 : 올바른 채팅에 접근해주세요.');
+      if (
+        !(
+          client.data.userId === data.buyerId ||
+          client.data.userId === data.sellerId
+        )
+      )
+        throw Error('채팅 연결 오류 : 참가 하고 있는 채팅에 접근해주세요.');
 
       client.data.roomId = roomCode;
       client.join(roomCode);
