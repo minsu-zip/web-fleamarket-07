@@ -19,9 +19,9 @@ const ChatItem: React.FC<IProps> = ({ chat }) => {
   return (
     <ContainerSpan isMe={isMe}>
       {isMe && <TimeDiv>{getTimeGapString(createdAt)}</TimeDiv>}
-      <ContentDiv isMe={isMe} elevation={2} square>
-        {content}
-      </ContentDiv>
+      <Paper className='content' elevation={2} square>
+        <p>{content}</p>
+      </Paper>
       {!isMe && <TimeDiv>{getTimeGapString(createdAt)}</TimeDiv>}
     </ContainerSpan>
   );
@@ -35,23 +35,27 @@ const ContainerSpan = styled.span<{ isMe: boolean }>`
   display: flex;
   align-items: flex-end;
   justify-content: ${({ isMe }) => (isMe ? 'flex-end' : 'flex-start')};
-`;
 
-const ContentDiv = styled(Paper)<{ isMe: boolean }>`
-  padding: 0.75rem;
+  & > .content {
+    padding: 0.75rem;
 
-  ${({ isMe }) =>
-    isMe
-      ? `
-    border-radius: 8px 0px 8px 8px;
-    color: ${COLOR.title};
-    background-color: ${COLOR.primary};
-  `
-      : `
-    border-radius: 0px 8px 8px 8px;
-    color: ${COLOR.title};
-    background-color: ${COLOR.white};
-  `}
+    ${({ isMe }) =>
+      isMe
+        ? `
+      border-radius: 8px 0px 8px 8px;
+      color: ${COLOR.title};
+      background-color: ${COLOR.primary};
+    `
+        : `
+      border-radius: 0px 8px 8px 8px;
+      color: ${COLOR.title};
+      background-color: ${COLOR.white};
+    `}
+    & > p {
+      margin: 0;
+      white-space: pre-wrap;
+    }
+  }
 `;
 
 const TimeDiv = styled.div`

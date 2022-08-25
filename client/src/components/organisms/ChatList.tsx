@@ -1,14 +1,25 @@
-import React from 'react';
+import React, { useEffect, useRef } from 'react';
 import { TChatReceive } from '@fleamarket/common';
 import styled from '@emotion/styled';
 import ChatItem from '@components/molecules/ChatItem';
-import { SCROLLBAR_THUMB } from '@constants/style';
+import { COLOR, SCROLLBAR_THUMB } from '@constants/style';
 
 interface IProps {
   chats: TChatReceive[];
 }
 
 const ChatList: React.FC<IProps> = ({ chats }) => {
+  const listRef = useRef<HTMLDivElement>(null);
+  const scrollToBottom = () => {
+    if (listRef.current)
+      listRef.current.scrollIntoView({
+        behavior: 'smooth',
+      });
+  };
+  useEffect(() => {
+    scrollToBottom();
+  }, [chats]);
+
   return (
     <ContainerDiv>
       {chats.map((item) => {
@@ -16,6 +27,7 @@ const ChatList: React.FC<IProps> = ({ chats }) => {
 
         return <ChatItem chat={item} key={id} />;
       })}
+      <div ref={listRef}></div>
     </ContainerDiv>
   );
 };
@@ -33,6 +45,8 @@ const ContainerDiv = styled.div`
 
   overflow-x: hidden;
   overflow-y: scroll;
+
+  background-color: ${COLOR.background};
 `;
 
 export default ChatList;
