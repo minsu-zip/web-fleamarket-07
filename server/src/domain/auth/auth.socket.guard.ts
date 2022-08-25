@@ -12,10 +12,10 @@ export class AuthSocketGuard implements CanActivate {
   ): boolean | Promise<boolean> | Observable<boolean> {
     try {
       const client = context.switchToWs().getClient();
-      const { token } = context.switchToWs().getData();
+      const { authToken } = context.switchToWs().getData();
 
-      const user = this.authService.verifyToken(token);
-      client.data.user = user;
+      const user = this.authService.verifyToken(authToken);
+      client.data.userId = user.id;
 
       return true;
     } catch (e) {
