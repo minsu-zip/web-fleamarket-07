@@ -1,22 +1,35 @@
 import io from 'socket.io-client';
-import { API_END_POINT } from '@constants/envs';
+import { SOCKET_END_POINT } from '@constants/envs';
+import chat from './chat';
 
-const BASE_URL = API_END_POINT;
+const BASE_URL = SOCKET_END_POINT;
 
 const initSocket = () => {
   const socket = io(BASE_URL, {
     transports: ['websocket'],
     withCredentials: true,
-    // 기존 Connection 재사용 여부
     forceNew: true,
+    autoConnect: false,
   });
-  socket.disconnect();
+
+  const connect = () => {
+    if (socket.active) return;
+    socket.connect();
+  };
+
+  const disconnect = () => {
+    if (!socket.active) return;
+    socket.disconnect();
+  };
 
   return {
     getSID: () => socket.id,
-    connect: () => socket.connect(),
-    disconnect: () => socket.disconnect(),
+    getConnState: () => socket.active,
+    connect,
+    disconnect,
+    chat: chat(socket),
   };
 };
 
-export default initSocket();
+const Socket = initSocket();
+export default Socket;

@@ -14,6 +14,7 @@ import {
 import Animator from '@components/Animator';
 import useAuth from '@hooks/useAuth';
 import Verification from '@components/Verification';
+import Chat from '@pages/Chat';
 
 const App: React.FC = () => {
   useAuth();
@@ -28,6 +29,7 @@ const App: React.FC = () => {
         <Route path='/product/:id' element={<ProductDetail />} />
         <Route path='/signUp' element={<SignUp />} />
         <Route path='/signIn' element={<SignIn />} />
+        <Route path='/chat/:roomId' element={<Chat />} />
         <Route path='' element={<Verification />}>
           <Route path='/locationEdit' element={<LocationEdit />} />
           <Route path='/newProduct' element={<NewProduct />} />
