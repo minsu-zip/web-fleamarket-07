@@ -18,6 +18,11 @@ export class RoomService {
     return room;
   }
 
+  async findOne(id: number): Promise<Room> {
+    const room = await this.roomRepository.findOneBy({ id });
+    return room;
+  }
+
   findAllByUser(id: number) {
     return this.roomRepository.find({ where: { sellerId: id } });
   }

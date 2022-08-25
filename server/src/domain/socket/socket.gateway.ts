@@ -8,8 +8,9 @@ import {
 import { Server, Socket } from 'socket.io';
 import { config } from 'dotenv';
 import { EChatEvent, TChatConnect, TChatSending } from '@fleamarket/common';
-import { Logger } from '@nestjs/common';
+import { Logger, UseGuards } from '@nestjs/common';
 import { ChatSocketService } from '../chat/chat.socket.service';
+import { AuthSocketGuard } from '../auth/auth.socket.guard';
 
 config();
 const SOCKET_PORT = process.env.SOCKET_PORT;
@@ -39,6 +40,7 @@ export class SocketGateway implements OnGatewayConnection, OnGatewayDisconnect {
 
   // ---- Chats
   // 누가 들어왔을 때 : 읽었다는 것을 알려주기 위함
+  @UseGuards(AuthSocketGuard)
   @SubscribeMessage(EChatEvent.connect)
   handleConnect(client: Socket, connectDto: TChatConnect) {
     this.chatSocketService.connectChat(client, connectDto);
