@@ -8,6 +8,16 @@ import type { Algorithm, SignOptions } from 'jsonwebtoken';
 export class AuthService {
   constructor(private readonly configService: ConfigService) {}
 
+  decodeToken(token) {
+    try {
+      const secretKey = this.configService.get<string>('JWT_KEY');
+      const decodeResult = jwt.verify(token, secretKey);
+      return decodeResult;
+    } catch (e) {
+      return undefined;
+    }
+  }
+
   verifyToken(token) {
     try {
       const secretKey = this.configService.get<string>('JWT_KEY');
