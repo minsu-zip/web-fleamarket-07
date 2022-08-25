@@ -6,8 +6,8 @@ export class ImageController {
   constructor(private readonly imageService: ImageService) {}
 
   @Post()
-  create(@Body() createImageDto) {
-    return this.imageService.create(createImageDto);
+  create(productId, url) {
+    return this.imageService.create(productId, url);
   }
 
   @Patch(':id')

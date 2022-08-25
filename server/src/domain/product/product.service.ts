@@ -3,20 +3,45 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { DeleteResult, Repository } from 'typeorm';
 import { Product } from './entities/product.entity';
 import type { TProductAllQuery, TProductSummary } from '@fleamarket/common';
+import { ImageFileService } from '../image/image.file.service';
+import { ImageService } from '../image/image.service';
 
 @Injectable()
 export class ProductService {
   constructor(
     @InjectRepository(Product)
     private productRepository: Repository<Product>,
+    private imageService: ImageService,
+    private readonly imageFileService: ImageFileService,
   ) {
     this.productRepository = productRepository;
   }
 
-  async create(createProductDto: Product): Promise<Product> {
-    const newProduct = this.productRepository.create(createProductDto);
-    const product = await this.productRepository.save(newProduct);
-    return product;
+  async create(
+    createProductDto: Product,
+    files: Array<Express.Multer.File>,
+  ): Promise<Product> {
+    const { userId, title, price, content, locationId, categoryId } =
+      createProductDto;
+
+    const newProduct = await this.productRepository.save({
+      title,
+      price,
+      content,
+      userId,
+      locationId,
+      categoryId,
+    });
+
+    const url = await Promise.all(
+      files.map((file) => this.imageFileService.uploadS3(file)),
+    );
+
+    const newImage = url.map(async ({ Location }) => {
+      return await this.imageService.create(newProduct.id, Location);
+    });
+
+    return newProduct;
   }
 
   async findAllByQuery(

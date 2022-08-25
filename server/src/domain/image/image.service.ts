@@ -12,10 +12,13 @@ export class ImageService {
     this.imageRepository = imageRepository;
   }
 
-  async create(createImageDto: Image): Promise<Image> {
-    const newImage = this.imageRepository.create(createImageDto);
-    const image = await this.imageRepository.save(newImage);
-    return image;
+  async create(productId: number, url: string): Promise<Image> {
+    const newImage = await this.imageRepository.save({
+      productId,
+      url,
+    });
+
+    return newImage;
   }
 
   async update(id: number, updateImageDto): Promise<Image> {
