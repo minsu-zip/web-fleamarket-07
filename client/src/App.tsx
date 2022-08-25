@@ -13,6 +13,7 @@ import {
 } from '@src/pages';
 import Animator from '@components/Animator';
 import Verification from '@components/Verification';
+import Chat from '@pages/Chat';
 
 const App: React.FC = () => {
   return (
@@ -25,6 +26,7 @@ const App: React.FC = () => {
         <Route path='/product/:id' element={<ProductDetail />} />
         <Route path='/signUp' element={<SignUp />} />
         <Route path='/signIn' element={<SignIn />} />
+        <Route path='/chat/:roomId' element={<Chat />} />
         <Route path='' element={<Verification />}>
           <Route path='/locationEdit' element={<LocationEdit />} />
           <Route path='/newProduct' element={<NewProduct />} />

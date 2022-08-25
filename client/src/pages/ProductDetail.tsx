@@ -1,5 +1,5 @@
 import React from 'react';
-import { useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import { useQuery } from 'react-query';
 import styled from '@emotion/styled';
 import { Button } from '@mui/material';
@@ -12,6 +12,7 @@ import type { TProductDetail } from '@fleamarket/common';
 import ProductContent from '@components/organisms/ProductContent';
 
 const ProductDetail: React.FC = () => {
+  const navigate = useNavigate();
   const { id: productId } = useParams();
   const {
     isLoading,
@@ -61,7 +62,9 @@ const ProductDetail: React.FC = () => {
       <footer className='foot'>
         <Heart isLike={!!isLike} />
         <PriceSpan>{price.toLocaleString()}원</PriceSpan>
-        <ChatButton variant='contained'>문의하기</ChatButton>
+        <ChatButton variant='contained' onClick={() => navigate('/chat')}>
+          문의하기
+        </ChatButton>
       </footer>
     </ContainerDiv>
   );

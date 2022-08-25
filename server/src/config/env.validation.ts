@@ -63,6 +63,9 @@ class EnvironmentVariables {
 
   @IsString()
   AWS_REGION: string;
+
+  @IsNumber()
+  SOCKET_PORT: number;
 }
 
 export function validateEnv(config: Record<string, unknown>) {
