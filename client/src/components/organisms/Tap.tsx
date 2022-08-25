@@ -70,7 +70,7 @@ const Tap = () => {
           <SaleList />
         </TabPanel>
         <TabPanel value={value} index={1} dir={theme.direction}>
-          Item Two
+          <LikeList />
         </TabPanel>
         <TabPanel value={value} index={2} dir={theme.direction}>
           <RoomList />

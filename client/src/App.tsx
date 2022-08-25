@@ -12,12 +12,9 @@ import {
   Menu,
 } from '@src/pages';
 import Animator from '@components/Animator';
-import useAuth from '@hooks/useAuth';
 import Verification from '@components/Verification';
 
 const App: React.FC = () => {
-  useAuth();
-
   return (
     <Animator>
       <Routes>

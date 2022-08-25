@@ -121,7 +121,7 @@ const ContentDiv = styled.div`
 
 const MainInfosDiv = styled.div`
   flex: 1;
-  max-width: 214px;
+  max-width: 190px;
   padding: 0.4rem 0;
 
   display: flex;
