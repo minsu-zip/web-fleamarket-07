@@ -14,8 +14,11 @@ export type TRoomEntered = {
 export type TRoomReceive = {
   id: TRoom['id'];
   productId: TProduct['id'];
+  product: TProduct;
   sellerId: TUser['id'];
+  seller: TUser;
   buyerId: TUser['id'];
+  buyer: TUser;
   lastChat: TChatReceive;
 };
 

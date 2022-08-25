@@ -34,4 +34,6 @@ export class Room {
 
   @OneToMany(() => Chat, (chat) => chat.room)
   chats: Chat[];
+
+  lastChat: Chat;
 }

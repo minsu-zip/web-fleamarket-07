@@ -23,12 +23,24 @@ export class RoomService {
     return room;
   }
 
-  findAllByUser(id: number) {
-    return this.roomRepository.find({ where: { sellerId: id } });
-  }
+  findAllBy({ userId, productId }: { userId: number; productId?: number }) {
+    const whereUser = `r.seller_id=${userId} OR r.buyer_id=${userId}`;
 
-  findAllByProduct(id: number) {
-    return this.roomRepository.find({ where: { productId: id } });
+    return this.roomRepository
+      .createQueryBuilder('r')
+      .leftJoinAndSelect('r.product', 'product')
+      .leftJoinAndSelect('r.seller', 'seller')
+      .leftJoinAndSelect('r.buyer', 'buyer')
+      .leftJoinAndMapOne(
+        'r.lastChat',
+        'r.chats',
+        'lastChat',
+        `lastChat.id = (SELECT MAX(id) FROM chat c WHERE c.room_id = r.id)`,
+      )
+      .where(
+        !!productId ? ` ${whereUser} AND product-id=${productId}` : whereUser,
+      )
+      .getMany();
   }
 
   async update(id: number, updateRoomDto): Promise<Room> {

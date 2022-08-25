@@ -7,10 +7,16 @@ import {
 } from '@nestjs/websockets';
 import { Server, Socket } from 'socket.io';
 import { config } from 'dotenv';
-import { EChatEvent, TChatConnect, TChatSending } from '@fleamarket/common';
+import {
+  EChatEvent,
+  ERoomEvent,
+  TChatConnect,
+  TChatSending,
+} from '@fleamarket/common';
 import { Logger, UseGuards } from '@nestjs/common';
 import { ChatSocketService } from '../chat/chat.socket.service';
 import { AuthSocketGuard } from '../auth/auth.socket.guard';
+import { RoomSocketService } from '../room/room.socket.service';
 
 config();
 const SOCKET_PORT = process.env.SOCKET_PORT;
@@ -20,7 +26,10 @@ const SOCKET_PORT = process.env.SOCKET_PORT;
   cors: { credentials: true },
 })
 export class SocketGateway implements OnGatewayConnection, OnGatewayDisconnect {
-  constructor(private readonly chatSocketService: ChatSocketService) {}
+  constructor(
+    private readonly chatSocketService: ChatSocketService,
+    private readonly roomSocketService: RoomSocketService,
+  ) {}
 
   @WebSocketServer()
   server: Server;
@@ -42,19 +51,27 @@ export class SocketGateway implements OnGatewayConnection, OnGatewayDisconnect {
   // 누가 들어왔을 때 : 읽었다는 것을 알려주기 위함
   @UseGuards(AuthSocketGuard)
   @SubscribeMessage(EChatEvent.connect)
-  async handleConnect(client: Socket, connectDto: TChatConnect) {
+  async handleChatConnect(client: Socket, connectDto: TChatConnect) {
     await this.chatSocketService.connectChat(client, connectDto);
     await this.chatSocketService.initialChat(client);
   }
   // 나갈 때
   @SubscribeMessage(EChatEvent.leaving)
-  handleLeaving(client: Socket) {
+  handleChatLeaving(client: Socket) {
     this.chatSocketService.disconnectChat(client);
   }
 
   // 누가 보냈을 때 -> 사람들에게 receive 시키기 위함
   @SubscribeMessage(EChatEvent.sending)
-  handleSending(client: Socket, message: TChatSending) {
+  handleChatSending(client: Socket, message: TChatSending) {
     this.chatSocketService.sendChat(client, message);
+  }
+
+  // ---- Rooms
+  // 누가 들어왔을 때 : 정보 주기
+  @UseGuards(AuthSocketGuard)
+  @SubscribeMessage(ERoomEvent.connect)
+  async handleRoomConnect(client: Socket) {
+    await this.roomSocketService.initialRoom(client);
   }
 }

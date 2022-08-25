@@ -27,7 +27,6 @@ const ProductDetail: React.FC = () => {
     },
   );
 
-  console.log(details);
   if (isError)
     return (
       <ContainerDiv>

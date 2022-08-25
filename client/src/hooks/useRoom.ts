@@ -4,7 +4,7 @@ import { getCookie } from '@utils/cookie';
 import { TRoomState } from '@fleamarket/common';
 
 const useRoom = () => {
-  const [rooms, setRooms] = useState<TRoomState>();
+  const [rooms, setRooms] = useState<TRoomState>({});
   const socket = useMemo(() => Socket.room({ setRooms }), []);
 
   useLayoutEffect(() => {
