@@ -22,7 +22,7 @@ function notificationsLabel(count: number) {
 }
 
 // 웹 소켓과 합칠 시 타입을 새로 정의해야하므로 임시로 any 지정
-const ChatItem = ({ chatInfo }: any) => {
+const RoomItem = ({ chatInfo }: any) => {
   const {
     id,
     product_id,
@@ -91,4 +91,4 @@ const RightWrapperDiv = styled.div`
   margin-right: 24px;
   /* align-items: center; */
 `;
-export default ChatItem;
+export default RoomItem;

@@ -8,7 +8,7 @@ import { COLOR } from '@constants/style';
 import React, { useState } from 'react';
 
 import SaleList from './SaleList';
-import ChatList from './ChatList';
+import RoomList from './RoomList';
 
 interface TabPanelProps {
   children?: React.ReactNode;
@@ -73,7 +73,7 @@ const Tap = () => {
           Item Two
         </TabPanel>
         <TabPanel value={value} index={2} dir={theme.direction}>
-          <ChatList />
+          <RoomList />
         </TabPanel>
       </SwipeableViews>
     </Box>

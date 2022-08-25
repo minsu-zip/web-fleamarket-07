@@ -1,7 +1,7 @@
-import ChatItem from '@components/molecules/ChatItem';
+import RoomItem from '@components/molecules/RoomItem';
 import styled from '@emotion/styled';
 
-const chatList = [
+const roomList = [
   {
     id: 1,
     product_id: 1,
@@ -35,11 +35,11 @@ const chatList = [
   },
 ];
 
-const ChatList = () => {
+const RoomList = () => {
   return (
     <ContainerDiv>
-      {chatList.map((chatInfo) => (
-        <ChatItem key={chatInfo.id} chatInfo={chatInfo}></ChatItem>
+      {roomList.map((roomInfo) => (
+        <RoomItem key={roomInfo.id} roomInfo={roomInfo}></RoomItem>
       ))}
     </ContainerDiv>
   );
@@ -49,4 +49,4 @@ const ContainerDiv = styled.div`
   margin-top: 12px;
 `;
 
-export default ChatList;
+export default RoomList;
