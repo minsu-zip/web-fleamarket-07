@@ -1,34 +1,22 @@
 import React from 'react';
-import { userSaleListAPI } from '@apis/product';
+import { userLikeListAPI } from '@apis/product';
 import type { TProductSummary } from '@fleamarket/common';
 import ProductItem from './ProductItem';
 import { useQuery } from 'react-query';
-import MoreVertIcon from '@mui/icons-material/MoreVert';
-import Dropdown from '@components/molecules/Dropdown';
 import Guide from '@components/atoms/Guide';
 import styled from '@emotion/styled';
 import { useRecoilValue } from 'recoil';
 import { authAtom } from '@stores/AuthRecoil';
+import Heart from '@components/molecules/Heart';
 
-const dropDownList = ['수정하기', '삭제하기'];
-
-const SaleList = () => {
+const LikeList = () => {
   const Auth = useRecoilValue(authAtom);
 
-  const handleClick = (value: string) => {
-    // 함수 로직 작성 나중에 실제 데이터 이용시 수정
-    if (value === '수정하기') {
-      //
-    } else {
-      //
-    }
-  };
-
   const {
-    data: userSaleList,
+    data: userLikeList,
     isLoading,
     isError,
-  } = useQuery<TProductSummary[]>('', () => userSaleListAPI(Auth?.id), {
+  } = useQuery<TProductSummary[]>('', () => userLikeListAPI(Auth?.id), {
     refetchOnWindowFocus: false,
     retry: 0,
   });
@@ -47,7 +35,7 @@ const SaleList = () => {
       </GuideWrapper>
     );
 
-  if (!userSaleList || userSaleList.length === 0)
+  if (!userLikeList || userLikeList.length === 0)
     return (
       <GuideWrapper>
         <Guide.Empty />
@@ -56,11 +44,9 @@ const SaleList = () => {
 
   return (
     <>
-      {userSaleList?.map((product) => (
+      {userLikeList?.map((product) => (
         <ProductItem key={product.id} product={product}>
-          <Dropdown dropDownList={dropDownList} handleClick={handleClick}>
-            <MoreVertIcon />
-          </Dropdown>
+          <Heart isLike={!!product.isLike}></Heart>
         </ProductItem>
       ))}
     </>
@@ -71,4 +57,4 @@ const GuideWrapper = styled.div`
   margin-top: 100px;
 `;
 
-export default SaleList;
+export default LikeList;
