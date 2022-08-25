@@ -1,4 +1,5 @@
 import { axiosAuth } from './util';
+import { TProductAllQuery, TProductSummary } from '@fleamarket/common';
 import {
   TProductAllQuery,
   TProductDetail,
@@ -24,6 +25,19 @@ export const getProductAllAPI = async ({
   return products;
 };
 
+export const userSaleListAPI = async (
+  userId: number,
+): Promise<TProductSummary[]> => {
+  const response = await axiosAuth.get(`product/saleList/${userId}`);
+  const status = Math.floor(response.status / 100) * 100;
+
+  if (status !== 200) {
+    throw new Error('잘못된 응답값입니다.');
+  }
+
+  const { userSaleList } = response.data;
+
+  return userSaleList;
 export const getProductDetailAPI = async ({
   productId,
 }: {

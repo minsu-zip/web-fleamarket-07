@@ -38,9 +38,11 @@ const TopBar: React.FC<IProps> = ({
         </span>
       </div>
       <IconWrapperDiv onClick={onClick}>
-        <IconButton size='large' sx={{ color: 'black' }}>
-          {children}
-        </IconButton>
+        {children && (
+          <IconButton size='large' sx={{ color: 'black' }}>
+            {children}
+          </IconButton>
+        )}
       </IconWrapperDiv>
     </ContainerDiv>
   );
