@@ -25,7 +25,7 @@ export const getProductAllAPI = async ({
 };
 
 export const userSaleListAPI = async (
-  userId: number,
+  userId?: number,
 ): Promise<TProductSummary[]> => {
   const response = await axiosAuth.get(`product/saleList/${userId}`);
   const status = Math.floor(response.status / 100) * 100;
