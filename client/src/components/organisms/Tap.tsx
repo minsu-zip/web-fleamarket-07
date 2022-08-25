@@ -8,6 +8,7 @@ import { COLOR } from '@constants/style';
 import React, { useState } from 'react';
 
 import SaleList from './SaleList';
+import LikeList from './LikeList';
 
 interface TabPanelProps {
   children?: React.ReactNode;
@@ -69,7 +70,7 @@ const Tap = () => {
           <SaleList />
         </TabPanel>
         <TabPanel value={value} index={1} dir={theme.direction}>
-          Item Two
+          <LikeList />
         </TabPanel>
         <TabPanel value={value} index={2} dir={theme.direction}>
           Item Three
