@@ -18,7 +18,7 @@ const SaleList = () => {
     }
   };
 
-  const { data: userSaleList } = useQuery<TProductSummary[] | undefined>(
+  const { data: userSaleList } = useQuery<TProductSummary[]>(
     '',
     () => userSaleListAPI(1),
     {
