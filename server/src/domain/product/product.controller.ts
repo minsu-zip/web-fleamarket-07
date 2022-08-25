@@ -25,6 +25,7 @@ export class ProductController {
   constructor(private readonly productService: ProductService) {}
 
   @Post()
+  @UseGuards(AuthGuard)
   @UseInterceptors(FilesInterceptor('files', 10))
   create(
     @Body() createProductDto,
