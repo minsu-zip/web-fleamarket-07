@@ -3,7 +3,10 @@ import useChat from '@hooks/useChat';
 import Socket from '@src/sockets';
 import { Input } from '@mui/material';
 import { useParams } from 'react-router-dom';
-import { getTimeGapString } from '@utils/time';
+import ChatList from '@components/organisms/ChatList';
+import styled from '@emotion/styled';
+import TopBar from '@components/molecules/TopBar';
+import { COLOR } from '@constants/style';
 
 const Chat: React.FC = () => {
   const { roomId: roomIdString } = useParams();
@@ -34,19 +37,36 @@ const Chat: React.FC = () => {
   };
 
   return (
-    <>
-      {Object.values(chats).map(({ id, content, createdAt }) => {
-        return (
-          <div key={id}>
-            <div>{content}</div>
-            <div>{getTimeGapString(createdAt)}</div>
-          </div>
-        );
-      })}
-      <Input value={content} onChange={onChangeInput} />
-      <button onClick={submitMessage}>Chat</button>
-    </>
+    <ContainerDiv>
+      <TopBar background={COLOR.offWhite} />
+      <header className='header'></header>
+      <div className='contents'>
+        <ChatList chats={chats} />
+      </div>
+      <footer className='footer'>
+        <Input value={content} onChange={onChangeInput} />
+        <button onClick={submitMessage}>Chat</button>
+      </footer>
+    </ContainerDiv>
   );
 };
+
+const ContainerDiv = styled.div`
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+
+  & > * {
+    flex: 0 0 auto;
+  }
+  & > .contents {
+    flex: 1;
+    overflow: hidden;
+  }
+`;
 
 export default Chat;
