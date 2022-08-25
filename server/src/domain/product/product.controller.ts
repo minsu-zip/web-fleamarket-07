@@ -11,19 +11,26 @@ import {
   HttpStatus,
   HttpException,
   UseGuards,
+  UseInterceptors,
+  UploadedFiles,
 } from '@nestjs/common';
 import { Response } from 'express';
 import { ProductService } from './product.service';
 import type { TProductAllQuery } from '@fleamarket/common';
 import { AuthGuard } from '../auth/auth.guard';
+import { FilesInterceptor } from '@nestjs/platform-express/multer/interceptors/files.interceptor';
 
 @Controller('product')
 export class ProductController {
   constructor(private readonly productService: ProductService) {}
 
   @Post()
-  create(@Body() createProductDto) {
-    return this.productService.create(createProductDto);
+  @UseInterceptors(FilesInterceptor('files', 10))
+  create(
+    @Body() createProductDto,
+    @UploadedFiles() files: Array<Express.Multer.File>,
+  ) {
+    return this.productService.create(createProductDto, files);
   }
 
   @Get()
