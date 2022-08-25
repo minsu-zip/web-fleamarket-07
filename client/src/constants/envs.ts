@@ -19,3 +19,6 @@ export const GITHUB_ID = validateEnvironment({ GITHUB_ID: 'string' }) as string;
 export const API_END_POINT = validateEnvironment({
   API_END_POINT: 'string',
 }) as string;
+export const SOCKET_END_POINT = validateEnvironment({
+  SOCKET_END_POINT: 'string',
+}) as string;
