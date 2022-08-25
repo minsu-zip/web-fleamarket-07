@@ -14,6 +14,7 @@ import { ImageModule } from './domain/image/image.module';
 import { RoomModule } from './domain/room/room.module';
 import { ChatModule } from './domain/chat/chat.module';
 import { LikeModule } from './domain/like/like.module';
+import { SocketModule } from './domain/socket/socket.module';
 
 @Module({
   imports: [
@@ -35,6 +36,7 @@ import { LikeModule } from './domain/like/like.module';
     RoomModule,
     ChatModule,
     LikeModule,
+    SocketModule,
   ],
   controllers: [AppController],
   providers: [AppService],
