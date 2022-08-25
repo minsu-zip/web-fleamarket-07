@@ -54,6 +54,13 @@ export class ProductController {
     return res.status(HttpStatus.OK).json({ userSaleList: data });
   }
 
+  @Get('likeList/:userId')
+  @UseGuards(AuthGuard)
+  async userLikeList(@Param('userId') userId: number, @Res() res: Response) {
+    const data = await this.productService.userLikeList(userId);
+    return res.status(HttpStatus.OK).json({ userLikeList: data });
+  }
+
   @Patch(':id')
   update(@Param('id') id: string, @Body() updateProductDto) {
     return this.productService.update(+id, updateProductDto);

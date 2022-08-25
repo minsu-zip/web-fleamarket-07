@@ -182,4 +182,48 @@ export class ProductService {
       );
     }
   }
+
+  async userLikeList(userId: number): Promise<TProductSummary[]> {
+    try {
+      const saleList = await this.productRepository
+        .createQueryBuilder('p')
+        .leftJoin('p.rooms', 'room')
+        .leftJoin('p.category', 'category')
+        .leftJoin('p.user', 'user')
+        .leftJoin('p.location', 'location')
+        .leftJoin('p.likes', 'like')
+        .leftJoin(
+          'image',
+          'image',
+          'image.id = (SELECT i.id FROM image i WHERE i.product_id = p.id LIMIT 1)',
+        )
+        .select(
+          [
+            'p.id as id',
+            'p.title as title',
+            'p.price as price',
+            'p.created_at as createdAt',
+            'p.updated_at as updatedAt',
+            'p.deleted_at as deletedAt',
+          ].join(','),
+        )
+        .addSelect('user.id as userId, user.name as userName')
+        .addSelect('location.id as locationId, location.region as locationName')
+        .addSelect('category.name', 'categoryName')
+        .addSelect('COUNT(room.id)', 'rooms')
+        .addSelect('COUNT(like.product_id)', 'likes')
+        .addSelect(`SUM(like.user_id = ${userId})`, 'isLike')
+        .addSelect('image.url', 'titleImage')
+        .where('like.user_id = :userId', { userId })
+        .groupBy('p.id, image.id')
+        .execute();
+
+      return saleList;
+    } catch (e) {
+      throw new HttpException(
+        '사용자의 좋아요 리스트를 받아올 수 없습니다.',
+        HttpStatus.INTERNAL_SERVER_ERROR,
+      );
+    }
+  }
 }
