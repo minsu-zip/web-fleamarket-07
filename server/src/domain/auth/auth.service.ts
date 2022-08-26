@@ -3,16 +3,27 @@ import { ConfigService } from '@nestjs/config';
 import axios, { AxiosResponse } from 'axios';
 import * as jwt from 'jsonwebtoken';
 import type { Algorithm, SignOptions } from 'jsonwebtoken';
+import { TUser } from '@fleamarket/common';
 
 @Injectable()
 export class AuthService {
   constructor(private readonly configService: ConfigService) {}
 
+  decodeToken(token): TUser | undefined {
+    try {
+      const secretKey = this.configService.get<string>('JWT_KEY');
+      const decodeResult = jwt.verify(token, secretKey);
+      return decodeResult as TUser;
+    } catch (e) {
+      return undefined;
+    }
+  }
+
   verifyToken(token) {
     try {
       const secretKey = this.configService.get<string>('JWT_KEY');
       const decodeResult = jwt.verify(token, secretKey);
-      return decodeResult;
+      return decodeResult as TUser;
     } catch (error) {
       let message = '검증되지 않은 토큰입니다';
       if (error.name === 'TokenExpiredError') {

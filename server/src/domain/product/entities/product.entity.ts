@@ -71,4 +71,6 @@ export class Product {
 
   @OneToMany(() => Room, (room) => room.product)
   rooms: Room[];
+
+  titleImage: Image;
 }

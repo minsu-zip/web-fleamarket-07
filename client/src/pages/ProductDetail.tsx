@@ -1,5 +1,5 @@
 import React from 'react';
-import { useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import { useQuery } from 'react-query';
 import styled from '@emotion/styled';
 import { Button } from '@mui/material';
@@ -10,8 +10,10 @@ import Guide from '@components/atoms/Guide';
 import { COLOR, SCROLLBAR_THUMB, TEXT_LINK_SMALL } from '@constants/style';
 import type { TProductDetail } from '@fleamarket/common';
 import ProductContent from '@components/organisms/ProductContent';
+import { SLIDE_STATE } from '@constants/slideStyle';
 
 const ProductDetail: React.FC = () => {
+  const navigate = useNavigate();
   const { id: productId } = useParams();
   const {
     isLoading,
@@ -26,7 +28,6 @@ const ProductDetail: React.FC = () => {
     },
   );
 
-  console.log(details);
   if (isError)
     return (
       <ContainerDiv>
@@ -61,7 +62,14 @@ const ProductDetail: React.FC = () => {
       <footer className='foot'>
         <Heart isLike={!!isLike} />
         <PriceSpan>{price.toLocaleString()}원</PriceSpan>
-        <ChatButton variant='contained'>문의하기</ChatButton>
+        <ChatButton
+          variant='contained'
+          onClick={() =>
+            navigate(`/chat/${1}`, { state: { animate: SLIDE_STATE.LEFT } })
+          }
+        >
+          문의하기
+        </ChatButton>
       </footer>
     </ContainerDiv>
   );
