@@ -20,7 +20,7 @@ export class RoomSocketService {
 
       client.emit(ERoomEvent.entered, { rooms });
     } catch ({ message }) {
-      console.log(message);
+      this.logger.error(`ROOM-Connect-Error : ${message}`);
       throw new WsException(
         message ?? '채팅방 오류 : 서버 데이터에 문제가 있습니다.',
       );

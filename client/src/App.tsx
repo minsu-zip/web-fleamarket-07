@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useLayoutEffect } from 'react';
 import { Route, Routes } from 'react-router-dom';
 import {
   Main,
@@ -14,8 +14,17 @@ import {
 import Animator from '@components/Animator';
 import Verification from '@components/Verification';
 import Chat from '@pages/Chat';
+import Socket from './sockets';
 
 const App: React.FC = () => {
+  useLayoutEffect(() => {
+    Socket.connect();
+
+    return () => {
+      Socket.disconnect();
+    };
+  }, []);
+
   return (
     <Animator>
       <Routes>

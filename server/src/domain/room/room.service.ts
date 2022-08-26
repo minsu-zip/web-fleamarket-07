@@ -37,6 +37,12 @@ export class RoomService {
         'lastChat',
         `lastChat.id = (SELECT MAX(id) FROM chat c WHERE c.room_id = r.id)`,
       )
+      .leftJoinAndMapOne(
+        'product.titleImage',
+        'product.images',
+        'titleImage',
+        'titleImage.id = (SELECT MIN(id) FROM image i WHERE i.product_id = product.id LIMIT 1)',
+      )
       .where(
         !!productId ? ` ${whereUser} AND product-id=${productId}` : whereUser,
       )
