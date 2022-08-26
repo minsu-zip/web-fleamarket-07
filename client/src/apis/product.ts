@@ -73,8 +73,10 @@ export const getProductDetailAPI = async ({
 };
 
 export const createProductAPI = async (newProduct: FormData) => {
-  const response = await axiosAPI.post(`product`, newProduct, {
-    headers: { 'Content-Type': 'multipart/form-data' },
+  const response = await axiosAuth.post(`product`, newProduct, {
+    headers: {
+      'Content-Type': 'multipart/form-data',
+    },
   });
 
   console.log('응닶', response);
