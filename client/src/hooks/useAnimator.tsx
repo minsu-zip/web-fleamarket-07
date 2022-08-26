@@ -83,11 +83,15 @@ const useAnimator = ({ children }: PropsWithChildren) => {
 
   // 애니메이션이 끝났으면, 끝났다는 것을 state로 명시적으로 알려주어야 한다
   const endAnimation = () => {
-    setController((prevState) => ({
-      ...prevState,
-      animationType: undefined,
-      isAnimating: false,
-    }));
+    setController((prevState) => {
+      if (!prevState.isAnimating) return prevState;
+
+      return {
+        ...prevState,
+        animationType: undefined,
+        isAnimating: false,
+      };
+    });
   };
 
   return { controller, endAnimation };

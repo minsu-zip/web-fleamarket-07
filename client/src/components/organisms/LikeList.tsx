@@ -1,15 +1,14 @@
 import React from 'react';
-import { userLikeListAPI } from '@apis/product';
-import type { TProductSummary } from '@fleamarket/common';
-import ProductItem from './ProductItem';
 import { useQuery } from 'react-query';
-import Guide from '@components/atoms/Guide';
-import styled from '@emotion/styled';
 import { useRecoilValue } from 'recoil';
 import { authAtom } from '@stores/AuthRecoil';
+import { userLikeListAPI } from '@apis/product';
+import Guide from '@components/atoms/Guide';
 import Heart from '@components/molecules/Heart';
+import ProductItem from './ProductItem';
+import type { TProductSummary } from '@fleamarket/common';
 
-const LikeList = () => {
+const LikeList: React.FC = () => {
   const Auth = useRecoilValue(authAtom);
 
   const {
@@ -21,26 +20,11 @@ const LikeList = () => {
     retry: 0,
   });
 
-  if (isError)
-    return (
-      <GuideWrapper>
-        <Guide.Error />
-      </GuideWrapper>
-    );
+  if (isError) return <Guide.Error />;
 
-  if (isLoading)
-    return (
-      <GuideWrapper>
-        <Guide.Loading />
-      </GuideWrapper>
-    );
+  if (isLoading) return <Guide.Loading />;
 
-  if (!userLikeList || userLikeList.length === 0)
-    return (
-      <GuideWrapper>
-        <Guide.Empty />
-      </GuideWrapper>
-    );
+  if (!userLikeList || userLikeList.length === 0) return <Guide.Empty />;
 
   return (
     <>
@@ -52,9 +36,5 @@ const LikeList = () => {
     </>
   );
 };
-
-const GuideWrapper = styled.div`
-  margin-top: 100px;
-`;
 
 export default LikeList;

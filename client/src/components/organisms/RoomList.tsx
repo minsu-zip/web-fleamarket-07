@@ -1,26 +1,18 @@
 import React from 'react';
-import RoomItem from '@components/molecules/RoomItem';
 import styled from '@emotion/styled';
-import useRoom from '@hooks/useRoom';
+import RoomItem from '@components/molecules/RoomItem';
 import Guide from '@components/atoms/Guide';
+import useRoom from '@hooks/useRoom';
 
 const RoomList: React.FC = () => {
   const { rooms, error } = useRoom();
 
   if (error) {
-    return (
-      <ContainerDiv>
-        <Guide.Error message={error} />
-      </ContainerDiv>
-    );
+    return <Guide.Error message={error} />;
   }
 
   if (Object.keys(rooms).length === 0) {
-    return (
-      <ContainerDiv>
-        <Guide.Loading />
-      </ContainerDiv>
-    );
+    return <Guide.Loading />;
   }
 
   return (
@@ -33,7 +25,6 @@ const RoomList: React.FC = () => {
 };
 
 const ContainerDiv = styled.div`
-  margin-top: 0.75rem;
   flex: 1;
 `;
 
