@@ -3,13 +3,14 @@ import { useTheme } from '@mui/material/styles';
 import AppBar from '@mui/material/AppBar';
 import Tabs from '@mui/material/Tabs';
 import Tab from '@mui/material/Tab';
-import Box from '@mui/material/Box';
 import { COLOR } from '@constants/style';
 import React, { useState } from 'react';
 
 import SaleList from './SaleList';
 import RoomList from './RoomList';
 import LikeList from './LikeList';
+import styled from '@emotion/styled';
+import { css } from '@emotion/css';
 
 interface TabPanelProps {
   children?: React.ReactNode;
@@ -27,9 +28,16 @@ function TabPanel(props: TabPanelProps) {
       hidden={value !== index}
       id={`full-width-tabpanel-${index}`}
       aria-labelledby={`full-width-tab-${index}`}
+      className={
+        value === index
+          ? css`
+              height: 100%;
+            `
+          : ''
+      }
       {...other}
     >
-      {value === index && <Box>{children}</Box>}
+      {value === index && <>{children}</>}
     </div>
   );
 }
@@ -46,7 +54,7 @@ const Tap = () => {
   };
 
   return (
-    <Box sx={{ bgcolor: 'background.paper' }}>
+    <ContainerDiv>
       <AppBar position='static'>
         <Tabs
           sx={{ backgroundColor: COLOR.background }}
@@ -63,6 +71,7 @@ const Tap = () => {
         </Tabs>
       </AppBar>
       <SwipeableViews
+        className='content'
         axis={theme.direction === 'rtl' ? 'x-reverse' : 'x'}
         index={value}
         onChangeIndex={handleChangeIndex}
@@ -77,8 +86,19 @@ const Tap = () => {
           <RoomList />
         </TabPanel>
       </SwipeableViews>
-    </Box>
+    </ContainerDiv>
   );
 };
+
+const ContainerDiv = styled.div`
+  flex: 1;
+
+  display: flex;
+  flex-direction: column;
+
+  & > .content {
+    flex: 1;
+  }
+`;
 
 export default Tap;

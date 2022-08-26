@@ -11,6 +11,7 @@ interface IProps {
   setInitialChats: (chats: TChatReceive[]) => void;
   setRefinedChats: (newChat: TChatReceive) => void;
   setRoom: React.Dispatch<React.SetStateAction<TRoomReceive | undefined>>;
+  setError: React.Dispatch<React.SetStateAction<string>>;
 }
 
 interface IReturns {
@@ -21,7 +22,12 @@ interface IReturns {
 
 const chat =
   (socket: Socket) =>
-  ({ setInitialChats, setRefinedChats, setRoom }: IProps): IReturns => {
+  ({
+    setInitialChats,
+    setRefinedChats,
+    setRoom,
+    setError,
+  }: IProps): IReturns => {
     const connect = (connectDto: TChatConnect) => {
       socket.once(
         EChatEvent.entered,
@@ -37,6 +43,9 @@ const chat =
       });
       socket.on(EChatEvent.leaving, () => {
         console.log('leaving');
+      });
+      socket.on('exception', ({ message }) => {
+        setError(message);
       });
       socket.emit(EChatEvent.connect, connectDto);
     };

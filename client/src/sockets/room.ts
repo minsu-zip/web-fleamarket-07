@@ -10,6 +10,7 @@ import {
 
 interface IProps {
   setRooms: React.Dispatch<React.SetStateAction<TRoomState>>;
+  setError: React.Dispatch<React.SetStateAction<string>>;
 }
 
 interface IReturns {
@@ -19,7 +20,7 @@ interface IReturns {
 
 const room =
   (socket: Socket) =>
-  ({ setRooms }: IProps): IReturns => {
+  ({ setRooms, setError }: IProps): IReturns => {
     const connect = (connectDto: TRoomConnect) => {
       socket.once(ERoomEvent.entered, ({ rooms }: TRoomEntered) => {
         console.log('entered');
@@ -33,6 +34,9 @@ const room =
       });
       socket.on(ERoomEvent.receive, (newRoom: TRoomReceive) => {
         console.log('received', newRoom);
+      });
+      socket.on('exception', ({ message }) => {
+        setError(message);
       });
       socket.emit(ERoomEvent.connect, connectDto);
     };

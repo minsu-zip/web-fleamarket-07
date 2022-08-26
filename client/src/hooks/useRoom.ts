@@ -5,7 +5,9 @@ import { TRoomState } from '@fleamarket/common';
 
 const useRoom = () => {
   const [rooms, setRooms] = useState<TRoomState>({});
-  const socket = useMemo(() => Socket.room({ setRooms }), []);
+  const [error, setError] = useState<string>('');
+
+  const socket = useMemo(() => Socket.room({ setRooms, setError }), []);
 
   useLayoutEffect(() => {
     const { connect, disconnect } = socket;
@@ -17,6 +19,7 @@ const useRoom = () => {
   }, [socket]);
 
   return {
+    error,
     rooms,
     ...socket,
   };

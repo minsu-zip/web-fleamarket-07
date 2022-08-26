@@ -17,13 +17,24 @@ const Chat: React.FC = () => {
   const roomId = Number(roomIdString);
 
   // TODO : Room ID 값이 isNaN일 때 처리
-  const { room, chats, sendMessage } = useChat({ roomId });
+  const { room, chats, sendMessage, error } = useChat({ roomId });
+
+  if (error) {
+    <ContainerDiv>
+      <TopBar title={'채팅방'} background={COLOR.background} />
+      <div className='flex1'>
+        <Guide.Error message={error} />
+      </div>
+    </ContainerDiv>;
+  }
 
   if (!room || !Auth)
     return (
       <ContainerDiv>
         <TopBar title={'채팅방'} background={COLOR.background} />
-        <Guide.Loading />
+        <div className='flex1'>
+          <Guide.Loading />
+        </div>
       </ContainerDiv>
     );
 
@@ -59,6 +70,9 @@ const ContainerDiv = styled.div`
   & > .contents {
     flex: 1;
     overflow: hidden;
+  }
+  & > .flex1 {
+    flex: 1;
   }
 `;
 
