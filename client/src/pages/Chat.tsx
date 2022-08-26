@@ -6,18 +6,36 @@ import styled from '@emotion/styled';
 import TopBar from '@components/molecules/TopBar';
 import { COLOR } from '@constants/style';
 import ChatInput from '@components/molecules/ChatInput';
+import Guide from '@components/atoms/Guide';
+import ChatRoomInfo from '@components/organisms/ChatRoomInfo';
+import { useRecoilValue } from 'recoil';
+import { authAtom } from '@stores/AuthRecoil';
 
 const Chat: React.FC = () => {
+  const Auth = useRecoilValue(authAtom);
   const { roomId: roomIdString } = useParams();
   const roomId = Number(roomIdString);
 
   // TODO : Room ID 값이 isNaN일 때 처리
-  const { chats, sendMessage } = useChat({ roomId });
+  const { room, chats, sendMessage } = useChat({ roomId });
+
+  if (!room || !Auth)
+    return (
+      <ContainerDiv>
+        <TopBar title={'채팅방'} background={COLOR.background} />
+        <Guide.Loading />
+      </ContainerDiv>
+    );
+
+  const targetName =
+    Auth.name === room.buyer ? room.seller.name : room.buyer.name;
 
   return (
     <ContainerDiv>
-      <TopBar background={COLOR.offWhite} />
-      <header className='header'></header>
+      <TopBar title={targetName} background={COLOR.offWhite} />
+      <header className='header'>
+        <ChatRoomInfo room={room} />
+      </header>
       <div className='contents'>
         <ChatList chats={chats} />
       </div>
