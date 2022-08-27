@@ -10,7 +10,7 @@ export const getProductAllAPI = async ({
   categoryId,
 }: TProductAllQuery): Promise<TProductSummary[]> => {
   const locationQuery = `locationId=${locationId ? locationId : ''}`;
-  const categoryQuery = `&categoryId=${categoryId ? categoryId : ''}`;
+  const categoryQuery = `&categoryId=${categoryId !== 0 ? categoryId : ''}`;
 
   const response = await axiosAuth.get(
     `product?${locationQuery}${categoryQuery}`,
@@ -26,17 +26,15 @@ export const getProductAllAPI = async ({
 
 export const userMenuAPI = async ({
   locationId,
-  categoryId,
   userId,
   likeStatus,
 }: TProductAllQuery): Promise<TProductSummary[]> => {
   const locationQuery = `locationId=${locationId ? locationId : ''}`;
-  const categoryQuery = `&categoryId=${categoryId ? categoryId : ''}`;
   const userQuery = `&userId=${userId ? userId : ''}`;
   const likeStateQuery = `&likeStatus=${likeStatus ? 'true' : ''}`;
 
   const response = await axiosAuth.get(
-    `product/menu?${locationQuery}${categoryQuery}${userQuery}${likeStateQuery}`,
+    `product/menu?${locationQuery}${userQuery}${likeStateQuery}`,
   );
   const status = Math.floor(response.status / 100) * 100;
 
