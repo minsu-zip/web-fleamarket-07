@@ -24,7 +24,7 @@ export const getProductAllAPI = async ({
   return products;
 };
 
-export const userSaleListAPI = async ({
+export const userMenuAPI = async ({
   locationId,
   categoryId,
   userId,
@@ -33,7 +33,7 @@ export const userSaleListAPI = async ({
   const locationQuery = `locationId=${locationId ? locationId : ''}`;
   const categoryQuery = `&categoryId=${categoryId ? categoryId : ''}`;
   const userQuery = `&userId=${userId ? userId : ''}`;
-  const likeStateQuery = `&likeStatus=${likeStatus ? 'asd' : ''}`;
+  const likeStateQuery = `&likeStatus=${likeStatus ? 'true' : ''}`;
 
   const response = await axiosAuth.get(
     `product/menu?${locationQuery}${categoryQuery}${userQuery}${likeStateQuery}`,

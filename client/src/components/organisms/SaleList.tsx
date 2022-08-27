@@ -1,5 +1,5 @@
 import React from 'react';
-import { userSaleListAPI } from '@apis/product';
+import { userMenuAPI } from '@apis/product';
 import type { TProductSummary } from '@fleamarket/common';
 import ProductItem from './ProductItem';
 import { useQuery } from 'react-query';
@@ -28,7 +28,7 @@ const SaleList = () => {
     data: userSaleList,
     isLoading,
     isError,
-  } = useQuery<TProductSummary[]>('', () => userSaleListAPI(Auth?.id), {
+  } = useQuery<TProductSummary[]>('', () => userMenuAPI({ userId: Auth?.id }), {
     refetchOnWindowFocus: false,
     retry: 0,
   });
