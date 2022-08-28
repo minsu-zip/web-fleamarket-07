@@ -2,27 +2,31 @@ import React from 'react';
 import { useRecoilValue } from 'recoil';
 import styled from '@emotion/styled';
 import { authAtom } from '@stores/AuthRecoil';
-import { getTimeGapString } from '@utils/time';
+import { getTimeString } from '@utils/time';
 import { COLOR, TEXT_LINK_SMALL } from '@constants/style';
 import { TChatReceive } from '@fleamarket/common';
 import { Paper } from '@mui/material';
 
 interface IProps {
   chat: TChatReceive;
+  beforeChat: TChatReceive;
 }
 
-const ChatItem: React.FC<IProps> = ({ chat }) => {
+const ChatItem: React.FC<IProps> = ({ chat, beforeChat }) => {
   const Auth = useRecoilValue(authAtom);
   const { userId, content, createdAt } = chat;
+  const { userId: afterUserId, createdAt: afterCreatedAt } = beforeChat ?? {};
   const isMe = Auth?.id === userId;
+  const timeString = getTimeString(createdAt);
+  const isUserDiff = userId !== afterUserId;
+  const showTime = timeString !== getTimeString(afterCreatedAt) || isUserDiff;
 
   return (
     <ContainerSpan isMe={isMe}>
-      {isMe && <TimeDiv>{getTimeGapString(createdAt)}</TimeDiv>}
       <Paper className='content' elevation={2} square>
         <p>{content}</p>
       </Paper>
-      {!isMe && <TimeDiv>{getTimeGapString(createdAt)}</TimeDiv>}
+      {showTime && <TimeDiv>{timeString}</TimeDiv>}
     </ContainerSpan>
   );
 };
@@ -34,9 +38,12 @@ const ContainerSpan = styled.span<{ isMe: boolean }>`
 
   display: flex;
   align-items: flex-end;
-  justify-content: ${({ isMe }) => (isMe ? 'flex-end' : 'flex-start')};
+  justify-content: flex-start;
+  flex-direction: ${({ isMe }) => (isMe ? 'row-reverse' : 'row')};
 
   & > .content {
+    margin-left: ${({ isMe }) => (isMe ? '0' : '2rem')};
+
     padding: 0.75rem;
 
     ${({ isMe }) =>
@@ -53,6 +60,7 @@ const ContainerSpan = styled.span<{ isMe: boolean }>`
     `}
     & > p {
       margin: 0;
+      word-break: break-all;
       white-space: pre-wrap;
     }
   }

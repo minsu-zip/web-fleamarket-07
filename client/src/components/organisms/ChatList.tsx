@@ -1,33 +1,69 @@
 import React, { useEffect, useRef } from 'react';
-import { TChatReceive } from '@fleamarket/common';
+import { useRecoilValue, useSetRecoilState } from 'recoil';
 import styled from '@emotion/styled';
 import ChatItem from '@components/molecules/ChatItem';
 import { COLOR, SCROLLBAR_THUMB } from '@constants/style';
+import { authAtom } from '@stores/AuthRecoil';
+import { ChatControllerAtom } from '@stores/Chat';
+import ChatAvatar from '@components/molecules/ChatAvatar';
+import { TChatReceive, TRoomReceive } from '@fleamarket/common';
 
 interface IProps {
+  room: TRoomReceive;
   chats: TChatReceive[];
+  listRef: React.RefObject<HTMLSpanElement>;
+  scrollToBottom: (options?: ScrollIntoViewOptions) => void;
 }
 
-const ChatList: React.FC<IProps> = ({ chats }) => {
-  const listRef = useRef<HTMLDivElement>(null);
-  const scrollToBottom = () => {
-    if (listRef.current)
-      listRef.current.scrollIntoView({
-        behavior: 'smooth',
-      });
-  };
+const ChatList: React.FC<IProps> = ({
+  chats,
+  listRef,
+  scrollToBottom,
+  room,
+}) => {
+  const Auth = useRecoilValue(authAtom);
+  const isFirst = useRef<boolean>(true);
+  const setChatController = useSetRecoilState(ChatControllerAtom);
+
   useEffect(() => {
-    scrollToBottom();
-  }, [chats]);
+    if (isFirst.current) {
+      isFirst.current = false;
+
+      return;
+    }
+    if (chats[chats.length - 1]?.userId === Auth?.id) {
+      scrollToBottom();
+    }
+  }, [chats, Auth, scrollToBottom]);
+
+  const handleScroll: React.UIEventHandler<HTMLDivElement> = (e) => {
+    setChatController(Math.abs((e.target as HTMLDivElement).scrollTop) > 100);
+  };
+
+  const reversedChat = [...chats].reverse();
 
   return (
-    <ContainerDiv>
-      {chats.map((item) => {
+    <ContainerDiv onScroll={handleScroll}>
+      <span ref={listRef}></span>
+      {reversedChat.map((item, index) => {
         const { id } = item;
 
-        return <ChatItem chat={item} key={id} />;
+        return (
+          <>
+            <ChatItem
+              key={id}
+              chat={item}
+              beforeChat={reversedChat[index - 1]}
+            />
+            <ChatAvatar
+              key={`item-${id}`}
+              chat={item}
+              afterChat={reversedChat[index + 1]}
+              room={room}
+            />
+          </>
+        );
       })}
-      <div ref={listRef}></div>
     </ContainerDiv>
   );
 };
@@ -40,7 +76,7 @@ const ContainerDiv = styled.div`
   padding: 1rem;
 
   display: flex;
-  flex-direction: column;
+  flex-direction: column-reverse;
   row-gap: 0.75rem;
 
   overflow-x: hidden;

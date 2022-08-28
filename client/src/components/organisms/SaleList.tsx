@@ -1,18 +1,17 @@
 import React from 'react';
-import { userMenuAPI } from '@apis/product';
-import type { TProductSummary } from '@fleamarket/common';
-import ProductItem from './ProductItem';
 import { useQuery } from 'react-query';
 import MoreVertIcon from '@mui/icons-material/MoreVert';
-import Dropdown from '@components/molecules/Dropdown';
-import Guide from '@components/atoms/Guide';
-import styled from '@emotion/styled';
 import { useRecoilValue } from 'recoil';
 import { authAtom } from '@stores/AuthRecoil';
+import Guide from '@components/atoms/Guide';
+import Dropdown from '@components/molecules/Dropdown';
+import { userMenuAPI } from '@apis/product';
+import ProductItem from './ProductItem';
+import type { TProductSummary } from '@fleamarket/common';
 
 const dropDownList = ['수정하기', '삭제하기'];
 
-const SaleList = () => {
+const SaleList: React.FC = () => {
   const Auth = useRecoilValue(authAtom);
 
   const handleClick = (value: string) => {
@@ -33,26 +32,11 @@ const SaleList = () => {
     retry: 0,
   });
 
-  if (isError)
-    return (
-      <GuideWrapper>
-        <Guide.Error />
-      </GuideWrapper>
-    );
+  if (isError) return <Guide.Error />;
 
-  if (isLoading)
-    return (
-      <GuideWrapper>
-        <Guide.Loading />
-      </GuideWrapper>
-    );
+  if (isLoading) return <Guide.Loading />;
 
-  if (!userSaleList || userSaleList.length === 0)
-    return (
-      <GuideWrapper>
-        <Guide.Empty />
-      </GuideWrapper>
-    );
+  if (!userSaleList || userSaleList.length === 0) return <Guide.Empty />;
 
   return (
     <>
@@ -66,9 +50,5 @@ const SaleList = () => {
     </>
   );
 };
-
-const GuideWrapper = styled.div`
-  margin-top: 100px;
-`;
 
 export default SaleList;

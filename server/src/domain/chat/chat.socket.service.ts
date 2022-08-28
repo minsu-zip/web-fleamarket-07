@@ -52,7 +52,9 @@ export class ChatSocketService {
     const { roomId } = client.data;
 
     const chats = await this.chatService.findAllByRoom(roomId);
-    client.emit(EChatEvent.entered, { chats });
+    const room = await this.roomService.findOneDetail(roomId);
+
+    client.emit(EChatEvent.entered, { chats, room });
   }
 
   async sendChat(client: Socket, sendDto: TChatSending) {

@@ -4,11 +4,14 @@ import {
   TChatConnect,
   TChatReceive,
   TChatSending,
+  TRoomReceive,
 } from '@fleamarket/common';
 
 interface IProps {
   setInitialChats: (chats: TChatReceive[]) => void;
   setRefinedChats: (newChat: TChatReceive) => void;
+  setRoom: React.Dispatch<React.SetStateAction<TRoomReceive | undefined>>;
+  setError: React.Dispatch<React.SetStateAction<string>>;
 }
 
 interface IReturns {
@@ -19,12 +22,18 @@ interface IReturns {
 
 const chat =
   (socket: Socket) =>
-  ({ setInitialChats, setRefinedChats }: IProps): IReturns => {
+  ({
+    setInitialChats,
+    setRefinedChats,
+    setRoom,
+    setError,
+  }: IProps): IReturns => {
     const connect = (connectDto: TChatConnect) => {
       socket.once(
         EChatEvent.entered,
-        ({ chats }: { chats: TChatReceive[] }) => {
+        ({ chats, room }: { chats: TChatReceive[]; room: TRoomReceive }) => {
           console.log('entered');
+          setRoom(room);
           setInitialChats(chats);
         },
       );
@@ -34,6 +43,9 @@ const chat =
       });
       socket.on(EChatEvent.leaving, () => {
         console.log('leaving');
+      });
+      socket.on('exception', ({ message }) => {
+        setError(message);
       });
       socket.emit(EChatEvent.connect, connectDto);
     };

@@ -4,11 +4,10 @@ import {
   isValidElement,
   PropsWithChildren,
   ReactNode,
-  useEffect,
+  useLayoutEffect,
   useState,
 } from 'react';
-import { Location, useLocation } from 'react-router-dom';
-import useStack from './useStack';
+import { Location, useLocation, useNavigationType } from 'react-router-dom';
 
 type TRouteInfo = {
   location?: Location;
@@ -25,11 +24,13 @@ interface IController {
 const cloneChildren = (children: ReactNode, location: Location) => {
   if (!isValidElement(children)) return <>{children}</>;
 
-  return cloneElement(children, { location });
+  return cloneElement(children, { location, key: location.key });
 };
 
 const useAnimator = ({ children }: PropsWithChildren) => {
   const location = useLocation();
+  const navigationType = useNavigationType();
+
   const [controller, setController] = useState<IController>({
     prev: {
       location: undefined,
@@ -43,8 +44,7 @@ const useAnimator = ({ children }: PropsWithChildren) => {
     isAnimating: false,
   });
 
-  const historyStack = useStack();
-  useEffect(() => {
+  useLayoutEffect(() => {
     const { cur } = controller;
     // location이 변경될 때에만 Animating State 변경
     if (location.key === cur.location?.key) return;
@@ -55,15 +55,10 @@ const useAnimator = ({ children }: PropsWithChildren) => {
       ?.animate;
 
     // 하지만 popState 를 했을 경우는 이전 값의 state를 반대로 애니메이팅 해야한다.
-    if (cur.location && location.key === historyStack.get()) {
-      historyStack.pop();
+    if (cur.location && navigationType === 'POP') {
       animationType = getOppositeAnimation(
         (cur.location.state as { animate: EAnimate | undefined })?.animate,
       );
-    }
-    // pushState 시 stack에 key 값을 저장한다
-    else if (cur.location) {
-      historyStack.push(cur.location.key);
     }
 
     // animationType 이 undefined 일 때에는 아예 발동시키지 않는다.
@@ -79,15 +74,19 @@ const useAnimator = ({ children }: PropsWithChildren) => {
       animationType,
       isAnimating,
     }));
-  }, [location, controller, setController, children, historyStack]);
+  }, [location, controller, setController, children, navigationType]);
 
   // 애니메이션이 끝났으면, 끝났다는 것을 state로 명시적으로 알려주어야 한다
   const endAnimation = () => {
-    setController((prevState) => ({
-      ...prevState,
-      animationType: undefined,
-      isAnimating: false,
-    }));
+    setController((prevState) => {
+      if (!prevState.isAnimating) return prevState;
+
+      return {
+        ...prevState,
+        animationType: undefined,
+        isAnimating: false,
+      };
+    });
   };
 
   return { controller, endAnimation };

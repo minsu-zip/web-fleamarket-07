@@ -1,3 +1,4 @@
+import { TRoomReceive } from '@fleamarket/common';
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { DeleteResult, Repository } from 'typeorm';
@@ -23,10 +24,40 @@ export class RoomService {
     return room;
   }
 
-  findAllBy({ userId, productId }: { userId: number; productId?: number }) {
+  async findOneDetail(id: number): Promise<TRoomReceive> {
+    const room = (await this.roomRepository
+      .createQueryBuilder('r')
+      .leftJoinAndSelect('r.product', 'product')
+      .leftJoinAndSelect('r.seller', 'seller')
+      .leftJoinAndSelect('r.buyer', 'buyer')
+      .leftJoinAndMapOne(
+        'r.lastChat',
+        'r.chats',
+        'lastChat',
+        `lastChat.id = (SELECT MAX(id) FROM chat c WHERE c.room_id = r.id)`,
+      )
+      .leftJoinAndMapOne(
+        'product.titleImage',
+        'product.images',
+        'titleImage',
+        'titleImage.id = (SELECT MIN(id) FROM image i WHERE i.product_id = product.id LIMIT 1)',
+      )
+      .where(`r.id = ${id}`)
+      .getOne()) as TRoomReceive;
+
+    return room;
+  }
+
+  async findAllBy({
+    userId,
+    productId,
+  }: {
+    userId: number;
+    productId?: number;
+  }): Promise<TRoomReceive[]> {
     const whereUser = `r.seller_id=${userId} OR r.buyer_id=${userId}`;
 
-    return this.roomRepository
+    const rooms = (await this.roomRepository
       .createQueryBuilder('r')
       .leftJoinAndSelect('r.product', 'product')
       .leftJoinAndSelect('r.seller', 'seller')
@@ -46,7 +77,9 @@ export class RoomService {
       .where(
         !!productId ? ` ${whereUser} AND product-id=${productId}` : whereUser,
       )
-      .getMany();
+      .getMany()) as TRoomReceive[];
+
+    return rooms;
   }
 
   async update(id: number, updateRoomDto): Promise<Room> {

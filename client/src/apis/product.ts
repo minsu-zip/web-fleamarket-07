@@ -1,9 +1,8 @@
-import { axiosAuth, axiosAPI } from './util';
+import { axiosAuth } from './util';
 import {
   TProductAllQuery,
   TProductSummary,
   TProductDetail,
-  TProductCreate,
 } from '@fleamarket/common';
 
 export const getProductAllAPI = async ({

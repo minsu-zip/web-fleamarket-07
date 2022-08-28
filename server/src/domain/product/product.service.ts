@@ -37,7 +37,7 @@ export class ProductService {
       files.map((file) => this.imageFileService.uploadS3(file)),
     );
 
-    const newImage = url.map(async ({ Location }) => {
+    url.map(async ({ Location }) => {
       return await this.imageService.create(newProduct.id, Location);
     });
 

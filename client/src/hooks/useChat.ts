@@ -1,5 +1,5 @@
 import { useLayoutEffect, useMemo, useState } from 'react';
-import { TChatReceive } from '@fleamarket/common';
+import { TChatReceive, TRoomReceive } from '@fleamarket/common';
 import Socket from '@src/sockets';
 import { getCookie } from '@utils/cookie';
 
@@ -9,6 +9,8 @@ interface IProps {
 
 const useChat = ({ roomId }: IProps) => {
   const [chats, setChats] = useState<TChatReceive[]>([]);
+  const [room, setRoom] = useState<TRoomReceive | undefined>();
+  const [error, setError] = useState<string>('');
 
   const setInitialChats = (chats: TChatReceive[]) => {
     setChats(() => [...chats]);
@@ -19,7 +21,7 @@ const useChat = ({ roomId }: IProps) => {
   };
 
   const socket = useMemo(
-    () => Socket.chat({ setInitialChats, setRefinedChats }),
+    () => Socket.chat({ setInitialChats, setRefinedChats, setRoom, setError }),
     [],
   );
   useLayoutEffect(() => {
@@ -32,6 +34,8 @@ const useChat = ({ roomId }: IProps) => {
   }, [socket, roomId]);
 
   return {
+    error,
+    room,
     chats,
     ...socket,
   };
