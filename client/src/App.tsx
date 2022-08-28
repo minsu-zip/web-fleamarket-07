@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Route, Routes } from 'react-router-dom';
 import {
   Main,
@@ -13,8 +13,31 @@ import {
 } from '@src/pages';
 import Animator from '@components/Animator';
 import Verification from '@components/Verification';
+import { getUserLocationAPI } from '@apis/user';
+import { useRecoilValue, useSetRecoilState } from 'recoil';
+import { authAtom } from '@stores/AuthRecoil';
+import { locationAtom } from '@stores/ActionInfoRecoil';
 
 const App: React.FC = () => {
+  const Auth = useRecoilValue(authAtom);
+  const setLocation = useSetRecoilState(locationAtom);
+
+  useEffect(() => {
+    (async () => {
+      if (Auth?.id) {
+        const locationList = await getUserLocationAPI(Auth.id);
+        const { location1Id, location1Name, location2Id, location2Name } =
+          locationList[0];
+        const newLocation = [
+          { id: location1Id, region: location1Name },
+          { id: location2Id, region: location2Name },
+        ];
+
+        setLocation(newLocation.filter(({ id, region }) => id && region));
+      }
+    })();
+  }, [Auth?.id, setLocation]);
+
   return (
     <Animator>
       <Routes>
