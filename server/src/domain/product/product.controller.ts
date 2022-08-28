@@ -13,16 +13,21 @@ import {
   UseGuards,
   UseInterceptors,
   UploadedFiles,
+  Req,
 } from '@nestjs/common';
-import { Response } from 'express';
+import { Response, Request } from 'express';
 import { ProductService } from './product.service';
-import type { TProductAllQuery } from '@fleamarket/common';
+import type { TProductAllQuery, TUser } from '@fleamarket/common';
 import { AuthGuard } from '../auth/auth.guard';
 import { FilesInterceptor } from '@nestjs/platform-express/multer/interceptors/files.interceptor';
+import { LikeService } from '../like/like.service';
 
 @Controller('product')
 export class ProductController {
-  constructor(private readonly productService: ProductService) {}
+  constructor(
+    private readonly productService: ProductService,
+    private readonly likeService: LikeService,
+  ) {}
 
   @Post()
   @UseGuards(AuthGuard)
@@ -60,6 +65,17 @@ export class ProductController {
 
     const data = await this.productService.findOne(+id, undefined);
     return res.status(HttpStatus.OK).json({ product: data });
+  }
+
+  @Patch('like/:id')
+  @UseGuards(AuthGuard)
+  async likeProduct(
+    @Req() req: Request & { user: TUser },
+    @Param('id') id: string,
+    @Res() res: Response,
+  ) {
+    const data = await this.likeService.toggle(+id, req.user.id);
+    return res.status(HttpStatus.OK).json({ isLike: data });
   }
 
   @Patch(':id')
