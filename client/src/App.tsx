@@ -13,7 +13,8 @@ import {
 } from '@src/pages';
 import Animator from '@components/Animator';
 import Verification from '@components/Verification';
-<<<<<<< HEAD
+import Chat from '@pages/Chat';
+import Socket from './sockets';
 import { getUserLocationAPI } from '@apis/user';
 import { useRecoilValue, useSetRecoilState } from 'recoil';
 import { authAtom } from '@stores/AuthRecoil';
@@ -23,6 +24,14 @@ import { TLocation } from '@fleamarket/common';
 import Guide from '@components/atoms/Guide';
 
 const App: React.FC = () => {
+  useLayoutEffect(() => {
+    Socket.connect();
+
+    return () => {
+      Socket.disconnect();
+    };
+  }, []);
+
   const Auth = useRecoilValue(authAtom);
   const setLocation = useSetRecoilState(locationAtom);
 
@@ -37,19 +46,6 @@ const App: React.FC = () => {
   if (isError) return <Guide.Error />;
 
   if (isLoading) return <Guide.Loading />;
-=======
-import Chat from '@pages/Chat';
-import Socket from './sockets';
-
-const App: React.FC = () => {
-  useLayoutEffect(() => {
-    Socket.connect();
-
-    return () => {
-      Socket.disconnect();
-    };
-  }, []);
->>>>>>> dev
 
   return (
     <Animator>
