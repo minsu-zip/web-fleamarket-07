@@ -3,21 +3,21 @@ import styled from '@emotion/styled';
 import ChatItem from '@components/molecules/ChatItem';
 import { COLOR, SCROLLBAR_THUMB } from '@constants/style';
 import { TChatReceive } from '@fleamarket/common';
-import { useRecoilValue } from 'recoil';
+import { useRecoilValue, useSetRecoilState } from 'recoil';
 import { authAtom } from '@stores/AuthRecoil';
+import { ChatControllerAtom } from '@stores/Chat';
 
 interface IProps {
   chats: TChatReceive[];
+  listRef: React.RefObject<HTMLSpanElement>;
+  scrollToBottom: (options?: ScrollIntoViewOptions) => void;
 }
 
-const ChatList: React.FC<IProps> = ({ chats }) => {
-  const isFirst = useRef<boolean>(true);
+const ChatList: React.FC<IProps> = ({ chats, listRef, scrollToBottom }) => {
   const Auth = useRecoilValue(authAtom);
-  const listRef = useRef<HTMLDivElement>(null);
+  const isFirst = useRef<boolean>(true);
+  const setChatController = useSetRecoilState(ChatControllerAtom);
 
-  const scrollToBottom = (options: ScrollIntoViewOptions = {}) => {
-    if (listRef.current) listRef.current.scrollIntoView(options);
-  };
   useEffect(() => {
     if (isFirst.current) {
       isFirst.current = false;
@@ -25,12 +25,16 @@ const ChatList: React.FC<IProps> = ({ chats }) => {
       return;
     }
     if (chats[chats.length - 1]?.userId === Auth?.id) {
-      scrollToBottom({ behavior: 'smooth' });
+      scrollToBottom();
     }
-  }, [chats, Auth]);
+  }, [chats, Auth, scrollToBottom]);
+
+  const handleScroll: React.UIEventHandler<HTMLDivElement> = (e) => {
+    setChatController(Math.abs((e.target as HTMLDivElement).scrollTop) > 100);
+  };
 
   return (
-    <ContainerDiv>
+    <ContainerDiv onScroll={handleScroll}>
       <span ref={listRef}></span>
       {[...chats].reverse().map((item) => {
         const { id } = item;

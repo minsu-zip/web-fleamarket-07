@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useRef } from 'react';
 import { useParams } from 'react-router-dom';
 import useChat from '@hooks/useChat';
 import ChatList from '@components/organisms/ChatList';
@@ -16,6 +16,11 @@ const Chat: React.FC = () => {
   const Auth = useRecoilValue(authAtom);
   const { roomId: roomIdString } = useParams();
   const roomId = Number(roomIdString);
+
+  const listRef = useRef<HTMLSpanElement>(null);
+  const scrollToBottom = (options: ScrollIntoViewOptions = {}) => {
+    if (listRef.current) listRef.current.scrollIntoView(options);
+  };
 
   // TODO : Room ID 값이 isNaN일 때 처리
   const { room, chats, sendMessage, error } = useChat({ roomId });
@@ -49,9 +54,16 @@ const Chat: React.FC = () => {
         <ChatRoomInfo room={room} />
       </header>
       <div className='contents'>
-        <ChatList chats={chats} />
+        <ChatList
+          chats={chats}
+          listRef={listRef}
+          scrollToBottom={scrollToBottom}
+        />
       </div>
-      <ChatController />
+      <ChatController
+        lastChat={chats[chats.length - 1]}
+        scrollToBottom={scrollToBottom}
+      />
       <ChatInput sendMessage={sendMessage} />
     </ContainerDiv>
   );
