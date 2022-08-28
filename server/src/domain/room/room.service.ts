@@ -18,12 +18,35 @@ export class RoomService {
     return room;
   }
 
-  findAllByUser(id: number) {
-    return this.roomRepository.find({ where: { sellerId: id } });
+  async findOne(id: number): Promise<Room> {
+    const room = await this.roomRepository.findOneBy({ id });
+    return room;
   }
 
-  findAllByProduct(id: number) {
-    return this.roomRepository.find({ where: { productId: id } });
+  findAllBy({ userId, productId }: { userId: number; productId?: number }) {
+    const whereUser = `r.seller_id=${userId} OR r.buyer_id=${userId}`;
+
+    return this.roomRepository
+      .createQueryBuilder('r')
+      .leftJoinAndSelect('r.product', 'product')
+      .leftJoinAndSelect('r.seller', 'seller')
+      .leftJoinAndSelect('r.buyer', 'buyer')
+      .leftJoinAndMapOne(
+        'r.lastChat',
+        'r.chats',
+        'lastChat',
+        `lastChat.id = (SELECT MAX(id) FROM chat c WHERE c.room_id = r.id)`,
+      )
+      .leftJoinAndMapOne(
+        'product.titleImage',
+        'product.images',
+        'titleImage',
+        'titleImage.id = (SELECT MIN(id) FROM image i WHERE i.product_id = product.id LIMIT 1)',
+      )
+      .where(
+        !!productId ? ` ${whereUser} AND product-id=${productId}` : whereUser,
+      )
+      .getMany();
   }
 
   async update(id: number, updateRoomDto): Promise<Room> {

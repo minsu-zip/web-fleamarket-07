@@ -16,11 +16,11 @@ const Animator = ({ children }: PropsWithChildren) => {
       onAnimationEnd={endAnimation}
     >
       {isAnimating && !isReverse ? (
-        <WrapperDiv>{prev.element}</WrapperDiv>
+        <WrapperDiv key={prev?.location?.key}>{prev.element}</WrapperDiv>
       ) : (
         <div></div>
       )}
-      <WrapperDiv>{cur.element}</WrapperDiv>
+      <WrapperDiv key={cur?.location?.key}>{cur.element}</WrapperDiv>
       {isAnimating && isReverse ? (
         <WrapperDiv>{prev.element}</WrapperDiv>
       ) : (

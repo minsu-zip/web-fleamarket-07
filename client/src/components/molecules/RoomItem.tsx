@@ -1,5 +1,5 @@
+import React from 'react';
 import styled from '@emotion/styled';
-import IconButton from '@mui/material/IconButton';
 import Badge from '@mui/material/Badge';
 import { getTimeGapString } from '@utils/time';
 import ImageBox, { EImageSize } from '@components/molecules/ImageBox';
@@ -10,50 +10,43 @@ import {
   TEXT_X_SMALL,
 } from '@constants/style';
 import { css } from '@emotion/css';
-function notificationsLabel(count: number) {
-  if (count === 0) {
-    return 'no notifications';
-  }
-  if (count > 99) {
-    return 'more than 99 notifications';
-  }
+import { TRoomReceive } from '@fleamarket/common';
+import { useNavigate } from 'react-router-dom';
+import { SLIDE_STATE } from '@constants/slideStyle';
 
-  return `${count} notifications`;
+interface IProps {
+  roomInfo: TRoomReceive;
 }
 
 // 웹 소켓과 합칠 시 타입을 새로 정의해야하므로 임시로 any 지정
-const RoomItem = ({ chatInfo }: any) => {
-  const {
-    id,
-    product_id,
-    seller_id,
-    buyer_id,
-    buyer_name,
-    chatCount,
-    content,
-    createdAt,
-  } = chatInfo;
+const RoomItem: React.FC<IProps> = ({ roomInfo }) => {
+  const navigate = useNavigate();
+  const { id: roomId, product, buyer, lastChat } = roomInfo;
 
   return (
-    <ContainerDiv onClick={() => null}>
+    <ContainerDiv
+      onClick={() =>
+        navigate(`/chat/${roomId}`, { state: { animate: SLIDE_STATE.LEFT } })
+      }
+    >
       <div style={{ marginLeft: '24px' }}>
         <div
           className={css`
             ${TEXT_LINK_SMALL}
           `}
         >
-          {buyer_name}
+          {buyer.name}
         </div>
-        <ContentDiv>{content}</ContentDiv>
+        <ContentDiv>{lastChat.content}</ContentDiv>
       </div>
 
       <RightWrapperDiv>
-        <TimeDiv>{getTimeGapString(new Date(createdAt ?? 0))}</TimeDiv>
+        <TimeDiv>{getTimeGapString(lastChat.createdAt)}</TimeDiv>
         <div aria-label={notificationsLabel(100)}>
           <Badge badgeContent={100} color='primary'>
             <ImageBox
               type={EImageSize.small}
-              src='https://s3-alpha-sig.figma.com/img/54b8/d540/0023aa0261c1c7e888270baa62691e7f?Expires=1661731200&Signature=f7h9Gq-vEIE7DfGxjHanPdlax-7RmN0nh7xxSi4XPBrqID8Y5aVWOTj3tu5YaFEp0-uR8mr7~~hr6AKbGzi~rLC7diPsxgpCA-fIMeJUL0tX5Ah4gN0iroKtC5cENfe5Nnw7FVzmoNezzeV4ONiQe19Aj1lYdljGczcHY-p1oWgZ5s00KzXocjud3T6Y3kJyUs6SpTvlzKjXdY9zPOQeqDyTsoOgUGf6OFyoIyJBgchiIX0EqBNalUfv1262GGlXuWT4KZKWh4aXiJ3xmMgKpe15~nIgsn3J2qQ6t9WNb~vVfFbiD9uZBWu1rioZgBFC4ubgDgTRkUvDkR~nn4Gjww__&Key-Pair-Id=APKAINTVSUGEWH5XD5UA'
+              src={product.titleImage.url}
             ></ImageBox>
           </Badge>
         </div>
@@ -89,6 +82,17 @@ const TimeDiv = styled.div`
 const RightWrapperDiv = styled.div`
   display: flex;
   margin-right: 24px;
-  /* align-items: center; */
 `;
+
+function notificationsLabel(count: number) {
+  if (count === 0) {
+    return 'no notifications';
+  }
+  if (count > 99) {
+    return 'more than 99 notifications';
+  }
+
+  return `${count} notifications`;
+}
+
 export default RoomItem;

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useLayoutEffect } from 'react';
 import { Route, Routes } from 'react-router-dom';
 import {
   Main,
@@ -13,6 +13,7 @@ import {
 } from '@src/pages';
 import Animator from '@components/Animator';
 import Verification from '@components/Verification';
+<<<<<<< HEAD
 import { getUserLocationAPI } from '@apis/user';
 import { useRecoilValue, useSetRecoilState } from 'recoil';
 import { authAtom } from '@stores/AuthRecoil';
@@ -36,6 +37,19 @@ const App: React.FC = () => {
   if (isError) return <Guide.Error />;
 
   if (isLoading) return <Guide.Loading />;
+=======
+import Chat from '@pages/Chat';
+import Socket from './sockets';
+
+const App: React.FC = () => {
+  useLayoutEffect(() => {
+    Socket.connect();
+
+    return () => {
+      Socket.disconnect();
+    };
+  }, []);
+>>>>>>> dev
 
   return (
     <Animator>
@@ -46,6 +60,7 @@ const App: React.FC = () => {
         <Route path='/product/:id' element={<ProductDetail />} />
         <Route path='/signUp' element={<SignUp />} />
         <Route path='/signIn' element={<SignIn />} />
+        <Route path='/chat/:roomId' element={<Chat />} />
         <Route path='' element={<Verification />}>
           <Route path='/locationEdit' element={<LocationEdit />} />
           <Route path='/newProduct' element={<NewProduct />} />
