@@ -6,7 +6,7 @@ import ProductItem from '@components/organisms/ProductItem';
 import Guide from '@components/atoms/Guide';
 import { COLOR } from '@constants/style';
 import type { TProductSummary } from '@fleamarket/common';
-import { getProductAllAPI } from '@apis/product';
+import { deleteProductAPI, getProductAllAPI } from '@apis/product';
 import Heart from '@components/molecules/Heart';
 import { useRecoilValue } from 'recoil';
 import { categoryAtom } from '@stores/ActionInfoRecoil';
@@ -22,6 +22,7 @@ const Main: React.FC = () => {
   const {
     isLoading,
     isError,
+    refetch,
     data: productList,
   } = useQuery<TProductSummary[]>(
     'products',
@@ -36,12 +37,10 @@ const Main: React.FC = () => {
     },
   );
 
-  const handleClick = (value: string) => {
-    // 함수 로직 작성 나중에 실제 데이터 이용시 수정
-    if (value === '수정하기') {
-      //
-    } else {
-      //
+  const handleClick = async (value: string, productId: string) => {
+    if (value === '삭제하기') {
+      await deleteProductAPI(Number(productId));
+      refetch();
     }
   };
 
@@ -72,7 +71,11 @@ const Main: React.FC = () => {
         {productList.map((product) => (
           <ProductItem key={product.id} product={product}>
             {product.userId === Auth?.id ? (
-              <Dropdown dropDownList={dropDownList} handleClick={handleClick}>
+              <Dropdown
+                id={String(product.id)}
+                dropDownList={dropDownList}
+                handleClick={handleClick}
+              >
                 <MoreVertIcon />
               </Dropdown>
             ) : (

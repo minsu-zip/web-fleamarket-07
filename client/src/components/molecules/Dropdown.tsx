@@ -5,30 +5,31 @@ import MenuItem from '@mui/material/MenuItem';
 import { COLOR } from '@constants/style';
 
 interface IProps {
+  id?: string;
   dropDownList?: string[];
   children: React.ReactNode;
-  handleClick: (value: string) => void;
+  handleClick: (value: string, id: string) => void;
 }
 
 const Dropdown: React.FC<IProps> = ({
   children,
   dropDownList,
   handleClick,
+  id,
 }) => {
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
   const open = Boolean(anchorEl);
   const handleOpen = (event: React.MouseEvent<HTMLButtonElement>) => {
     setAnchorEl(event.currentTarget);
   };
-  const handleClose = (value: string) => () => {
+  const handleClose = (value: string, id: string) => () => {
     setAnchorEl(null);
-    handleClick(value);
+    handleClick(value, id);
   };
 
   return (
-    <div>
+    <div id={id}>
       <Button
-        id='basic-button'
         aria-controls={open ? 'basic-menu' : undefined}
         aria-haspopup='true'
         aria-expanded={open ? 'true' : undefined}
@@ -50,7 +51,7 @@ const Dropdown: React.FC<IProps> = ({
         }}
       >
         {dropDownList?.map((item, index) => (
-          <MenuItem key={item} onClick={handleClose(item)}>
+          <MenuItem key={item} onClick={handleClose(item, id ? id : '')}>
             {item !== '삭제하기' ? (
               item
             ) : (
