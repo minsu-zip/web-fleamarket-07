@@ -23,7 +23,7 @@ const MenuHeader: React.FC = () => {
   const handleClick = (value: string) => {
     // 함수 로직 작성 나중에 실제 데이터 이용시 수정
     if (value === '내 동네 설정하기') {
-      return navigate('locationEdit');
+      return navigate('locationEdit', { state: { animate: SLIDE_STATE.DOWN } });
     }
     const index = locations.findIndex(({ region }) => region === value);
     const newLocations = [

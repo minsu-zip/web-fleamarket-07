@@ -5,6 +5,7 @@ import { Fab } from '@mui/material';
 import AddIcon from '@mui/icons-material/Add';
 import MenuHeader from './MenuHeader';
 import { COLOR } from '@constants/style';
+import { SLIDE_STATE } from '@constants/slideStyle';
 
 interface IProps extends React.PropsWithChildren {
   backgroundColor?: string;
@@ -30,7 +31,12 @@ const FAB: React.FC = () => {
   const navigate = useNavigate();
 
   return (
-    <FabWrapper color='primary' onClick={() => navigate('newProduct')}>
+    <FabWrapper
+      color='primary'
+      onClick={() =>
+        navigate('newProduct', { state: { animate: SLIDE_STATE.UP } })
+      }
+    >
       <AddIcon />
     </FabWrapper>
   );

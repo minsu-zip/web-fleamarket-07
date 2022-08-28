@@ -18,6 +18,7 @@ import { createProductAPI } from '@apis/product';
 import ImageUpload from '@components/organisms/ImageUpload';
 import { useNavigate } from 'react-router-dom';
 import { locationAtom } from '@stores/ActionInfoRecoil';
+import { SLIDE_STATE } from '@constants/slideStyle';
 
 const NewProduct: React.FC = () => {
   const Auth = useRecoilValue(authAtom);
@@ -89,7 +90,7 @@ const NewProduct: React.FC = () => {
     });
 
     await createProductAPI(productForm);
-    navigate('/');
+    navigate('/', { state: { animate: SLIDE_STATE.DOWN } });
   };
 
   useEffect(() => {
