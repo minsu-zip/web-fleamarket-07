@@ -1,7 +1,6 @@
-import React, { useLayoutEffect } from 'react';
-import useChat from '@hooks/useChat';
-import Socket from '@src/sockets';
+import React from 'react';
 import { useParams } from 'react-router-dom';
+import useChat from '@hooks/useChat';
 import ChatList from '@components/organisms/ChatList';
 import styled from '@emotion/styled';
 import TopBar from '@components/molecules/TopBar';
@@ -14,13 +13,6 @@ const Chat: React.FC = () => {
 
   // TODO : Room ID 값이 isNaN일 때 처리
   const { chats, sendMessage } = useChat({ roomId });
-  useLayoutEffect(() => {
-    Socket.connect();
-
-    return () => {
-      Socket.disconnect();
-    };
-  }, []);
 
   return (
     <ContainerDiv>

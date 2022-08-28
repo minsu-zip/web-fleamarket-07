@@ -1,5 +1,5 @@
-import React, { useRef, useState } from 'react';
-import { Button, TextField } from '@mui/material';
+import React, { useState } from 'react';
+import { Button } from '@mui/material';
 import SendIcon from '@mui/icons-material/Send';
 import { TChatSending } from '@fleamarket/common';
 import styled from '@emotion/styled';
@@ -10,7 +10,6 @@ interface IProps {
 }
 
 const ChatInput: React.FC<IProps> = ({ sendMessage }) => {
-  const textareaRef = useRef<HTMLInputElement>(null);
   const [content, setContent] = useState<string>('');
 
   // TODO : 내가 보낸 메세지를 받았을 때 대기 처리 없애기
@@ -19,25 +18,15 @@ const ChatInput: React.FC<IProps> = ({ sendMessage }) => {
     if (content) {
       sendMessage({ content });
       setContent(``);
-      if (textareaRef.current) console.log(textareaRef.current.value);
     }
   };
 
   return (
     <ContainerDiv>
-      <TextField
-        inputRef={textareaRef}
-        sx={{
-          '& > div': {
-            backgroundColor: COLOR.white,
-          },
-        }}
+      <InputTextArea
         placeholder={'당신의 매너가 사람을 만듭니다'}
-        color='primary'
-        maxRows={2}
-        multiline
+        rows={2}
         className='input'
-        variant='outlined'
         value={content}
         onChange={(e) => {
           setContent(e.target.value);
@@ -57,7 +46,6 @@ const ChatInput: React.FC<IProps> = ({ sendMessage }) => {
 };
 
 const ContainerDiv = styled.div`
-  ${TEXT_MEDIUM}
   width: 100%;
   padding: 0.75rem;
 
@@ -70,17 +58,27 @@ const ContainerDiv = styled.div`
   box-shadow: 0px 0px 4px rgba(204, 204, 204, 0.5),
     0px 2px 4px rgba(0, 0, 0, 0.25);
 
-  & > .input {
-    flex: 1;
-  }
-
-  & > div > div {
-    padding: 0.75rem;
-  }
   & > button {
     flex: 0 0 auto;
     min-width: 40px;
     padding: 0.5rem 0;
+  }
+`;
+
+const InputTextArea = styled.textarea`
+  ${TEXT_MEDIUM}
+
+  flex: 1;
+  padding: 0.75rem;
+  outline: none;
+  border-radius: 5px;
+
+  border: 1px solid transparent;
+  box-shadow: 0px 0px 4px rgba(204, 204, 204, 0.5),
+    0px 2px 4px rgba(0, 0, 0, 0.25);
+
+  &:focus {
+    border: 1px solid ${COLOR.title};
   }
 `;
 

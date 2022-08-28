@@ -1,4 +1,4 @@
-import { Module } from '@nestjs/common';
+import { forwardRef, Module } from '@nestjs/common';
 import { ChatService } from './chat.service';
 import { ChatController } from './chat.controller';
 import { TypeOrmModule } from '@nestjs/typeorm';
@@ -7,7 +7,7 @@ import { ChatSocketService } from './chat.socket.service';
 import { RoomModule } from '../room/room.module';
 
 @Module({
-  imports: [TypeOrmModule.forFeature([Chat]), RoomModule],
+  imports: [TypeOrmModule.forFeature([Chat]), forwardRef(() => RoomModule)],
   controllers: [ChatController],
   providers: [ChatService, ChatSocketService],
   exports: [ChatService, ChatSocketService],

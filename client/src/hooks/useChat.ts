@@ -11,7 +11,7 @@ const useChat = ({ roomId }: IProps) => {
   const [chats, setChats] = useState<TChatReceive[]>([]);
 
   const setInitialChats = (chats: TChatReceive[]) => {
-    setChats((prev) => [...chats]);
+    setChats(() => [...chats]);
   };
 
   const setRefinedChats = (newChat: TChatReceive) => {

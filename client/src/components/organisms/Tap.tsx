@@ -9,6 +9,7 @@ import React, { useState } from 'react';
 
 import SaleList from './SaleList';
 import RoomList from './RoomList';
+import LikeList from './LikeList';
 
 interface TabPanelProps {
   children?: React.ReactNode;

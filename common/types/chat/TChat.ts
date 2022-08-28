@@ -1,4 +1,4 @@
-import TRoom from '../TRoom';
+import TRoom from '../room/TRoom';
 import type { TUser } from '../user';
 
 type TChat = {

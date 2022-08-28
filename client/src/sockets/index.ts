@@ -1,6 +1,7 @@
 import io from 'socket.io-client';
 import { SOCKET_END_POINT } from '@constants/envs';
 import chat from './chat';
+import room from './room';
 
 const BASE_URL = SOCKET_END_POINT;
 
@@ -28,6 +29,7 @@ const initSocket = () => {
     connect,
     disconnect,
     chat: chat(socket),
+    room: room(socket),
   };
 };
 
