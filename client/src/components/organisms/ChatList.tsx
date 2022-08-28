@@ -1,19 +1,26 @@
 import React, { useEffect, useRef } from 'react';
+import { useRecoilValue, useSetRecoilState } from 'recoil';
 import styled from '@emotion/styled';
 import ChatItem from '@components/molecules/ChatItem';
 import { COLOR, SCROLLBAR_THUMB } from '@constants/style';
-import { TChatReceive } from '@fleamarket/common';
-import { useRecoilValue, useSetRecoilState } from 'recoil';
 import { authAtom } from '@stores/AuthRecoil';
 import { ChatControllerAtom } from '@stores/Chat';
+import ChatAvatar from '@components/molecules/ChatAvatar';
+import { TChatReceive, TRoomReceive } from '@fleamarket/common';
 
 interface IProps {
+  room: TRoomReceive;
   chats: TChatReceive[];
   listRef: React.RefObject<HTMLSpanElement>;
   scrollToBottom: (options?: ScrollIntoViewOptions) => void;
 }
 
-const ChatList: React.FC<IProps> = ({ chats, listRef, scrollToBottom }) => {
+const ChatList: React.FC<IProps> = ({
+  chats,
+  listRef,
+  scrollToBottom,
+  room,
+}) => {
   const Auth = useRecoilValue(authAtom);
   const isFirst = useRef<boolean>(true);
   const setChatController = useSetRecoilState(ChatControllerAtom);
@@ -33,13 +40,25 @@ const ChatList: React.FC<IProps> = ({ chats, listRef, scrollToBottom }) => {
     setChatController(Math.abs((e.target as HTMLDivElement).scrollTop) > 100);
   };
 
+  const reversedChat = [...chats].reverse();
+
   return (
     <ContainerDiv onScroll={handleScroll}>
       <span ref={listRef}></span>
-      {[...chats].reverse().map((item) => {
+      {reversedChat.map((item, index) => {
         const { id } = item;
 
-        return <ChatItem chat={item} key={id} />;
+        return (
+          <>
+            <ChatItem chat={item} key={id} />
+            <ChatAvatar
+              key={`item-${id}`}
+              chat={item}
+              beforeChat={reversedChat[index + 1]}
+              room={room}
+            />
+          </>
+        );
       })}
     </ContainerDiv>
   );

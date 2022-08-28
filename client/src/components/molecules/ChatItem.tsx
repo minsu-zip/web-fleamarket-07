@@ -18,11 +18,10 @@ const ChatItem: React.FC<IProps> = ({ chat }) => {
 
   return (
     <ContainerSpan isMe={isMe}>
-      {isMe && <TimeDiv>{getTimeGapString(createdAt)}</TimeDiv>}
       <Paper className='content' elevation={2} square>
         <p>{content}</p>
       </Paper>
-      {!isMe && <TimeDiv>{getTimeGapString(createdAt)}</TimeDiv>}
+      <TimeDiv>{getTimeGapString(createdAt)}</TimeDiv>
     </ContainerSpan>
   );
 };
@@ -34,9 +33,12 @@ const ContainerSpan = styled.span<{ isMe: boolean }>`
 
   display: flex;
   align-items: flex-end;
-  justify-content: ${({ isMe }) => (isMe ? 'flex-end' : 'flex-start')};
+  justify-content: flex-start;
+  flex-direction: ${({ isMe }) => (isMe ? 'row-reverse' : 'row')};
 
   & > .content {
+    margin-left: ${({ isMe }) => (isMe ? '0' : '2rem')};
+
     padding: 0.75rem;
 
     ${({ isMe }) =>

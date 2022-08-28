@@ -55,6 +55,7 @@ const Chat: React.FC = () => {
       </header>
       <div className='contents'>
         <ChatList
+          room={room}
           chats={chats}
           listRef={listRef}
           scrollToBottom={scrollToBottom}
