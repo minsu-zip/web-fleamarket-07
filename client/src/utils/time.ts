@@ -25,3 +25,13 @@ export const getTimeGapString = (createdAt?: Date | string): string => {
 
   return `${Math.floor(years)}년 전`;
 };
+
+export const getTimeString = (createdAt?: Date | string): string => {
+  if (!createdAt) return '알 수 없음';
+  if (typeof createdAt === 'string') createdAt = new Date(createdAt);
+
+  const minutes = createdAt.getMinutes().toString().padStart(2, '0');
+  const hours = createdAt.getHours().toString().padStart(2, '0');
+
+  return `${hours}:${minutes}`;
+};

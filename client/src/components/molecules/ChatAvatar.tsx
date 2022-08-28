@@ -8,16 +8,16 @@ import { COLOR, TEXT_ELLIPSIS, TEXT_LARGE } from '@constants/style';
 
 interface IProps {
   chat: TChatReceive;
-  beforeChat?: TChatReceive;
+  afterChat?: TChatReceive;
   room: TRoomReceive;
 }
 
-const ChatAvatar: React.FC<IProps> = ({ room, chat, beforeChat }) => {
+const ChatAvatar: React.FC<IProps> = ({ room, chat, afterChat }) => {
   const Auth = useRecoilValue(authAtom);
   const { userId } = chat;
   const isMe = Auth?.id === userId;
 
-  const { userId: beforeUserId } = beforeChat || {};
+  const { userId: beforeUserId } = afterChat || {};
   const isShow = beforeUserId !== userId;
 
   const { buyer, buyerId, seller, sellerId } = room;

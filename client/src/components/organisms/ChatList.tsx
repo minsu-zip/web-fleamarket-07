@@ -50,11 +50,15 @@ const ChatList: React.FC<IProps> = ({
 
         return (
           <>
-            <ChatItem chat={item} key={id} />
+            <ChatItem
+              key={id}
+              chat={item}
+              beforeChat={reversedChat[index - 1]}
+            />
             <ChatAvatar
               key={`item-${id}`}
               chat={item}
-              beforeChat={reversedChat[index + 1]}
+              afterChat={reversedChat[index + 1]}
               room={room}
             />
           </>
