@@ -7,12 +7,14 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import LocationModal from '@components/molecules/LocationModal';
 import { locationAtom } from '@stores/ActionInfoRecoil';
 import { useRecoilState } from 'recoil';
-import { createLocationAPI } from '@apis/location';
+import { createLocationAPI, deleteLocationAPI } from '@apis/location';
+import { keyframes } from '@emotion/css';
 
 const LocationContent = () => {
   // 위치 데이터 전역에서 받아오기
   const [location, setLocation] = useRecoilState(locationAtom);
   const [isLoading, setIsLoading] = useState<boolean>(false);
+  const [deletingLocation, setDeletingLocation] = useState<number>(-1);
 
   const [isOpen, setIsOpen] = useState(false);
   const handleOpen = () => setIsOpen(true);
@@ -34,9 +36,22 @@ const LocationContent = () => {
     }
   };
 
-  const removeLocation = (index: number) => {
+  const removeLocation = async (index: number) => {
     // 지역 삭제
     if (location.length < 2) return;
+
+    setDeletingLocation(index);
+    try {
+      const { id: locationId } = location[index];
+      const locations = await deleteLocationAPI({ id: locationId });
+      setLocation(locations);
+
+      setDeletingLocation(-1);
+      setIsOpen(false);
+    } catch (e) {
+      // TODO : Loading Error Toast Message
+      setDeletingLocation(-1);
+    }
 
     const newLocation = [...location];
     newLocation.splice(index, 1);
@@ -49,17 +64,21 @@ const LocationContent = () => {
       <TextWrapperDiv>최대 2개까지 설정 가능해요.</TextWrapperDiv>
       <ButtonWrapperDiv>
         {location.map(
-          ({ id, region }: { id: number; region: string }, index: number) => (
-            <IconButton
-              key={id}
-              size='large'
-              variant='contained'
-              endIcon={location.length > 1 && <DeleteIcon />}
-              onClick={() => removeLocation(index)}
-            >
-              {region}
-            </IconButton>
-          ),
+          ({ id, region }: { id: number; region: string }, index: number) => {
+            if (index === deletingLocation) return <BoxSkeleton key={id} />;
+
+            return (
+              <IconButton
+                key={id}
+                size='large'
+                variant='contained'
+                endIcon={location.length > 1 && <DeleteIcon />}
+                onClick={() => removeLocation(index)}
+              >
+                {region}
+              </IconButton>
+            );
+          },
         )}
 
         {location.length < 2 && (
@@ -97,11 +116,34 @@ const TextWrapperDiv = styled.div`
 const ButtonWrapperDiv = styled.div`
   display: flex;
   justify-content: space-around;
-  margin-top: 40px;
+  padding: 2rem 1rem;
+
+  column-gap: 2rem;
 `;
 
 const IconButton = styled(Button)({
-  width: '160px',
+  flex: 1,
 });
+
+const skeletonKeyframe = keyframes`
+  0% {
+      background-color: rgba(165, 165, 165, 0.1);
+  }
+
+  50% {
+      background-color: rgba(165, 165, 165, 0.3);
+  }
+
+  100% {
+      background-color: rgba(165, 165, 165, 0.1);
+  }
+`;
+
+const BoxSkeleton = styled.div`
+  flex: 1;
+  padding: 8px 22px;
+  animation: ${skeletonKeyframe} 1.8s infinite ease-in-out;
+  border-radius: 8px;
+`;
 
 export default LocationContent;

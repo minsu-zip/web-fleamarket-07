@@ -19,10 +19,10 @@ export const createLocationAPI = async ({
   return locations;
 };
 
-export const deleteLocationAPI = async (
-  locationDeleteDto: TLocationDelete,
-): Promise<TLocation[]> => {
-  const response = await axiosAuth.post(`location`, locationDeleteDto);
+export const deleteLocationAPI = async ({
+  id,
+}: TLocationDelete): Promise<TLocation[]> => {
+  const response = await axiosAuth.delete(`location/${id}`);
 
   const status = Math.floor(response.status / 100) * 100;
 
