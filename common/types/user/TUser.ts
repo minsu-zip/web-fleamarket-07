@@ -1,4 +1,4 @@
-import TLocation from '../TLocation';
+import { TLocation } from '../location';
 
 type TUser = {
   id: number;

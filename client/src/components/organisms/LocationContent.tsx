@@ -11,15 +11,18 @@ import { useRecoilState } from 'recoil';
 const LocationContent = () => {
   // 위치 데이터 전역에서 받아오기
   const [location, setLocation] = useRecoilState(locationAtom);
+  const [isLoading, setIsLoading] = useState<boolean>(false);
 
   const [isOpen, setIsOpen] = useState(false);
   const handleOpen = () => setIsOpen(true);
   const handleClose = () => setIsOpen(false);
 
-  const addLocation = (locationName: string): void => {
+  const addLocation = async (locationName: string): Promise<void> => {
     if (location.length === 2) return;
 
-    setLocation([...location, { id: 3, region: locationName }]);
+    setIsLoading(true);
+
+    // setLocation([...location, { id: 3, region: locationName }]);
     setIsOpen(false);
   };
 
