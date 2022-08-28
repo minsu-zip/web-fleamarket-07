@@ -1,3 +1,4 @@
+import { TLocation } from '@fleamarket/common';
 import { atom } from 'recoil';
 
 const categoryAtom = atom<number>({
@@ -5,4 +6,14 @@ const categoryAtom = atom<number>({
   default: 0,
 });
 
-export { categoryAtom };
+const locationAtom = atom<TLocation[]>({
+  key: 'locationAtom',
+  default: [
+    {
+      id: 1,
+      region: '역삼동',
+    },
+  ],
+});
+
+export { categoryAtom, locationAtom };

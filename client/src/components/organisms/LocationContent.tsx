@@ -5,20 +5,21 @@ import { useState } from 'react';
 import AddOutlinedIcon from '@mui/icons-material/AddOutlined';
 import DeleteIcon from '@mui/icons-material/Delete';
 import LocationModal from '@components/molecules/LocationModal';
+import { locationAtom } from '@stores/ActionInfoRecoil';
+import { useRecoilState } from 'recoil';
 
 const LocationContent = () => {
   // 위치 데이터 전역에서 받아오기
-  const [location, setLocation] = useState<string[]>(['역삼동', '강남구']);
+  const [location, setLocation] = useRecoilState(locationAtom);
 
   const [isOpen, setIsOpen] = useState(false);
   const handleOpen = () => setIsOpen(true);
   const handleClose = () => setIsOpen(false);
 
   const addLocation = (locationName: string): void => {
-    // locationName 추가 로직 및 API 요청 로직 작성
     if (location.length === 2) return;
 
-    setLocation([...location, locationName]);
+    setLocation([...location, { id: 3, region: locationName }]);
     setIsOpen(false);
   };
 
@@ -36,17 +37,19 @@ const LocationContent = () => {
       <TextWrapperDiv>지역은 최소 1개 이상</TextWrapperDiv>
       <TextWrapperDiv>최대 2개까지 설정 가능해요.</TextWrapperDiv>
       <ButtonWrapperDiv>
-        {location.map((item, index) => (
-          <IconButton
-            key={item}
-            size='large'
-            variant='contained'
-            endIcon={location.length === 1 && <DeleteIcon />}
-            onClick={() => removeLocation(index)}
-          >
-            {item}
-          </IconButton>
-        ))}
+        {location.map(
+          ({ id, region }: { id: number; region: string }, index: number) => (
+            <IconButton
+              key={id}
+              size='large'
+              variant='contained'
+              endIcon={location.length > 1 && <DeleteIcon />}
+              onClick={() => removeLocation(index)}
+            >
+              {region}
+            </IconButton>
+          ),
+        )}
 
         {location.length < 2 && (
           <IconButton
