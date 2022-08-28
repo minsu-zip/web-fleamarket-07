@@ -10,7 +10,7 @@ export const createLocationAPI = async ({
 
   if (status !== 200) throw response;
 
-  const { products } = response.data;
+  const { locations } = response.data;
 
-  return products;
+  return locations;
 };

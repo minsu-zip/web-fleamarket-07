@@ -7,6 +7,7 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import LocationModal from '@components/molecules/LocationModal';
 import { locationAtom } from '@stores/ActionInfoRecoil';
 import { useRecoilState } from 'recoil';
+import { createLocationAPI } from '@apis/location';
 
 const LocationContent = () => {
   // 위치 데이터 전역에서 받아오기
@@ -21,9 +22,16 @@ const LocationContent = () => {
     if (location.length === 2) return;
 
     setIsLoading(true);
+    try {
+      const locations = await createLocationAPI({ region: locationName });
+      setLocation(locations);
 
-    // setLocation([...location, { id: 3, region: locationName }]);
-    setIsOpen(false);
+      setIsLoading(false);
+      setIsOpen(false);
+    } catch (e) {
+      // TODO : Loading Error Toast Message
+      setIsLoading(false);
+    }
   };
 
   const removeLocation = (index: number) => {
@@ -68,6 +76,7 @@ const LocationContent = () => {
 
       <LocationModal
         isOpen={isOpen}
+        isLoading={isLoading}
         handleOpen={handleOpen}
         handleClose={handleClose}
         addLocation={addLocation}
