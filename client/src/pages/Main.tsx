@@ -1,18 +1,23 @@
 import React from 'react';
 import { useQuery } from 'react-query';
+import { useRecoilValue } from 'recoil';
 import styled from '@emotion/styled';
 import MainLayout from '@components/organisms/MainLayout';
 import ProductItem from '@components/organisms/ProductItem';
 import Guide from '@components/atoms/Guide';
 import { COLOR } from '@constants/style';
-import type { TProductSummary } from '@fleamarket/common';
-import { getProductAllAPI } from '@apis/product';
 import Heart from '@components/molecules/Heart';
-import { useRecoilValue } from 'recoil';
+import Dropdown from '@components/molecules/Dropdown';
+import MoreVertIcon from '@mui/icons-material/MoreVert';
+import { dropDownList } from '@constants/dropDownList';
+import { getProductAllAPI } from '@apis/product';
 import { categoryAtom, locationAtom } from '@stores/ActionInfoRecoil';
+import { authAtom } from '@stores/AuthRecoil';
+import type { TProductSummary } from '@fleamarket/common';
 
 const Main: React.FC = () => {
   const currentCategory = useRecoilValue(categoryAtom);
+  const Auth = useRecoilValue(authAtom);
   const locations = useRecoilValue(locationAtom);
   const currentLocation = locations[0].id;
 
@@ -32,6 +37,15 @@ const Main: React.FC = () => {
       retry: 0,
     },
   );
+
+  const handleClick = (value: string) => {
+    // 함수 로직 작성 나중에 실제 데이터 이용시 수정
+    if (value === '수정하기') {
+      //
+    } else {
+      //
+    }
+  };
 
   if (isError)
     return (
@@ -60,7 +74,13 @@ const Main: React.FC = () => {
       <ContentWrapperDiv id='item'>
         {productList.map((product) => (
           <ProductItem key={product.id} product={product}>
-            <Heart isLike={!!product.isLike}></Heart>
+            {product.userId === Auth?.id ? (
+              <Dropdown dropDownList={dropDownList} handleClick={handleClick}>
+                <MoreVertIcon />
+              </Dropdown>
+            ) : (
+              <Heart isLike={!!product.isLike}></Heart>
+            )}
           </ProductItem>
         ))}
       </ContentWrapperDiv>
