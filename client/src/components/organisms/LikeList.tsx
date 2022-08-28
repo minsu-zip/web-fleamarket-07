@@ -1,5 +1,5 @@
 import React from 'react';
-import { userLikeListAPI } from '@apis/product';
+import { userMenuAPI } from '@apis/product';
 import type { TProductSummary } from '@fleamarket/common';
 import ProductItem from './ProductItem';
 import { useQuery } from 'react-query';
@@ -16,10 +16,14 @@ const LikeList = () => {
     data: userLikeList,
     isLoading,
     isError,
-  } = useQuery<TProductSummary[]>('', () => userLikeListAPI(Auth?.id), {
-    refetchOnWindowFocus: false,
-    retry: 0,
-  });
+  } = useQuery<TProductSummary[]>(
+    '',
+    () => userMenuAPI({ userId: Auth?.id, likeStatus: true }),
+    {
+      refetchOnWindowFocus: false,
+      retry: 0,
+    },
+  );
 
   if (isError)
     return (

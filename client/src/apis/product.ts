@@ -10,8 +10,8 @@ export const getProductAllAPI = async ({
   locationId,
   categoryId,
 }: TProductAllQuery): Promise<TProductSummary[]> => {
-  const locationQuery = `locationId=${locationId}`;
-  const categoryQuery = categoryId ? `&categoryId=${categoryId}` : '';
+  const locationQuery = `locationId=${locationId ? locationId : ''}`;
+  const categoryQuery = `&categoryId=${categoryId ? categoryId : ''}`;
 
   const response = await axiosAuth.get(
     `product?${locationQuery}${categoryQuery}`,
@@ -25,36 +25,29 @@ export const getProductAllAPI = async ({
   return products;
 };
 
-export const userSaleListAPI = async (
-  userId?: number,
-): Promise<TProductSummary[]> => {
-  if (!userId) return [];
+export const userMenuAPI = async ({
+  locationId,
+  categoryId,
+  userId,
+  likeStatus,
+}: TProductAllQuery): Promise<TProductSummary[]> => {
+  const locationQuery = `locationId=${locationId ? locationId : ''}`;
+  const categoryQuery = `&categoryId=${categoryId ? categoryId : ''}`;
+  const userQuery = `&userId=${userId ? userId : ''}`;
+  const likeStateQuery = `&likeStatus=${likeStatus ? 'true' : ''}`;
 
-  const response = await axiosAuth.get(`product/saleList/${userId}`);
+  const response = await axiosAuth.get(
+    `product/menu?${locationQuery}${categoryQuery}${userQuery}${likeStateQuery}`,
+  );
   const status = Math.floor(response.status / 100) * 100;
 
   if (status !== 200) {
     throw new Error('잘못된 응답값입니다.');
   }
 
-  const { userSaleList } = response.data;
+  const { products } = response.data;
 
-  return userSaleList;
-};
-
-export const userLikeListAPI = async (
-  userId?: number,
-): Promise<TProductSummary[]> => {
-  const response = await axiosAuth.get(`product/likeList/${userId}`);
-  const status = Math.floor(response.status / 100) * 100;
-
-  if (status !== 200) {
-    throw new Error('잘못된 응답값입니다.');
-  }
-
-  const { userLikeList } = response.data;
-
-  return userLikeList;
+  return products;
 };
 
 export const getProductDetailAPI = async ({

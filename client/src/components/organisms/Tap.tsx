@@ -22,6 +22,7 @@ function TabPanel(props: TabPanelProps) {
 
   return (
     <div
+      style={{ overflow: 'auto', maxHeight: 'calc(100vh - 105px)' }}
       role='tabpanel'
       hidden={value !== index}
       id={`full-width-tabpanel-${index}`}
@@ -35,7 +36,7 @@ function TabPanel(props: TabPanelProps) {
 
 const Tap = () => {
   const theme = useTheme();
-  const [value, setValue] = useState(2);
+  const [value, setValue] = useState(0);
   const handleChange = (event: React.SyntheticEvent, newValue: number) => {
     setValue(newValue);
   };
@@ -73,7 +74,7 @@ const Tap = () => {
           <LikeList />
         </TabPanel>
         <TabPanel value={value} index={2} dir={theme.direction}>
-          <RoomList />
+          {/* <RoomList /> */}
         </TabPanel>
       </SwipeableViews>
     </Box>

@@ -44,22 +44,11 @@ export class ProductService {
     return newProduct;
   }
 
-  async findAllByQuery(
-    query: TProductAllQuery,
-    userId?: number,
-  ): Promise<TProductSummary[]> {
-    const { locationId, categoryId } = query;
-    if (!locationId) {
-      throw new HttpException(
-        '물품 요청 : 잘못된 위치 아이디입니다.',
-        HttpStatus.BAD_REQUEST,
-      );
-    }
-    if (!categoryId) query = { locationId };
-    if (!userId) userId = 0;
+  async findAllByQuery(query: TProductAllQuery): Promise<TProductSummary[]> {
+    const { locationId, categoryId, userId, likeStatus } = query;
 
     try {
-      const data = await this.productRepository
+      const build = this.productRepository
         .createQueryBuilder('p')
         .leftJoin('p.rooms', 'room')
         .leftJoin('p.category', 'category')
@@ -86,11 +75,26 @@ export class ProductService {
         .addSelect('category.name', 'categoryName')
         .addSelect('COUNT(room.id)', 'rooms')
         .addSelect('COUNT(like.product_id)', 'likes')
-        .addSelect(`SUM(like.user_id = ${userId})`, 'isLike')
-        .addSelect('image.url', 'titleImage')
-        .where('p.locationId = :id', { id: locationId })
-        .groupBy('p.id, image.id')
-        .execute();
+        .addSelect(`SUM(like.user_id = ${userId ? userId : 0})`, 'isLike')
+        .addSelect('image.url', 'titleImage');
+
+      if (locationId) {
+        build.andWhere('p.locationId = :id', { id: locationId });
+      }
+
+      if (categoryId) {
+        build.andWhere('p.categoryId = :categoryId', { categoryId });
+      }
+
+      // 나의 관심목록 / 내 판매목록 분기 처리
+      if (likeStatus && userId) {
+        build.andWhere('like.user_id = :userId', { userId });
+      } else if (userId) {
+        build.andWhere('p.userId = :userId', { userId });
+      }
+
+      build.groupBy('p.id, image.id');
+      const data = await build.execute();
 
       return data as TProductSummary[];
     } catch (e) {
@@ -162,93 +166,5 @@ export class ProductService {
     const result = await this.productRepository.delete({ id });
 
     return result;
-  }
-
-  async userSaleList(userId: number): Promise<TProductSummary[]> {
-    try {
-      const saleList = await this.productRepository
-        .createQueryBuilder('p')
-        .leftJoin('p.rooms', 'room')
-        .leftJoin('p.category', 'category')
-        .leftJoin('p.user', 'user')
-        .leftJoin('p.location', 'location')
-        .leftJoin('p.likes', 'like')
-        .leftJoin(
-          'image',
-          'image',
-          'image.id = (SELECT i.id FROM image i WHERE i.product_id = p.id LIMIT 1)',
-        )
-        .select(
-          [
-            'p.id as id',
-            'p.title as title',
-            'p.price as price',
-            'p.created_at as createdAt',
-            'p.updated_at as updatedAt',
-            'p.deleted_at as deletedAt',
-          ].join(','),
-        )
-        .addSelect('user.id as userId, user.name as userName')
-        .addSelect('location.id as locationId, location.region as locationName')
-        .addSelect('category.name', 'categoryName')
-        .addSelect('COUNT(room.id)', 'rooms')
-        .addSelect('COUNT(like.product_id)', 'likes')
-        .addSelect(`SUM(like.user_id = ${userId})`, 'isLike')
-        .addSelect('image.url', 'titleImage')
-        .where('p.userId = :userId', { userId })
-        .groupBy('p.id, image.id')
-        .execute();
-
-      return saleList;
-    } catch (e) {
-      throw new HttpException(
-        '사용자의 판매 물품 리스트를 받아올 수 없습니다.',
-        HttpStatus.INTERNAL_SERVER_ERROR,
-      );
-    }
-  }
-
-  async userLikeList(userId: number): Promise<TProductSummary[]> {
-    try {
-      const saleList = await this.productRepository
-        .createQueryBuilder('p')
-        .leftJoin('p.rooms', 'room')
-        .leftJoin('p.category', 'category')
-        .leftJoin('p.user', 'user')
-        .leftJoin('p.location', 'location')
-        .leftJoin('p.likes', 'like')
-        .leftJoin(
-          'image',
-          'image',
-          'image.id = (SELECT i.id FROM image i WHERE i.product_id = p.id LIMIT 1)',
-        )
-        .select(
-          [
-            'p.id as id',
-            'p.title as title',
-            'p.price as price',
-            'p.created_at as createdAt',
-            'p.updated_at as updatedAt',
-            'p.deleted_at as deletedAt',
-          ].join(','),
-        )
-        .addSelect('user.id as userId, user.name as userName')
-        .addSelect('location.id as locationId, location.region as locationName')
-        .addSelect('category.name', 'categoryName')
-        .addSelect('COUNT(room.id)', 'rooms')
-        .addSelect('COUNT(like.product_id)', 'likes')
-        .addSelect(`SUM(like.user_id = ${userId})`, 'isLike')
-        .addSelect('image.url', 'titleImage')
-        .where('like.user_id = :userId', { userId })
-        .groupBy('p.id, image.id')
-        .execute();
-
-      return saleList;
-    } catch (e) {
-      throw new HttpException(
-        '사용자의 좋아요 리스트를 받아올 수 없습니다.',
-        HttpStatus.INTERNAL_SERVER_ERROR,
-      );
-    }
   }
 }
