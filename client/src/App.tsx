@@ -20,7 +20,6 @@ const App: React.FC = () => {
       <Routes>
         <Route path='*' element={<NotFound />} />
         <Route path='/' element={<Main />} />
-        <Route path='/menu' element={<Menu />} />
         <Route path='/category' element={<Category />} />
         <Route path='/product/:id' element={<ProductDetail />} />
         <Route path='/signUp' element={<SignUp />} />
@@ -28,6 +27,7 @@ const App: React.FC = () => {
         <Route path='' element={<Verification />}>
           <Route path='/locationEdit' element={<LocationEdit />} />
           <Route path='/newProduct' element={<NewProduct />} />
+          <Route path='/menu' element={<Menu />} />
         </Route>
       </Routes>
     </Animator>
