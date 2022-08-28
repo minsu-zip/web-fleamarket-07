@@ -146,6 +146,12 @@ const MainInfosDiv = styled.div`
 
 const BtnWrapperDiv = styled.div`
   flex: 0 0 auto;
+  width: 40px;
+  height: 40px;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
 
   position: relative;
   top: -0.3rem;
