@@ -1,5 +1,6 @@
-export const getTimeGapString = (createdAt?: Date): string => {
+export const getTimeGapString = (createdAt?: Date | string): string => {
   if (!createdAt) return '알 수 없음';
+  if (typeof createdAt === 'string') createdAt = new Date(createdAt);
 
   const milliSeconds = Date.now() - createdAt.getTime();
 
