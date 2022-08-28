@@ -1,8 +1,9 @@
-import { axiosAuth } from './util';
+import { axiosAuth, axiosAPI } from './util';
 import {
   TProductAllQuery,
   TProductSummary,
   TProductDetail,
+  TProductCreate,
 } from '@fleamarket/common';
 
 export const getProductAllAPI = async ({
@@ -69,4 +70,14 @@ export const getProductDetailAPI = async ({
   const { product } = response.data;
 
   return product;
+};
+
+export const createProductAPI = async (newProduct: FormData) => {
+  const response = await axiosAuth.post(`product`, newProduct, {
+    headers: {
+      'Content-Type': 'multipart/form-data',
+    },
+  });
+
+  console.log('응닶', response);
 };

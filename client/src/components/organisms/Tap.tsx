@@ -6,7 +6,6 @@ import Tab from '@mui/material/Tab';
 import Box from '@mui/material/Box';
 import { COLOR } from '@constants/style';
 import React, { useState } from 'react';
-
 import SaleList from './SaleList';
 import RoomList from './RoomList';
 import LikeList from './LikeList';
