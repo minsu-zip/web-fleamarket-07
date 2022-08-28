@@ -1,10 +1,11 @@
-import { Injectable } from '@nestjs/common';
+import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { User } from './entities/user.entity';
 import { LocationService } from '../location/location.service';
 import { TUserGithub } from '@fleamarket/common';
 import { Response } from 'express';
+import TLocation from '@fleamarket/common/dist/types/TLocation';
 
 @Injectable()
 export class UserService {
@@ -47,6 +48,32 @@ export class UserService {
     };
 
     return tokenUser;
+  }
+
+  async findLocation(id: number): Promise<TLocation[]> {
+    try {
+      const build = await this.userRepository
+        .createQueryBuilder('u')
+        .leftJoin('u.location1', 'location1')
+        .leftJoin('u.location2', 'location2')
+        .select(['u.id as id'].join(','))
+        .addSelect(
+          'location1.id as location1Id, location1.region as location1Name',
+        )
+        .addSelect(
+          'location2.id as location2Id, location2.region as location2Name',
+        )
+        .groupBy('u.id')
+        .where('u.id = :id', { id })
+        .execute();
+
+      return build;
+    } catch (e) {
+      throw new HttpException(
+        '사용자 위치 정보를 찾을 수 없습니다.',
+        HttpStatus.INTERNAL_SERVER_ERROR,
+      );
+    }
   }
 
   async update(id: number, updateUserDto): Promise<User> {
