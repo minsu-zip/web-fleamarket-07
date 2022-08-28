@@ -39,9 +39,9 @@ const ProductItem: React.FC<IProps> = ({ product, children }) => {
   };
 
   return (
-    <ContainerDiv onClick={moveToProduct}>
-      <ImageBox src={titleImage}></ImageBox>
-      <ContentDiv>
+    <ContainerDiv>
+      <ImageBox src={titleImage} onClick={moveToProduct}></ImageBox>
+      <ContentDiv onClick={moveToProduct}>
         <section className='main'>
           <MainInfosDiv>
             <h3 className='title'>{title}</h3>
@@ -54,8 +54,6 @@ const ProductItem: React.FC<IProps> = ({ product, children }) => {
               {price === 0 ? '무료나눔' : `${price?.toLocaleString()}원`}
             </div>
           </MainInfosDiv>
-
-          <BtnWrapperDiv>{children}</BtnWrapperDiv>
         </section>
 
         <section className='sub'>
@@ -73,6 +71,7 @@ const ProductItem: React.FC<IProps> = ({ product, children }) => {
           )}
         </section>
       </ContentDiv>
+      <BtnWrapperDiv>{children}</BtnWrapperDiv>
     </ContainerDiv>
   );
 };
@@ -147,6 +146,12 @@ const MainInfosDiv = styled.div`
 
 const BtnWrapperDiv = styled.div`
   flex: 0 0 auto;
+  width: 40px;
+  height: 40px;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
 
   position: relative;
   top: -0.3rem;
