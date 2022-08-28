@@ -60,6 +60,7 @@ const ContainerSpan = styled.span<{ isMe: boolean }>`
     `}
     & > p {
       margin: 0;
+      word-break: break-all;
       white-space: pre-wrap;
     }
   }
