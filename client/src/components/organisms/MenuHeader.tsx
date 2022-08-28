@@ -27,29 +27,26 @@ const MenuHeader: React.FC = () => {
 
   return (
     <ContainerDiv>
-      <div>
-        <IconButtonWrapper
-          size='large'
-          onClick={() =>
-            navigate('category', { state: { animate: SLIDE_STATE.RIGHT } })
-          }
-        >
-          <AutoAwesomeMosaicOutlinedIcon />
-        </IconButtonWrapper>
-      </div>
+      <IconButtonWrapper
+        size='large'
+        onClick={() =>
+          navigate('category', { state: { animate: SLIDE_STATE.RIGHT } })
+        }
+      >
+        <AutoAwesomeMosaicOutlinedIcon />
+      </IconButtonWrapper>
 
       <LocationWrapperDiv>
         <Dropdown dropDownList={dropDownList} handleClick={handleClick}>
-          <FmdGoodOutlinedIcon></FmdGoodOutlinedIcon>
+          <FmdGoodOutlinedIcon />
+          <span
+            className={css`
+              ${TEXT_LINK_MEDIUM}
+            `}
+          >
+            {currentLocation}
+          </span>
         </Dropdown>
-
-        <span
-          className={css`
-            ${TEXT_LINK_MEDIUM}
-          `}
-        >
-          {currentLocation}
-        </span>
       </LocationWrapperDiv>
 
       <UserWrapperDiv>
@@ -94,7 +91,6 @@ const IconButtonWrapper = styled(IconButton)({
 
 const LocationWrapperDiv = styled.div`
   display: flex;
-  justify-content: center;
   align-items: center;
 `;
 export default MenuHeader;
