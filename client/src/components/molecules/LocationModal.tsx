@@ -5,6 +5,7 @@ import React, { useState } from 'react';
 
 interface IPros {
   isOpen: boolean;
+  isLoading: boolean;
   handleOpen(): void;
   handleClose(): void;
   addLocation(locationName: string): void;
@@ -12,6 +13,7 @@ interface IPros {
 
 const LocationModal: React.FC<IPros> = ({
   isOpen,
+  isLoading,
   handleOpen,
   handleClose,
   addLocation,
@@ -42,8 +44,12 @@ const LocationModal: React.FC<IPros> = ({
             onKeyPress={(e) => (e.key === 'Enter' ? inputSubmit() : '')}
           ></Input>
           <div style={{ display: 'flex', justifyContent: 'space-between' }}>
-            <ModalButton onClick={handleClose}>취소</ModalButton>
-            <ModalButton onClick={inputSubmit}>확인</ModalButton>
+            <ModalButton disabled={isLoading} onClick={handleClose}>
+              취소
+            </ModalButton>
+            <ModalButton disabled={isLoading} onClick={inputSubmit}>
+              확인
+            </ModalButton>
           </div>
         </div>
       </BoxWrapper>

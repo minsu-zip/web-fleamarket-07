@@ -9,20 +9,28 @@ import { Avatar, IconButton } from '@mui/material';
 import MenuOutlinedIcon from '@mui/icons-material/MenuOutlined';
 import Dropdown from '@components/molecules/Dropdown';
 import { SLIDE_STATE } from '@constants/slideStyle';
-
-const dropDownList = ['역삼동', '내 동네 설정하기'];
+import { useRecoilState } from 'recoil';
+import { locationAtom } from '@stores/ActionInfoRecoil';
 
 const MenuHeader: React.FC = () => {
+  const [locations, setLocations] = useRecoilState(locationAtom);
+
   // 전역상태관리 및 유저 정보에서 현재 위치, 프로필 이미지 가져온다
-  const currentLocation = '역삼동';
+  const currentLocation = locations[0];
   const userProfile = '';
   const navigate = useNavigate();
 
   const handleClick = (value: string) => {
     // 함수 로직 작성 나중에 실제 데이터 이용시 수정
     if (value === '내 동네 설정하기') {
-      navigate('locationEdit');
+      return navigate('locationEdit', { state: { animate: SLIDE_STATE.DOWN } });
     }
+    const index = locations.findIndex(({ region }) => region === value);
+    const newLocations = [
+      locations[index],
+      ...locations.filter((_, i) => i !== index),
+    ];
+    setLocations(newLocations);
   };
 
   return (
@@ -37,14 +45,20 @@ const MenuHeader: React.FC = () => {
       </IconButtonWrapper>
 
       <LocationWrapperDiv>
-        <Dropdown dropDownList={dropDownList} handleClick={handleClick}>
+        <Dropdown
+          dropDownList={[
+            ...locations.map(({ region }) => region),
+            '내 동네 설정하기',
+          ]}
+          handleClick={handleClick}
+        >
           <FmdGoodOutlinedIcon />
           <span
             className={css`
               ${TEXT_LINK_MEDIUM}
             `}
           >
-            {currentLocation}
+            {currentLocation.region}
           </span>
         </Dropdown>
       </LocationWrapperDiv>

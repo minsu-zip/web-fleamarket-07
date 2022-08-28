@@ -1,5 +1,5 @@
 import TCategory from 'types/TCategory';
-import TLocation from 'types/TLocation';
+import { TLocation } from 'types/location';
 import { TUser } from 'types/user';
 import { EProductStatus } from './EProductStatus';
 

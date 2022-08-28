@@ -1,4 +1,4 @@
-import TLocation from 'types/TLocation';
+import { TLocation } from 'types/location';
 import TUser from './TUser';
 
 type TUserGithub = Pick<TUser, 'id' | 'name' | 'avatar'> & {

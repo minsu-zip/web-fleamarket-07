@@ -1,4 +1,4 @@
-import TLocation from '../TLocation';
+import { TLocation } from '../location';
 import TCategory from '../TCategory';
 import { TUser } from 'types/user';
 import TProduct from './TProduct';

@@ -1,4 +1,8 @@
-import { EAnimate, getOppositeAnimation } from '@constants/slideStyle';
+import {
+  EAnimate,
+  getOppositeAnimation,
+  isRoutesAnimation,
+} from '@constants/slideStyle';
 import {
   cloneElement,
   isValidElement,
@@ -77,7 +81,9 @@ const useAnimator = ({ children }: PropsWithChildren) => {
   }, [location, controller, setController, children, navigationType]);
 
   // 애니메이션이 끝났으면, 끝났다는 것을 state로 명시적으로 알려주어야 한다
-  const endAnimation = () => {
+  const endAnimation: React.AnimationEventHandler<HTMLDivElement> = (e) => {
+    if (!isRoutesAnimation(e.animationName)) return;
+
     setController((prevState) => {
       if (!prevState.isAnimating) return prevState;
 

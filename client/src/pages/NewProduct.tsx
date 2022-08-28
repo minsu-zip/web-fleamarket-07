@@ -1,7 +1,7 @@
 import TopBar from '@components/molecules/TopBar';
 import React, { useRef, useState, useEffect } from 'react';
 import CheckOutlinedIcon from '@mui/icons-material/CheckOutlined';
-import { COLOR } from '@constants/style';
+import { COLOR, SCROLLBAR_THUMB } from '@constants/style';
 import styled from '@emotion/styled';
 import {
   FormControl,
@@ -17,9 +17,12 @@ import FmdGoodOutlinedIcon from '@mui/icons-material/FmdGoodOutlined';
 import { createProductAPI } from '@apis/product';
 import ImageUpload from '@components/organisms/ImageUpload';
 import { useNavigate } from 'react-router-dom';
+import { locationAtom } from '@stores/ActionInfoRecoil';
+import { SLIDE_STATE } from '@constants/slideStyle';
 
 const NewProduct: React.FC = () => {
   const Auth = useRecoilValue(authAtom);
+  const locations = useRecoilValue(locationAtom);
   const navigate = useNavigate();
 
   const inputRef = useRef<HTMLInputElement>(null);
@@ -78,10 +81,8 @@ const NewProduct: React.FC = () => {
     productForm.append('title', title);
     productForm.append('price', String(price));
     productForm.append('content', content);
-    productForm.append('hit', String(0));
-    productForm.append('status', '판매중');
     productForm.append('userId', String(Auth?.id));
-    productForm.append('locationId', String(Auth?.location1.id));
+    productForm.append('locationId', String(locations[0].id));
     productForm.append('categoryId', String(selectedCategory));
 
     fileList.forEach((file) => {
@@ -89,7 +90,7 @@ const NewProduct: React.FC = () => {
     });
 
     await createProductAPI(productForm);
-    navigate('/');
+    navigate('/', { state: { animate: SLIDE_STATE.DOWN } });
   };
 
   useEffect(() => {
@@ -101,17 +102,11 @@ const NewProduct: React.FC = () => {
   }, [title, price, content, selectedCategory]);
 
   return (
-    <div style={{ width: '100%' }}>
-      {inputCheck ? (
-        <TopBar title='글쓰기' onClick={handleSubmit}>
-          <CheckOutlinedIcon sx={{ color: COLOR.point }} />
-        </TopBar>
-      ) : (
-        <TopBar title='글쓰기'>
-          <CheckOutlinedIcon />
-        </TopBar>
-      )}
-      <div style={{ marginTop: '30px' }}>
+    <ContainerDiv>
+      <TopBar title='글쓰기' onClick={() => inputCheck && handleSubmit()}>
+        <CheckOutlinedIcon sx={{ color: inputCheck ? COLOR.point : '' }} />
+      </TopBar>
+      <div className='contents'>
         <ImageUpload
           handleFileChange={handleFileChange}
           fileList={fileList}
@@ -125,24 +120,29 @@ const NewProduct: React.FC = () => {
             onChange={(e) => setTitle(e.target.value)}
           ></input>
         </TextWrapper>
-        <FormControl fullWidth>
-          <InputLabel id='demo-simple-select-label' sx={{ paddingTop: '10px' }}>
-            카테고리
-          </InputLabel>
-          <Select
-            labelId='demo-simple-select-label'
-            id='demo-simple-select'
-            value={selectedCategory}
-            label='카테고리'
-            onChange={handleChange}
-          >
-            {Object.entries(categoryList).map(([key, value]) => (
-              <MenuItem key={value} value={key}>
-                {value}
-              </MenuItem>
-            ))}
-          </Select>
-        </FormControl>
+        <TextWrapper>
+          <FormControl fullWidth>
+            <InputLabel
+              id='demo-simple-select-label'
+              sx={{ paddingTop: '10px' }}
+            >
+              카테고리
+            </InputLabel>
+            <Select
+              labelId='demo-simple-select-label'
+              id='demo-simple-select'
+              value={selectedCategory}
+              label='카테고리'
+              onChange={handleChange}
+            >
+              {Object.entries(categoryList).map(([key, value]) => (
+                <MenuItem key={value} value={key}>
+                  {value}
+                </MenuItem>
+              ))}
+            </Select>
+          </FormControl>
+        </TextWrapper>
         <TextWrapper>
           <input
             type='number'
@@ -162,35 +162,57 @@ const NewProduct: React.FC = () => {
           ></textarea>
         </TextWrapper>
       </div>
-      <Footer style={{ display: 'flex', alignItems: 'center' }}>
-        <div>
-          <FmdGoodOutlinedIcon />
-        </div>
-        <div>{Auth?.location1.region}</div>
-      </Footer>
-    </div>
+      <span className='footer'>
+        <FmdGoodOutlinedIcon />
+        {locations[0].region}
+      </span>
+    </ContainerDiv>
   );
 };
 
-const TextWrapper = styled.div`
-  border-bottom: solid 1px ${COLOR.background2};
-  padding-top: 20px;
-  padding-bottom: 20px;
+const ContainerDiv = styled.div`
   width: 100%;
-  padding-left: 20px;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+
+  & > .contents {
+    ${SCROLLBAR_THUMB}
+    flex: 1;
+    padding: 1.5rem 1rem;
+    overflow-x: hidden;
+    overflow-y: scroll;
+  }
+  & > .footer {
+    flex: 0 0 auto;
+    width: 100%;
+    padding: 1rem;
+
+    display: flex;
+    align-items: center;
+    column-gap: 1rem;
+  }
+`;
+
+const TextWrapper = styled.div`
+  width: 100%;
+  padding: 2rem 1rem;
+  &:last-child {
+    margin-bottom: 0;
+  }
+
+  border-bottom: solid 1px ${COLOR.line};
+
   & input,
   textarea {
     width: 100%;
     height: 100%;
+    padding: 1rem;
+    border: 1px solid ${COLOR.line};
+    border-radius: 0.5rem;
+    resize: none;
   }
-`;
-
-const Footer = styled.div`
-  position: fixed;
-  bottom: 0;
-  align-items: center;
-  width: 100%;
-  padding: 1rem;
 `;
 
 export default NewProduct;

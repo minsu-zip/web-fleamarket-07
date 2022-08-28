@@ -26,10 +26,14 @@ const SaleList: React.FC = () => {
     data: userSaleList,
     isLoading,
     isError,
-  } = useQuery<TProductSummary[]>('', () => userMenuAPI({ userId: Auth?.id }), {
-    refetchOnWindowFocus: false,
-    retry: 0,
-  });
+  } = useQuery<TProductSummary[]>(
+    'saleList',
+    () => userMenuAPI({ userId: Auth?.id }),
+    {
+      refetchOnWindowFocus: false,
+      retry: 0,
+    },
+  );
 
   if (isError) return <Guide.Error />;
 
