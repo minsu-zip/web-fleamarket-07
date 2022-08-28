@@ -22,7 +22,7 @@ const Animator = ({ children }: PropsWithChildren) => {
       )}
       <WrapperDiv key={cur?.location?.key}>{cur.element}</WrapperDiv>
       {isAnimating && isReverse ? (
-        <WrapperDiv>{prev.element}</WrapperDiv>
+        <WrapperDiv key={prev?.location?.key}>{prev.element}</WrapperDiv>
       ) : (
         <div></div>
       )}

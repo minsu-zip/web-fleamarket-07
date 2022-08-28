@@ -10,6 +10,7 @@ import Guide from '@components/atoms/Guide';
 import ChatRoomInfo from '@components/organisms/ChatRoomInfo';
 import { useRecoilValue } from 'recoil';
 import { authAtom } from '@stores/AuthRecoil';
+import ChatController from '@components/molecules/ChatController';
 
 const Chat: React.FC = () => {
   const Auth = useRecoilValue(authAtom);
@@ -50,6 +51,7 @@ const Chat: React.FC = () => {
       <div className='contents'>
         <ChatList chats={chats} />
       </div>
+      <ChatController />
       <ChatInput sendMessage={sendMessage} />
     </ContainerDiv>
   );
