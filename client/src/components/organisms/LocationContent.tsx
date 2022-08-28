@@ -41,7 +41,7 @@ const LocationContent = () => {
             key={item}
             size='large'
             variant='contained'
-            endIcon={location.length === 1 && <DeleteIcon />}
+            endIcon={location.length > 1 && <DeleteIcon />}
             onClick={() => removeLocation(index)}
           >
             {item}
