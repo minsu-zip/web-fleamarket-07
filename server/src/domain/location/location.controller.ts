@@ -1,4 +1,4 @@
-import { TLocationCreate, TUser } from '@fleamarket/common';
+import { TLocationCreate, TLocationDelete, TUser } from '@fleamarket/common';
 import {
   Controller,
   Post,
@@ -7,6 +7,7 @@ import {
   Req,
   Res,
   HttpStatus,
+  Delete,
 } from '@nestjs/common';
 import { Request, Response } from 'express';
 import { AuthGuard } from '../auth/auth.guard';
@@ -30,6 +31,20 @@ export class LocationController {
     const locations = await this.userService.updateLocation(
       req.user.id,
       createLocationDto,
+    );
+    return res.status(HttpStatus.OK).json({ locations });
+  }
+
+  @Delete()
+  @UseGuards(AuthGuard)
+  async delete(
+    @Req() req: Request & { user: TUser },
+    @Body() deleteLocationDto: TLocationDelete,
+    @Res() res: Response,
+  ) {
+    const locations = await this.userService.deleteLocation(
+      req.user.id,
+      deleteLocationDto,
     );
     return res.status(HttpStatus.OK).json({ locations });
   }

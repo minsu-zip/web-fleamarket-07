@@ -3,7 +3,11 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { User } from './entities/user.entity';
 import { LocationService } from '../location/location.service';
-import { TLocationCreate, TUserGithub } from '@fleamarket/common';
+import {
+  TLocationCreate,
+  TLocationDelete,
+  TUserGithub,
+} from '@fleamarket/common';
 import { Response } from 'express';
 import { TLocation } from '@fleamarket/common';
 
@@ -98,8 +102,6 @@ export class UserService {
     });
     const { id: userId, location1, location2 } = user ?? {};
 
-    console.log(user);
-
     const { id: secondLocation } = location2 ?? {};
 
     if (!userId)
@@ -121,6 +123,40 @@ export class UserService {
     await this.update(id, { location2Id });
 
     return [location1, createdLocation2];
+  }
+
+  async deleteLocation(id: number, locationDeleteDto: TLocationDelete) {
+    const user = await this.userRepository.findOne({
+      where: { id },
+      relations: { location1: true, location2: true },
+    });
+    const {
+      id: userId,
+      location1Id,
+      location2Id,
+      location1,
+      location2,
+    } = user ?? {};
+
+    if (!userId)
+      throw new HttpException(
+        '위치 삭제 : 사용자 정보가 없습니다',
+        HttpStatus.BAD_REQUEST,
+      );
+
+    if (!location2Id)
+      throw new HttpException(
+        '위치 삭제 : 사용자 위치 정보를 더 이상 지울 수 없습니다',
+        HttpStatus.BAD_REQUEST,
+      );
+
+    const { id: deleteId } = locationDeleteDto;
+    const newLocation1Id = deleteId === location1Id ? location1Id : location2Id;
+
+    await this.update(id, { location1Id: newLocation1Id, location2Id: null });
+
+    const newLocation = deleteId === location1Id ? location2 : location1;
+    return [newLocation];
   }
 
   async logout(res: Response) {
