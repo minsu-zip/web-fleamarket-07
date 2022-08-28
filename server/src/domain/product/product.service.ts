@@ -165,7 +165,7 @@ export class ProductService {
   }
 
   async remove(id: number): Promise<DeleteResult> {
-    const result = await this.productRepository.delete({ id });
+    const result = await this.productRepository.softDelete({ id });
 
     return result;
   }
