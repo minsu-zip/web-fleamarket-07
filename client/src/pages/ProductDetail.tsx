@@ -5,16 +5,23 @@ import styled from '@emotion/styled';
 import { Button } from '@mui/material';
 import Heart from '@components/molecules/Heart';
 import TopBar from '@components/molecules/TopBar';
-import { getProductDetailAPI } from '@apis/product';
+import { deleteProductAPI, getProductDetailAPI } from '@apis/product';
 import Guide from '@components/atoms/Guide';
 import { COLOR, SCROLLBAR_THUMB, TEXT_LINK_SMALL } from '@constants/style';
 import type { TProductDetail } from '@fleamarket/common';
 import ProductContent from '@components/organisms/ProductContent';
 import { SLIDE_STATE } from '@constants/slideStyle';
+import { useRecoilValue } from 'recoil';
+import { authAtom } from '@stores/AuthRecoil';
+import Dropdown from '@components/molecules/Dropdown';
+import MoreVertIcon from '@mui/icons-material/MoreVert';
+import { dropDownList } from '@constants/dropDownList';
 
 const ProductDetail: React.FC = () => {
   const navigate = useNavigate();
   const { id: productId } = useParams();
+  const Auth = useRecoilValue(authAtom);
+
   const {
     isLoading,
     isError,
@@ -27,6 +34,13 @@ const ProductDetail: React.FC = () => {
       retry: 0,
     },
   );
+
+  const handleClick = async (value: string) => {
+    if (value === '삭제하기') {
+      await deleteProductAPI(Number(productId));
+      navigate('/');
+    }
+  };
 
   if (isError)
     return (
@@ -54,7 +68,13 @@ const ProductDetail: React.FC = () => {
           background={
             'linear-gradient(rgba(0, 0, 0, 0.24) 0%, rgba(0, 0, 0, 0) 87.36%)'
           }
-        />
+        >
+          {details.userId === Auth?.id ? (
+            <Dropdown dropDownList={dropDownList} handleClick={handleClick}>
+              <MoreVertIcon />
+            </Dropdown>
+          ) : null}
+        </TopBar>
       </nav>
       <div className='body'>
         <ProductContent details={details} />
