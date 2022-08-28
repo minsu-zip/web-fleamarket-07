@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import { Route, Routes } from 'react-router-dom';
 import {
   Main,
@@ -17,26 +17,25 @@ import { getUserLocationAPI } from '@apis/user';
 import { useRecoilValue, useSetRecoilState } from 'recoil';
 import { authAtom } from '@stores/AuthRecoil';
 import { locationAtom } from '@stores/ActionInfoRecoil';
+import { useQuery } from 'react-query';
+import { TLocation } from '@fleamarket/common';
+import Guide from '@components/atoms/Guide';
 
 const App: React.FC = () => {
   const Auth = useRecoilValue(authAtom);
   const setLocation = useSetRecoilState(locationAtom);
 
-  useEffect(() => {
-    (async () => {
-      if (Auth?.id) {
-        const locationList = await getUserLocationAPI(Auth.id);
-        const { location1Id, location1Name, location2Id, location2Name } =
-          locationList[0];
-        const newLocation = [
-          { id: location1Id, region: location1Name },
-          { id: location2Id, region: location2Name },
-        ];
+  const { isLoading, isError } = useQuery<TLocation[]>(
+    '',
+    () => getUserLocationAPI(Auth?.id),
+    {
+      onSuccess: (data: TLocation[]) => (data ? setLocation(data) : null),
+    },
+  );
 
-        setLocation(newLocation.filter(({ id, region }) => id && region));
-      }
-    })();
-  }, [Auth?.id, setLocation]);
+  if (isError) return <Guide.Error />;
+
+  if (isLoading) return <Guide.Loading />;
 
   return (
     <Animator>
