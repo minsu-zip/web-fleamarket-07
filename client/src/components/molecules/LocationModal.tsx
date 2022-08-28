@@ -39,6 +39,7 @@ const LocationModal: React.FC<IPros> = ({
             placeholder='시∙구 제외, 동만 입력'
             value={locationName}
             onChange={(e) => setLocationName(e.target.value)}
+            onKeyPress={(e) => (e.key === 'Enter' ? inputSubmit() : '')}
           ></Input>
           <div style={{ display: 'flex', justifyContent: 'space-between' }}>
             <ModalButton onClick={handleClose}>취소</ModalButton>
