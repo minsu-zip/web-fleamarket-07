@@ -8,8 +8,7 @@ import Dropdown from '@components/molecules/Dropdown';
 import { userMenuAPI } from '@apis/product';
 import ProductItem from './ProductItem';
 import type { TProductSummary } from '@fleamarket/common';
-
-const dropDownList = ['수정하기', '삭제하기'];
+import { dropDownList } from '@constants/dropDownList';
 
 const SaleList: React.FC = () => {
   const Auth = useRecoilValue(authAtom);

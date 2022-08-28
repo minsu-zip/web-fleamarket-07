@@ -16,14 +16,20 @@ interface IProps extends React.PropsWithChildren {
   src?: string;
   type?: EImageSize;
   alt?: string;
+  onClick?: () => void;
 }
 
-const ImageBox: React.FC<IProps> = ({ src, type, alt = 'product' }) => {
+const ImageBox: React.FC<IProps> = ({
+  src,
+  type,
+  alt = 'product',
+  onClick,
+}) => {
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const [source, setSource] = useState<string>(src ?? '');
 
   return (
-    <ContainerDiv type={type}>
+    <ContainerDiv type={type} onClick={onClick}>
       {isLoading && <BoxSkeleton animation={'wave'} variant='rounded' />}
       <img
         src={source}
