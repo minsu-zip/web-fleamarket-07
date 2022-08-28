@@ -5,7 +5,7 @@ import { User } from './entities/user.entity';
 import { LocationService } from '../location/location.service';
 import { TUserGithub } from '@fleamarket/common';
 import { Response } from 'express';
-import TLocation from '@fleamarket/common/dist/types/TLocation';
+import { TLocation } from '@fleamarket/common';
 
 @Injectable()
 export class UserService {
