@@ -9,20 +9,22 @@ import type { TProductSummary } from '@fleamarket/common';
 import { getProductAllAPI } from '@apis/product';
 import Heart from '@components/molecules/Heart';
 import { useRecoilValue } from 'recoil';
-import { categoryAtom } from '@stores/ActionInfoRecoil';
+import { categoryAtom, locationAtom } from '@stores/ActionInfoRecoil';
 
 const Main: React.FC = () => {
   const currentCategory = useRecoilValue(categoryAtom);
+  const locations = useRecoilValue(locationAtom);
+  const currentLocation = locations[0].id;
 
   const {
     isLoading,
     isError,
     data: productList,
   } = useQuery<TProductSummary[]>(
-    'products',
+    ['products', currentLocation],
     () =>
       getProductAllAPI({
-        locationId: 1,
+        locationId: currentLocation,
         categoryId: currentCategory,
       }),
     {
@@ -49,6 +51,7 @@ const Main: React.FC = () => {
     return (
       <MainLayout backgroundColor={COLOR.background}>
         <Guide.Empty />
+        <MainLayout.FAB />
       </MainLayout>
     );
 

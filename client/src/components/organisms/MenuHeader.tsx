@@ -9,11 +9,11 @@ import { Avatar, IconButton } from '@mui/material';
 import MenuOutlinedIcon from '@mui/icons-material/MenuOutlined';
 import Dropdown from '@components/molecules/Dropdown';
 import { SLIDE_STATE } from '@constants/slideStyle';
-import { useRecoilValue } from 'recoil';
+import { useRecoilState } from 'recoil';
 import { locationAtom } from '@stores/ActionInfoRecoil';
 
 const MenuHeader: React.FC = () => {
-  const locations = useRecoilValue(locationAtom);
+  const [locations, setLocations] = useRecoilState(locationAtom);
 
   // 전역상태관리 및 유저 정보에서 현재 위치, 프로필 이미지 가져온다
   const currentLocation = locations[0];
@@ -23,8 +23,14 @@ const MenuHeader: React.FC = () => {
   const handleClick = (value: string) => {
     // 함수 로직 작성 나중에 실제 데이터 이용시 수정
     if (value === '내 동네 설정하기') {
-      navigate('locationEdit');
+      return navigate('locationEdit');
     }
+    const index = locations.findIndex(({ region }) => region === value);
+    const newLocations = [
+      locations[index],
+      ...locations.filter((_, i) => i !== index),
+    ];
+    setLocations(newLocations);
   };
 
   return (

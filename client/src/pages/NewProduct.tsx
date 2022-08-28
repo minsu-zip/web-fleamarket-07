@@ -17,9 +17,11 @@ import FmdGoodOutlinedIcon from '@mui/icons-material/FmdGoodOutlined';
 import { createProductAPI } from '@apis/product';
 import ImageUpload from '@components/organisms/ImageUpload';
 import { useNavigate } from 'react-router-dom';
+import { locationAtom } from '@stores/ActionInfoRecoil';
 
 const NewProduct: React.FC = () => {
   const Auth = useRecoilValue(authAtom);
+  const locations = useRecoilValue(locationAtom);
   const navigate = useNavigate();
 
   const inputRef = useRef<HTMLInputElement>(null);
@@ -79,7 +81,7 @@ const NewProduct: React.FC = () => {
     productForm.append('price', String(price));
     productForm.append('content', content);
     productForm.append('userId', String(Auth?.id));
-    productForm.append('locationId', String(Auth?.location1.id));
+    productForm.append('locationId', String(locations[0].id));
     productForm.append('categoryId', String(selectedCategory));
 
     fileList.forEach((file) => {
@@ -164,7 +166,7 @@ const NewProduct: React.FC = () => {
         <div>
           <FmdGoodOutlinedIcon />
         </div>
-        <div>{Auth?.location1.region}</div>
+        <div>{locations[0].region}</div>
       </Footer>
     </div>
   );
