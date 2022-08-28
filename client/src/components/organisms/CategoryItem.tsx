@@ -1,7 +1,7 @@
 import React from 'react';
 import { IconButton, SvgIconTypeMap } from '@mui/material';
+import AllInclusiveOutlinedIcon from '@mui/icons-material/AllInclusiveOutlined';
 import DesktopMacOutlinedIcon from '@mui/icons-material/DesktopMacOutlined'; // 디지털기기
-import ElectricalServicesOutlinedIcon from '@mui/icons-material/ElectricalServicesOutlined'; // 생활가전
 import ChairOutlinedIcon from '@mui/icons-material/ChairOutlined'; // 가구/인테리어
 import SportsEsportsOutlinedIcon from '@mui/icons-material/SportsEsportsOutlined'; // 게임/취미
 import LocalDiningOutlinedIcon from '@mui/icons-material/LocalDiningOutlined'; // 생활/가공식품
@@ -18,9 +18,13 @@ import { OverridableComponent } from '@mui/material/OverridableComponent';
 import { TEXT_SMALL, COLOR } from '@constants/style';
 import { css } from '@emotion/css';
 import styled from '@emotion/styled';
+import { useRecoilState } from 'recoil';
+import { categoryAtom } from '@stores/ActionInfoRecoil';
+import { useNavigate } from 'react-router-dom';
+
 interface IProps {
   name: string;
-  highlight: boolean;
+  id: number;
 }
 
 interface MuiIconObject {
@@ -28,8 +32,8 @@ interface MuiIconObject {
 }
 
 const category: MuiIconObject = {
+  전체: AllInclusiveOutlinedIcon,
   디지털기기: DesktopMacOutlinedIcon,
-  생활가전: ElectricalServicesOutlinedIcon,
   '가구/인테리어': ChairOutlinedIcon,
   '게임/취미': SportsEsportsOutlinedIcon,
   '생활/가공식품': LocalDiningOutlinedIcon,
@@ -44,13 +48,24 @@ const category: MuiIconObject = {
   '기타/중고물품': MoreHorizOutlinedIcon,
 };
 
-const CategortItem: React.FC<IProps> = ({ name, highlight }) => {
+const CategortItem: React.FC<IProps> = ({ name, id }) => {
   const Icon = category[name] ?? (() => <></>);
+  const navigate = useNavigate();
+  const [categoryState, setCategoryState] = useRecoilState(categoryAtom);
+
+  const handleClick = () => {
+    setCategoryState(id);
+    navigate('/');
+  };
 
   return (
-    <ContainerDiv onClick={() => null}>
-      <div style={highlight ? { backgroundColor: `${COLOR.primary}` } : {}}>
-        <IconButton>
+    <ContainerDiv>
+      <div
+        style={
+          categoryState === id ? { backgroundColor: `${COLOR.primary}` } : {}
+        }
+      >
+        <IconButton onClick={handleClick}>
           <Icon sx={{ color: 'black', fontSize: '50px' }} />
         </IconButton>
       </div>

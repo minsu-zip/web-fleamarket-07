@@ -37,7 +37,14 @@ export class ProductController {
   @Get()
   async findAll(@Query() query: TProductAllQuery, @Res() res: Response) {
     // TODO : User 정보를 가져와서 id 넘겨주기
-    const data = await this.productService.findAllByQuery(query, undefined);
+    const data = await this.productService.findAllByQuery(query);
+    return res.status(HttpStatus.OK).json({ products: data });
+  }
+
+  @Get('menu')
+  @UseGuards(AuthGuard)
+  async userMenu(@Query() query: TProductAllQuery, @Res() res: Response) {
+    const data = await this.productService.findAllByQuery(query);
     return res.status(HttpStatus.OK).json({ products: data });
   }
 
@@ -53,20 +60,6 @@ export class ProductController {
 
     const data = await this.productService.findOne(+id, undefined);
     return res.status(HttpStatus.OK).json({ product: data });
-  }
-
-  @Get('saleList/:userId')
-  @UseGuards(AuthGuard)
-  async userSaleList(@Param('userId') userId: number, @Res() res: Response) {
-    const data = await this.productService.userSaleList(userId);
-    return res.status(HttpStatus.OK).json({ userSaleList: data });
-  }
-
-  @Get('likeList/:userId')
-  @UseGuards(AuthGuard)
-  async userLikeList(@Param('userId') userId: number, @Res() res: Response) {
-    const data = await this.productService.userLikeList(userId);
-    return res.status(HttpStatus.OK).json({ userLikeList: data });
   }
 
   @Patch(':id')

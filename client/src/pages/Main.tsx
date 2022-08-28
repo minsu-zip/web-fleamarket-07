@@ -8,17 +8,23 @@ import { COLOR } from '@constants/style';
 import type { TProductSummary } from '@fleamarket/common';
 import { getProductAllAPI } from '@apis/product';
 import Heart from '@components/molecules/Heart';
+import { useRecoilValue } from 'recoil';
+import { categoryAtom } from '@stores/ActionInfoRecoil';
 
 const Main: React.FC = () => {
-  // 1. TODO : Location ID 를 동적으로 관리하기
-  // 2. TODO : Category ID 를 넣어줄 수 있기
+  const currentCategory = useRecoilValue(categoryAtom);
+
   const {
     isLoading,
     isError,
     data: productList,
   } = useQuery<TProductSummary[]>(
     'products',
-    () => getProductAllAPI({ locationId: 1 }),
+    () =>
+      getProductAllAPI({
+        locationId: 1,
+        categoryId: currentCategory,
+      }),
     {
       refetchOnWindowFocus: false,
       retry: 0,

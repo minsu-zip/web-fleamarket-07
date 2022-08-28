@@ -5,7 +5,7 @@ import { useRecoilValue } from 'recoil';
 import { authAtom } from '@stores/AuthRecoil';
 import Guide from '@components/atoms/Guide';
 import Dropdown from '@components/molecules/Dropdown';
-import { userSaleListAPI } from '@apis/product';
+import { userMenuAPI } from '@apis/product';
 import ProductItem from './ProductItem';
 import type { TProductSummary } from '@fleamarket/common';
 
@@ -27,7 +27,7 @@ const SaleList: React.FC = () => {
     data: userSaleList,
     isLoading,
     isError,
-  } = useQuery<TProductSummary[]>('', () => userSaleListAPI(Auth?.id), {
+  } = useQuery<TProductSummary[]>('', () => userMenuAPI({ userId: Auth?.id }), {
     refetchOnWindowFocus: false,
     retry: 0,
   });

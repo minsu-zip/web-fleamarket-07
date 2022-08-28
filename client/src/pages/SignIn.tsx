@@ -1,7 +1,7 @@
 import TopBar from '@components/molecules/TopBar';
 import styled from '@emotion/styled';
 import Button from '@mui/material/Button';
-import React, { useCallback, useState } from 'react';
+import React, { useState } from 'react';
 import { useRecoilValue } from 'recoil';
 import { authAtom } from '@stores/AuthRecoil';
 import { COLOR } from '@constants/style';

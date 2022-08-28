@@ -1,12 +1,12 @@
 import React from 'react';
+import { userMenuAPI } from '@apis/product';
+import type { TProductSummary } from '@fleamarket/common';
+import ProductItem from './ProductItem';
 import { useQuery } from 'react-query';
+import Guide from '@components/atoms/Guide';
 import { useRecoilValue } from 'recoil';
 import { authAtom } from '@stores/AuthRecoil';
-import { userLikeListAPI } from '@apis/product';
-import Guide from '@components/atoms/Guide';
 import Heart from '@components/molecules/Heart';
-import ProductItem from './ProductItem';
-import type { TProductSummary } from '@fleamarket/common';
 
 const LikeList: React.FC = () => {
   const Auth = useRecoilValue(authAtom);
@@ -15,10 +15,14 @@ const LikeList: React.FC = () => {
     data: userLikeList,
     isLoading,
     isError,
-  } = useQuery<TProductSummary[]>('', () => userLikeListAPI(Auth?.id), {
-    refetchOnWindowFocus: false,
-    retry: 0,
-  });
+  } = useQuery<TProductSummary[]>(
+    '',
+    () => userMenuAPI({ userId: Auth?.id, likeStatus: true }),
+    {
+      refetchOnWindowFocus: false,
+      retry: 0,
+    },
+  );
 
   if (isError) return <Guide.Error />;
 

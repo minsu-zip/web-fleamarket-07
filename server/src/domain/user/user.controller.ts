@@ -67,6 +67,12 @@ export class UserController {
     return this.userService.findByName(name);
   }
 
+  @Get('userLocation/:id')
+  @UseGuards(AuthGuard)
+  findLocation(@Param('id') id: number) {
+    return this.userService.findLocation(+id);
+  }
+
   @Patch(':id')
   update(@Param('id') id: string, @Body() updateUserDto) {
     return this.userService.update(+id, updateUserDto);
