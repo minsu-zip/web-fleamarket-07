@@ -1,3 +1,4 @@
+import { TLocation } from '@fleamarket/common';
 import { atom } from 'recoil';
 
 const categoryAtom = atom<number>({
@@ -5,7 +6,7 @@ const categoryAtom = atom<number>({
   default: 0,
 });
 
-const locationAtom = atom<any>({
+const locationAtom = atom<TLocation[]>({
   key: 'locationAtom',
   default: [
     {
