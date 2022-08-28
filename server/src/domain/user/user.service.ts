@@ -151,7 +151,7 @@ export class UserService {
       );
 
     const { id: deleteId } = locationDeleteDto;
-    const newLocation1Id = deleteId === location1Id ? location1Id : location2Id;
+    const newLocation1Id = deleteId === location1Id ? location2Id : location1Id;
 
     await this.update(id, { location1Id: newLocation1Id, location2Id: null });
 
