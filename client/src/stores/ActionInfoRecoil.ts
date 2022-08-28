@@ -5,4 +5,14 @@ const categoryAtom = atom<number>({
   default: 0,
 });
 
-export { categoryAtom };
+const locationAtom = atom<any>({
+  key: 'locationAtom',
+  default: [
+    {
+      id: 1,
+      region: '역삼동',
+    },
+  ],
+});
+
+export { categoryAtom, locationAtom };
