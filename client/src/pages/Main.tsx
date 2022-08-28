@@ -5,7 +5,7 @@ import styled from '@emotion/styled';
 import MainLayout from '@components/organisms/MainLayout';
 import ProductItem from '@components/organisms/ProductItem';
 import Guide from '@components/atoms/Guide';
-import { COLOR } from '@constants/style';
+import { COLOR, SCROLLBAR_THUMB } from '@constants/style';
 import Heart from '@components/molecules/Heart';
 import Dropdown from '@components/molecules/Dropdown';
 import MoreVertIcon from '@mui/icons-material/MoreVert';
@@ -90,20 +90,10 @@ const Main: React.FC = () => {
 };
 
 const ContentWrapperDiv = styled.div`
+  ${SCROLLBAR_THUMB}
   flex: 1;
+  overflow-x: hidden;
   overflow-y: scroll;
-
-  &::-webkit-scrollbar {
-    width: 0.25rem;
-  }
-
-  &::-webkit-scrollbar-track {
-    border-radius: 10px;
-  }
-
-  &::-webkit-scrollbar-thumb {
-    border-radius: 10px;
-  }
 `;
 
 export default Main;
