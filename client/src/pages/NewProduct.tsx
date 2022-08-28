@@ -78,8 +78,6 @@ const NewProduct: React.FC = () => {
     productForm.append('title', title);
     productForm.append('price', String(price));
     productForm.append('content', content);
-    productForm.append('hit', String(0));
-    productForm.append('status', '판매중');
     productForm.append('userId', String(Auth?.id));
     productForm.append('locationId', String(Auth?.location1.id));
     productForm.append('categoryId', String(selectedCategory));
