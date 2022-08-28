@@ -20,7 +20,7 @@ const ProductDetail: React.FC = () => {
     isError,
     data: details,
   } = useQuery<TProductDetail>(
-    `detail-${productId}`,
+    [`detail`, productId],
     () => getProductDetailAPI({ productId }),
     {
       refetchOnWindowFocus: false,
