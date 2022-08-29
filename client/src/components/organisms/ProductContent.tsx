@@ -1,8 +1,8 @@
-import React from 'react';
+import React, { useState } from 'react';
 import Carousel from 'react-material-ui-carousel';
 import styled from '@emotion/styled';
 import ImageBox, { EImageSize } from '@components/molecules/ImageBox';
-import { ProductStatus, TProductDetail } from '@fleamarket/common';
+import { EProductStatus, TProductDetail } from '@fleamarket/common';
 import Dropdown from '@components/molecules/Dropdown';
 import {
   COLOR,
@@ -14,6 +14,7 @@ import {
 } from '@constants/style';
 import { getTimeGapString } from '@utils/time';
 import { css } from '@emotion/css';
+import { productUpdateAPI } from '@apis/product';
 
 interface IProps {
   details: TProductDetail;
@@ -25,7 +26,6 @@ const ProductContent: React.FC<IProps> = ({ details, authId }) => {
     title,
     content,
     images,
-    status,
     categoryName,
     createdAt,
     rooms,
@@ -34,7 +34,15 @@ const ProductContent: React.FC<IProps> = ({ details, authId }) => {
     userName,
     locationName,
     userId,
+    id,
   } = details;
+
+  const [status, setStatus] = useState(String(details.status));
+
+  const handleClick = async (value: string) => {
+    setStatus(value);
+    await productUpdateAPI({ productId: id, productStatus: value });
+  };
 
   return (
     <>
@@ -62,12 +70,10 @@ const ProductContent: React.FC<IProps> = ({ details, authId }) => {
       <ContentDiv>
         {userId === authId ? (
           <Dropdown
-            dropDownList={Object.values(ProductStatus).filter(
+            dropDownList={Object.values(EProductStatus).filter(
               (k) => k !== status,
             )}
-            handleClick={(value) => {
-              return value;
-            }}
+            handleClick={handleClick}
           >
             <DropdownDiv>{status}</DropdownDiv>
           </Dropdown>
