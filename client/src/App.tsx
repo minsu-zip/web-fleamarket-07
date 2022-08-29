@@ -39,7 +39,8 @@ const App: React.FC = () => {
     'getLocation',
     () => getUserLocationAPI(Auth?.id),
     {
-      onSuccess: (data: TLocation[]) => (data ? setLocation(data) : null),
+      onSuccess: (data: TLocation[]) =>
+        data.length ? setLocation(data) : null,
     },
   );
 

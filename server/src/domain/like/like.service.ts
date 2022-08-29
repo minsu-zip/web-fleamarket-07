@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { DeleteResult, Repository } from 'typeorm';
+import { Repository } from 'typeorm';
 import { Like } from './entities/like.entity';
 
 @Injectable()
@@ -12,14 +12,13 @@ export class LikeService {
     this.likeRepository = likeRepository;
   }
 
-  async create(productId: number, userId: number): Promise<Like> {
-    const newLike = this.likeRepository.create({ productId, userId });
-    const like = await this.likeRepository.save(newLike);
-    return like;
-  }
+  async toggle(productId: number, userId: number): Promise<boolean> {
+    const whereObject = { productId, userId };
+    const like = await this.likeRepository.findOneBy(whereObject);
 
-  async remove(productId: number, userId: number): Promise<DeleteResult> {
-    const result = await this.likeRepository.delete({ productId, userId });
-    return result;
+    if (like) await this.likeRepository.delete(whereObject);
+    else await this.likeRepository.save(whereObject);
+
+    return !like;
   }
 }

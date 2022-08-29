@@ -44,7 +44,10 @@ export class ProductService {
     return newProduct;
   }
 
-  async findAllByQuery(query: TProductAllQuery): Promise<TProductSummary[]> {
+  async findAllByQuery(
+    query: TProductAllQuery,
+    filterUser = true,
+  ): Promise<TProductSummary[]> {
     const { locationId, categoryId, userId, likeStatus } = query;
 
     try {
@@ -75,7 +78,7 @@ export class ProductService {
         .addSelect('category.name', 'categoryName')
         .addSelect('COUNT(room.id)', 'rooms')
         .addSelect('COUNT(like.product_id)', 'likes')
-        .addSelect(`SUM(like.user_id = ${userId ? userId : 0})`, 'isLike')
+        .addSelect(`SUM(like.user_id = ${userId ? userId : -1})`, 'isLike')
         .addSelect('image.url', 'titleImage');
 
       if (locationId) {
@@ -89,7 +92,7 @@ export class ProductService {
       // 나의 관심목록 / 내 판매목록 분기 처리
       if (likeStatus && userId) {
         build.andWhere('like.user_id = :userId', { userId });
-      } else if (userId) {
+      } else if (userId && filterUser) {
         build.andWhere('p.userId = :userId', { userId });
       }
 
