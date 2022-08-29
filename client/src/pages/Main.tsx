@@ -1,5 +1,5 @@
-import React from 'react';
-import { useQuery } from 'react-query';
+import React, { useEffect, useRef } from 'react';
+import { useQuery, useQueryClient } from 'react-query';
 import { useRecoilValue } from 'recoil';
 import styled from '@emotion/styled';
 import MainLayout from '@components/organisms/MainLayout';
@@ -10,24 +10,30 @@ import Heart from '@components/molecules/Heart';
 import Dropdown from '@components/molecules/Dropdown';
 import MoreVertIcon from '@mui/icons-material/MoreVert';
 import { dropDownList } from '@constants/dropDownList';
-import { deleteProductAPI, getProductAllAPI } from '@apis/product';
+import {
+  deleteProductAPI,
+  getProductAllAPI,
+  likeProductAPI,
+} from '@apis/product';
 import { categoryAtom, locationAtom } from '@stores/ActionInfoRecoil';
 import { authAtom } from '@stores/AuthRecoil';
 import type { TProductSummary } from '@fleamarket/common';
 
 const Main: React.FC = () => {
+  const clickedLike = useRef<boolean>(false);
   const currentCategory = useRecoilValue(categoryAtom);
   const Auth = useRecoilValue(authAtom);
   const locations = useRecoilValue(locationAtom);
   const currentLocation = locations[0].id;
 
+  const productQueryKey = ['products', currentLocation];
   const {
     isLoading,
     isError,
     refetch,
     data: productList,
   } = useQuery<TProductSummary[]>(
-    ['products', currentLocation],
+    productQueryKey,
     () =>
       getProductAllAPI({
         locationId: currentLocation,
@@ -38,6 +44,32 @@ const Main: React.FC = () => {
       retry: 0,
     },
   );
+
+  const queryClient = useQueryClient();
+
+  const likeClick = (pid: number) => () => {
+    const snapshot =
+      queryClient.getQueriesData<TProductSummary[]>(productQueryKey);
+    const newProducts = [...snapshot[0][1]];
+    const index = newProducts.findIndex(({ id }) => id === pid);
+    const newData = {
+      ...newProducts[index],
+      isLike: !newProducts[index].isLike,
+    };
+    likeProductAPI({ productId: pid });
+
+    newProducts[index] = newData;
+    queryClient.setQueryData(productQueryKey, newProducts);
+    clickedLike.current = true;
+  };
+
+  useEffect(() => {
+    return () => {
+      if (clickedLike.current) {
+        refetch();
+      }
+    };
+  }, [refetch]);
 
   const handleClick = async (value: string, productId: string) => {
     if (value === '삭제하기') {
@@ -82,7 +114,10 @@ const Main: React.FC = () => {
                 <MoreVertIcon />
               </Dropdown>
             ) : (
-              <Heart isLike={!!product.isLike}></Heart>
+              <Heart
+                isLike={!!product.isLike}
+                onClick={likeClick(product.id)}
+              ></Heart>
             )}
           </ProductItem>
         ))}

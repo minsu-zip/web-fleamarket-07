@@ -1,11 +1,15 @@
 import React from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
-import { useQuery } from 'react-query';
+import { useQuery, useQueryClient } from 'react-query';
 import styled from '@emotion/styled';
 import { Button } from '@mui/material';
 import Heart from '@components/molecules/Heart';
 import TopBar from '@components/molecules/TopBar';
-import { deleteProductAPI, getProductDetailAPI } from '@apis/product';
+import {
+  deleteProductAPI,
+  getProductDetailAPI,
+  likeProductAPI,
+} from '@apis/product';
 import Guide from '@components/atoms/Guide';
 import { COLOR, SCROLLBAR_THUMB, TEXT_LINK_SMALL } from '@constants/style';
 import type { TProductDetail } from '@fleamarket/common';
@@ -22,18 +26,32 @@ const ProductDetail: React.FC = () => {
   const { id: productId } = useParams();
   const Auth = useRecoilValue(authAtom);
 
+  const detailQuery = [`detail`, productId];
   const {
     isLoading,
     isError,
     data: details,
   } = useQuery<TProductDetail>(
-    [`detail`, productId],
+    detailQuery,
     () => getProductDetailAPI({ productId }),
     {
       refetchOnWindowFocus: false,
       retry: 0,
     },
   );
+
+  const queryClient = useQueryClient();
+
+  const likeClick = (pid: number) => () => {
+    const snapshot = queryClient.getQueriesData<TProductDetail>(detailQuery);
+    const productSnap = snapshot[0][1];
+    likeProductAPI({ productId: pid });
+
+    queryClient.setQueryData(detailQuery, {
+      ...productSnap,
+      isLike: !productSnap?.isLike,
+    });
+  };
 
   const handleClick = async (value: string) => {
     if (value === '삭제하기') {
@@ -80,7 +98,7 @@ const ProductDetail: React.FC = () => {
         <ProductContent details={details} />
       </div>
       <footer className='foot'>
-        <Heart isLike={!!isLike} />
+        <Heart isLike={!!isLike} onClick={likeClick(details.id)} />
         <PriceSpan>{price.toLocaleString()}원</PriceSpan>
         <ChatButton
           variant='contained'

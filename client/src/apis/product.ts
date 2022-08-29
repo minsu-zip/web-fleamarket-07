@@ -63,7 +63,7 @@ export const getProductDetailAPI = async ({
 };
 
 export const createProductAPI = async (newProduct: FormData) => {
-  const response = await axiosAuth.post(`product`, newProduct, {
+  await axiosAuth.post(`product`, newProduct, {
     headers: {
       'Content-Type': 'multipart/form-data',
     },
@@ -72,8 +72,24 @@ export const createProductAPI = async (newProduct: FormData) => {
 
 export const deleteProductAPI = async (id: number) => {
   try {
-    const response = await axiosAuth.delete(`product/${id}`);
+    await axiosAuth.delete(`product/${id}`);
   } catch (error) {
     console.error('상품 삭제에 실패했습니다.', error);
   }
+};
+
+export const likeProductAPI = async ({
+  productId,
+}: {
+  productId: number;
+}): Promise<boolean> => {
+  const response = await axiosAuth.patch(`product/like/${productId}`);
+
+  const status = Math.floor(response.status / 100) * 100;
+
+  if (status !== 200) throw response;
+
+  const { isLike } = response.data;
+
+  return isLike;
 };

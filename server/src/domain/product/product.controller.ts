@@ -21,6 +21,7 @@ import type { TProductAllQuery, TUser } from '@fleamarket/common';
 import { AuthGuard } from '../auth/auth.guard';
 import { FilesInterceptor } from '@nestjs/platform-express/multer/interceptors/files.interceptor';
 import { LikeService } from '../like/like.service';
+import { AuthDataGuard } from '../auth/auth.data.guard';
 
 @Controller('product')
 export class ProductController {
@@ -40,9 +41,19 @@ export class ProductController {
   }
 
   @Get()
-  async findAll(@Query() query: TProductAllQuery, @Res() res: Response) {
-    // TODO : User 정보를 가져와서 id 넘겨주기
-    const data = await this.productService.findAllByQuery(query);
+  @UseGuards(AuthDataGuard)
+  async findAll(
+    @Req() req: Request & { user: TUser },
+    @Query() query: TProductAllQuery,
+    @Res() res: Response,
+  ) {
+    const data = await this.productService.findAllByQuery(
+      {
+        ...query,
+        userId: (req?.user ?? {}).id,
+      },
+      false,
+    );
     return res.status(HttpStatus.OK).json({ products: data });
   }
 
@@ -54,7 +65,12 @@ export class ProductController {
   }
 
   @Get(':id')
-  async findOne(@Param('id') id: string, @Res() res: Response) {
+  @UseGuards(AuthDataGuard)
+  async findOne(
+    @Req() req: Request & { user: TUser },
+    @Param('id') id: string,
+    @Res() res: Response,
+  ) {
     // TODO : User 정보 가져와서 id 넘겨주기
     const productId = Number(id);
     if (isNaN(productId) || productId < 0)
@@ -63,7 +79,7 @@ export class ProductController {
         HttpStatus.BAD_REQUEST,
       );
 
-    const data = await this.productService.findOne(+id, undefined);
+    const data = await this.productService.findOne(+id, (req?.user ?? {}).id);
     return res.status(HttpStatus.OK).json({ product: data });
   }
 

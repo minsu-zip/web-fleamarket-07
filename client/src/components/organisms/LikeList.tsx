@@ -1,8 +1,8 @@
 import React from 'react';
-import { userMenuAPI } from '@apis/product';
+import { likeProductAPI, userMenuAPI } from '@apis/product';
 import type { TProductSummary } from '@fleamarket/common';
 import ProductItem from './ProductItem';
-import { useQuery } from 'react-query';
+import { useQuery, useQueryClient } from 'react-query';
 import Guide from '@components/atoms/Guide';
 import { useRecoilValue } from 'recoil';
 import { authAtom } from '@stores/AuthRecoil';
@@ -24,6 +24,21 @@ const LikeList: React.FC = () => {
     },
   );
 
+  const queryClient = useQueryClient();
+
+  const likeClick = (pid: number) => () => {
+    const snapshot = queryClient.getQueriesData<TProductSummary[]>('likeList');
+    const newProducts = [...snapshot[0][1]];
+    const index = newProducts.findIndex(({ id }) => id === pid);
+    const isLike = !newProducts[index].isLike;
+    likeProductAPI({ productId: pid });
+
+    queryClient.setQueryData(
+      'likeList',
+      newProducts.filter((_, i) => i !== index || isLike),
+    );
+  };
+
   if (isError) return <Guide.Error />;
 
   if (isLoading) return <Guide.Loading />;
@@ -34,7 +49,10 @@ const LikeList: React.FC = () => {
     <>
       {userLikeList?.map((product) => (
         <ProductItem key={product.id} product={product}>
-          <Heart isLike={!!product.isLike}></Heart>
+          <Heart
+            isLike={!!product.isLike}
+            onClick={likeClick(product.id)}
+          ></Heart>
         </ProductItem>
       ))}
     </>
