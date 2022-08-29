@@ -13,12 +13,14 @@ import {
   TEXT_X_SMALL,
 } from '@constants/style';
 import { getTimeGapString } from '@utils/time';
+import { css } from '@emotion/css';
 
 interface IProps {
   details: TProductDetail;
+  authId?: number;
 }
 
-const ProductContent: React.FC<IProps> = ({ details }) => {
+const ProductContent: React.FC<IProps> = ({ details, authId }) => {
   const {
     title,
     content,
@@ -31,6 +33,7 @@ const ProductContent: React.FC<IProps> = ({ details }) => {
     hit,
     userName,
     locationName,
+    userId,
   } = details;
 
   return (
@@ -57,16 +60,27 @@ const ProductContent: React.FC<IProps> = ({ details }) => {
       </Carousel>
 
       <ContentDiv>
-        <Dropdown
-          dropDownList={Object.values(ProductStatus).filter(
-            (k) => k !== status,
-          )}
-          handleClick={(value) => {
-            return value;
-          }}
-        >
-          <DropdownDiv>{status}</DropdownDiv>
-        </Dropdown>
+        {userId === authId ? (
+          <Dropdown
+            dropDownList={Object.values(ProductStatus).filter(
+              (k) => k !== status,
+            )}
+            handleClick={(value) => {
+              return value;
+            }}
+          >
+            <DropdownDiv>{status}</DropdownDiv>
+          </Dropdown>
+        ) : (
+          <span
+            className={css`
+              ${TEXT_LARGE}
+            `}
+          >
+            {status}
+          </span>
+        )}
+
         <h3 className='title'>{title}</h3>
         <span className='sub_title'>
           {categoryName}

@@ -95,7 +95,7 @@ const ProductDetail: React.FC = () => {
         </TopBar>
       </nav>
       <div className='body'>
-        <ProductContent details={details} />
+        <ProductContent details={details} authId={Auth?.id} />
       </div>
       <footer className='foot'>
         <Heart isLike={!!isLike} onClick={likeClick(details.id)} />
