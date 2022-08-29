@@ -94,6 +94,8 @@ export class ProductService {
       }
 
       build.groupBy('p.id, image.id');
+      build.orderBy({ 'p.created_at': 'DESC' });
+
       const data = await build.execute();
 
       return data as TProductSummary[];
@@ -163,7 +165,7 @@ export class ProductService {
   }
 
   async remove(id: number): Promise<DeleteResult> {
-    const result = await this.productRepository.delete({ id });
+    const result = await this.productRepository.softDelete({ id });
 
     return result;
   }

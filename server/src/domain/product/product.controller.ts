@@ -68,6 +68,7 @@ export class ProductController {
   }
 
   @Delete(':id')
+  @UseGuards(AuthGuard)
   remove(@Param('id') id: string) {
     return this.productService.remove(+id);
   }
