@@ -76,7 +76,6 @@ const NewProduct: React.FC = () => {
 
   const handleSubmit = async () => {
     const productForm = new FormData();
-    console.log(Auth?.location1.id);
 
     productForm.append('title', title);
     productForm.append('price', String(price));
