@@ -9,15 +9,17 @@ import { Avatar, IconButton } from '@mui/material';
 import MenuOutlinedIcon from '@mui/icons-material/MenuOutlined';
 import Dropdown from '@components/molecules/Dropdown';
 import { SLIDE_STATE } from '@constants/slideStyle';
-import { useRecoilState } from 'recoil';
+import { useRecoilState, useRecoilValue } from 'recoil';
 import { locationAtom } from '@stores/ActionInfoRecoil';
+import { authAtom } from '@stores/AuthRecoil';
 
 const MenuHeader: React.FC = () => {
+  const Auth = useRecoilValue(authAtom);
   const [locations, setLocations] = useRecoilState(locationAtom);
 
   // 전역상태관리 및 유저 정보에서 현재 위치, 프로필 이미지 가져온다
   const currentLocation = locations[0];
-  const userProfile = '';
+  const userProfile = Auth?.avatar ?? '';
   const navigate = useNavigate();
 
   const handleClick = (value: string) => {
@@ -67,8 +69,10 @@ const MenuHeader: React.FC = () => {
         <Avatar
           alt='userProfile'
           src={userProfile}
-          sx={{ width: 30, height: 30 }}
-          onClick={() => navigate('signIn')}
+          sx={{ width: 30, height: 30, cursor: 'pointer' }}
+          onClick={() =>
+            navigate('signIn', { state: { animate: SLIDE_STATE.LEFT } })
+          }
         />
         <IconButtonWrapper
           size='large'

@@ -43,6 +43,13 @@ const SignIn: React.FC = () => {
             </div>
           </GithubWrapperDiv>
         </SocialButton>
+        <TestButton>
+          <GithubWrapperDiv>
+            <div style={{ paddingLeft: '20px' }}>
+              <span>테스트 로그인</span>
+            </div>
+          </GithubWrapperDiv>
+        </TestButton>
       </div>
     </>
   );
@@ -77,6 +84,26 @@ const SocialButton = styled(Button)({
   },
   '&:disabled': {
     backgroundColor: COLOR.background2,
+  },
+});
+const TestButton = styled(Button)({
+  display: 'flex',
+  margin: '0px auto',
+  marginTop: '20px',
+  width: '80%',
+  height: '48px',
+  borderRadius: '6px',
+  fontWeight: 'bold',
+  color: COLOR.title,
+  backgroundColor: COLOR.primary,
+  '&:active': {
+    backgroundColor: COLOR.primary2,
+  },
+  '&:hover': {
+    backgroundColor: COLOR.primary3,
+  },
+  '&:disabled': {
+    backgroundColor: COLOR.label,
   },
 });
 

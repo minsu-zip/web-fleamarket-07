@@ -6,5 +6,5 @@ export default function Verification() {
   const Auth = useRecoilValue(authAtom);
   if (Auth) return <Outlet />;
 
-  return <Navigate to='/signIn' />;
+  return <Navigate replace to='/signIn' />;
 }

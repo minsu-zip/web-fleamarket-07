@@ -104,7 +104,12 @@ const NewProduct: React.FC = () => {
   return (
     <ContainerDiv>
       <TopBar title='글쓰기' onClick={() => inputCheck && handleSubmit()}>
-        <CheckOutlinedIcon sx={{ color: inputCheck ? COLOR.point : '' }} />
+        <CheckOutlinedIcon
+          sx={{
+            color: inputCheck ? COLOR.point : '',
+            cursor: inputCheck ? 'pointer' : '',
+          }}
+        />
       </TopBar>
       <div className='contents'>
         <ImageUpload
