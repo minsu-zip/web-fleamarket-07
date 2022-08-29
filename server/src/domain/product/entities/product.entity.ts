@@ -30,10 +30,14 @@ export class Product {
   @Column({ type: 'decimal' })
   price: number;
 
-  @Column({ type: 'int' })
+  @Column({ type: 'int', default: 0 })
   hit: number;
 
-  @Column({ type: 'enum', enum: Object.values(ProductStatus) })
+  @Column({
+    type: 'enum',
+    enum: Object.values(ProductStatus),
+    default: EProductStatus.doing,
+  })
   status: EProductStatus;
 
   @CreateDateColumn()

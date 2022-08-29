@@ -1,6 +1,6 @@
 import TProduct from './TProduct';
 import TImage from '../TImage';
-import TLocation from 'types/TLocation';
+import { TLocation } from 'types/location';
 import { TUser } from 'types/user';
 import TCategory from 'types/TCategory';
 

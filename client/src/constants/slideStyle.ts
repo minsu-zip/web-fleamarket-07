@@ -88,3 +88,13 @@ export const getAnimationCSS = (animate?: EAnimate) => {
       return ``;
   }
 };
+
+export const isRoutesAnimation = (animate?: string) => {
+  switch (animate) {
+    case slideVertical:
+    case slideHorizontal:
+      return true;
+    default:
+      return false;
+  }
+};

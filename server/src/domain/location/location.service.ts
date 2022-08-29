@@ -1,3 +1,4 @@
+import { TLocationCreate } from '@fleamarket/common';
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
@@ -12,9 +13,14 @@ export class LocationService {
     this.locationRepository = locationRepository;
   }
 
-  async create(createLocationDto: Location): Promise<Location> {
-    const newLocation = this.locationRepository.create(createLocationDto);
-    const location = await this.locationRepository.save(newLocation);
+  async createOrFind({ region }: TLocationCreate): Promise<Location> {
+    let location = await this.locationRepository.findOneBy({ region });
+
+    if (!location) {
+      const newLocation = await this.locationRepository.create({ region });
+      location = await this.locationRepository.save(newLocation);
+    }
+
     return location;
   }
 

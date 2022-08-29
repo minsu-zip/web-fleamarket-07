@@ -53,8 +53,10 @@ const Container = styled.div`
 
   & > .wrapper {
     width: 100%;
+    padding-bottom: 1.5rem;
     display: flex;
     overflow-x: scroll;
+    overflow-y: hidden;
   }
 `;
 const Box = styled.div`
@@ -63,6 +65,7 @@ const Box = styled.div`
   margin: 0.5rem;
   position: relative;
 `;
+
 const CloseWrapper = styled.button`
   background: ${COLOR.titleActive};
   border-radius: 0.75rem;
@@ -77,6 +80,7 @@ const CloseWrapper = styled.button`
   color: ${COLOR.offWhite};
   z-index: 1;
 `;
+
 const UploadBox = styled.div`
   min-width: 5rem;
 

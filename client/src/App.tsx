@@ -36,7 +36,7 @@ const App: React.FC = () => {
   const setLocation = useSetRecoilState(locationAtom);
 
   const { isLoading, isError } = useQuery<TLocation[]>(
-    '',
+    'getLocation',
     () => getUserLocationAPI(Auth?.id),
     {
       onSuccess: (data: TLocation[]) => (data ? setLocation(data) : null),

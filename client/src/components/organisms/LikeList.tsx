@@ -16,7 +16,7 @@ const LikeList: React.FC = () => {
     isLoading,
     isError,
   } = useQuery<TProductSummary[]>(
-    '',
+    'likeList',
     () => userMenuAPI({ userId: Auth?.id, likeStatus: true }),
     {
       refetchOnWindowFocus: false,

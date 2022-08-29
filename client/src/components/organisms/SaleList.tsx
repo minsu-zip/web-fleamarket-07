@@ -18,10 +18,14 @@ const SaleList: React.FC = () => {
     isLoading,
     isError,
     refetch,
-  } = useQuery<TProductSummary[]>('', () => userMenuAPI({ userId: Auth?.id }), {
-    refetchOnWindowFocus: false,
-    retry: 0,
-  });
+  } = useQuery<TProductSummary[]>(
+    'saleList',
+    () => userMenuAPI({ userId: Auth?.id }),
+    {
+      refetchOnWindowFocus: false,
+      retry: 0,
+    },
+  );
 
   const handleClick = async (value: string, productId: string) => {
     if (value === '삭제하기') {
