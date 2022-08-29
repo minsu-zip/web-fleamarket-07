@@ -5,7 +5,7 @@ import { useRecoilValue } from 'recoil';
 import { authAtom } from '@stores/AuthRecoil';
 import Guide from '@components/atoms/Guide';
 import Dropdown from '@components/molecules/Dropdown';
-import { userMenuAPI } from '@apis/product';
+import { deleteProductAPI, userMenuAPI } from '@apis/product';
 import ProductItem from './ProductItem';
 import type { TProductSummary } from '@fleamarket/common';
 import { dropDownList } from '@constants/dropDownList';
@@ -13,19 +13,11 @@ import { dropDownList } from '@constants/dropDownList';
 const SaleList: React.FC = () => {
   const Auth = useRecoilValue(authAtom);
 
-  const handleClick = (value: string) => {
-    // 함수 로직 작성 나중에 실제 데이터 이용시 수정
-    if (value === '수정하기') {
-      //
-    } else {
-      //
-    }
-  };
-
   const {
     data: userSaleList,
     isLoading,
     isError,
+    refetch,
   } = useQuery<TProductSummary[]>(
     'saleList',
     () => userMenuAPI({ userId: Auth?.id }),
@@ -34,6 +26,13 @@ const SaleList: React.FC = () => {
       retry: 0,
     },
   );
+
+  const handleClick = async (value: string, productId: string) => {
+    if (value === '삭제하기') {
+      await deleteProductAPI(Number(productId));
+      refetch();
+    }
+  };
 
   if (isError) return <Guide.Error />;
 
@@ -45,7 +44,11 @@ const SaleList: React.FC = () => {
     <>
       {userSaleList?.map((product) => (
         <ProductItem key={product.id} product={product}>
-          <Dropdown dropDownList={dropDownList} handleClick={handleClick}>
+          <Dropdown
+            id={String(product.id)}
+            dropDownList={dropDownList}
+            handleClick={handleClick}
+          >
             <MoreVertIcon />
           </Dropdown>
         </ProductItem>

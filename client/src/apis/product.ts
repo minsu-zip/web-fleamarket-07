@@ -68,6 +68,12 @@ export const createProductAPI = async (newProduct: FormData) => {
       'Content-Type': 'multipart/form-data',
     },
   });
+};
 
-  console.log('응닶', response);
+export const deleteProductAPI = async (id: number) => {
+  try {
+    const response = await axiosAuth.delete(`product/${id}`);
+  } catch (error) {
+    console.error('상품 삭제에 실패했습니다.', error);
+  }
 };

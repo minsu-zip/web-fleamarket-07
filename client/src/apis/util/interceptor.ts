@@ -8,7 +8,7 @@ const setInterceptor = (instance: AxiosInstance) => {
 
       if (authToken) {
         config.headers = {
-          authorization: authToken ? authToken : '',
+          authorization: authToken,
         };
       }
 
