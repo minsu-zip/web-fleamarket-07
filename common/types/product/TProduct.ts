@@ -9,7 +9,7 @@ type TProduct = {
   content: string;
   price: number;
   hit: number;
-  status: EProductStatus;
+  status: keyof typeof EProductStatus;
   userId: TUser['id'];
   locationId: TLocation['id'];
   categoryId: TCategory['id'];
