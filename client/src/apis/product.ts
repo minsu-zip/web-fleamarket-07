@@ -3,6 +3,7 @@ import {
   TProductAllQuery,
   TProductSummary,
   TProductDetail,
+  TProduct,
 } from '@fleamarket/common';
 
 export const getProductAllAPI = async ({
@@ -92,4 +93,22 @@ export const likeProductAPI = async ({
   const { isLike } = response.data;
 
   return isLike;
+};
+
+export const productUpdateAPI = async ({
+  productId,
+  productStatus,
+}: {
+  productId: number;
+  productStatus: string;
+}): Promise<TProduct> => {
+  const response = await axiosAuth.patch(`product/${productId}`, {
+    status: productStatus,
+  });
+
+  const status = Math.floor(response.status / 100) * 100;
+
+  if (status !== 200) throw response;
+
+  return response.data;
 };
