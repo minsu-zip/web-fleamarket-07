@@ -21,6 +21,7 @@ import styled from '@emotion/styled';
 import { useRecoilState } from 'recoil';
 import { categoryAtom } from '@stores/ActionInfoRecoil';
 import { useNavigate } from 'react-router-dom';
+import { SLIDE_STATE } from '@constants/slideStyle';
 
 interface IProps {
   name: string;
@@ -55,7 +56,7 @@ const CategortItem: React.FC<IProps> = ({ name, id }) => {
 
   const handleClick = () => {
     setCategoryState(id);
-    navigate('/');
+    navigate('/', { state: { animate: SLIDE_STATE.LEFT } });
   };
 
   return (

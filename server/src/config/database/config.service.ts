@@ -19,6 +19,7 @@ export class MySqlConfigService implements TypeOrmOptionsFactory {
       namingStrategy: new SnakeNamingStrategy(),
       logging: true,
       autoLoadEntities: true,
+      timezone: 'Asia/Seoul',
       extra: {
         decimalNumbers: true,
       },
