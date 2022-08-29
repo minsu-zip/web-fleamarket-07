@@ -75,7 +75,7 @@ export class RoomService {
   }): Promise<TRoomReceive[]> {
     const whereUser = `r.seller_id=${userId} OR r.buyer_id=${userId}`;
 
-    const rooms = (await this.roomRepository
+    const rooms = await this.roomRepository
       .createQueryBuilder('r')
       .leftJoinAndSelect('r.product', 'product')
       .leftJoinAndSelect('r.seller', 'seller')
@@ -93,11 +93,11 @@ export class RoomService {
         'titleImage.id = (SELECT MIN(id) FROM image i WHERE i.product_id = product.id LIMIT 1)',
       )
       .where(
-        !!productId ? ` ${whereUser} AND product-id=${productId}` : whereUser,
+        !!productId ? ` ${whereUser} AND product.id=${productId}` : whereUser,
       )
-      .getMany()) as TRoomReceive[];
+      .getMany();
 
-    return rooms;
+    return rooms.filter(({ lastChat }) => lastChat);
   }
 
   async update(id: number, updateRoomDto): Promise<Room> {
