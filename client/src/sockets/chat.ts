@@ -32,17 +32,15 @@ const chat =
       socket.once(
         EChatEvent.entered,
         ({ chats, room }: { chats: TChatReceive[]; room: TRoomReceive }) => {
-          console.log('entered', chats, room);
           setRoom(room);
           setInitialChats(chats);
         },
       );
       socket.on(EChatEvent.receive, (newChat: TChatReceive) => {
-        console.log('received', newChat);
         setRefinedChats(newChat);
       });
       socket.on(EChatEvent.leaving, () => {
-        console.log('leaving');
+        // TODO : 유저가 떠났을 때 안 읽음 처리...
       });
       socket.on('exception', ({ message }) => {
         setError(message);
@@ -51,7 +49,6 @@ const chat =
     };
 
     const sendMessage = (sendDto: TChatSending) => {
-      console.log('send');
       socket.emit(EChatEvent.sending, sendDto);
     };
 
