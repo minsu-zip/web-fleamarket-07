@@ -162,9 +162,10 @@ export class ProductService {
 
   async update(id: number, updateProductDto): Promise<Product> {
     const pureProduct = await this.productRepository.findOneBy({ id });
+    const hit = pureProduct.hit + 1;
 
-    await this.productRepository.update(id, updateProductDto);
-    return { ...pureProduct, ...updateProductDto };
+    await this.productRepository.update(id, { ...updateProductDto, hit });
+    return { ...pureProduct, ...updateProductDto, hit };
   }
 
   async remove(id: number): Promise<DeleteResult> {

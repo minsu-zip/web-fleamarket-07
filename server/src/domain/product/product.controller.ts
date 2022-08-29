@@ -79,6 +79,7 @@ export class ProductController {
         HttpStatus.BAD_REQUEST,
       );
 
+    await this.productService.update(+id, null);
     const data = await this.productService.findOne(+id, (req?.user ?? {}).id);
     return res.status(HttpStatus.OK).json({ product: data });
   }
