@@ -26,15 +26,13 @@ const SwipeTab = ({ children }: PropsWithChildren) => {
     setSelection(index);
   };
 
-  const panels = React.Children.toArray(children)
-    .map((child) => {
-      if (!React.isValidElement(child)) return <></>;
-      if (typeof child.type === 'string') return <></>;
-      if (!child.props.label) return <></>;
+  const panels = React.Children.toArray(children).map((child) => {
+    if (!React.isValidElement(child)) return <></>;
+    if (typeof child.type === 'string') return <></>;
+    if (!child.props.label) return <></>;
 
-      return child;
-    })
-    .filter((c) => c.type.name === 'Panel');
+    return child;
+  });
 
   return (
     <SelectionContext.Provider value={selection}>
