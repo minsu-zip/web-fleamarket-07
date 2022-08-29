@@ -32,7 +32,7 @@ const chat =
       socket.once(
         EChatEvent.entered,
         ({ chats, room }: { chats: TChatReceive[]; room: TRoomReceive }) => {
-          console.log('entered');
+          console.log('entered', chats, room);
           setRoom(room);
           setInitialChats(chats);
         },

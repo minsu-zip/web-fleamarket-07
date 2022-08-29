@@ -49,7 +49,7 @@ const ChatList: React.FC<IProps> = ({
         const { id } = item;
 
         return (
-          <>
+          <React.Fragment key={id}>
             <ChatItem
               key={id}
               chat={item}
@@ -61,7 +61,7 @@ const ChatList: React.FC<IProps> = ({
               afterChat={reversedChat[index + 1]}
               room={room}
             />
-          </>
+          </React.Fragment>
         );
       })}
     </ContainerDiv>

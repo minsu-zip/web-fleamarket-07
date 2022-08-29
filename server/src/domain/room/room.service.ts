@@ -19,8 +19,26 @@ export class RoomService {
     return room;
   }
 
-  async findOne(id: number): Promise<Room> {
-    const room = await this.roomRepository.findOneBy({ id });
+  async findOrCreate(
+    productId: number,
+    sellerId: number,
+    buyerId: number,
+  ): Promise<Room> {
+    let room = await this.roomRepository.findOneBy({
+      productId,
+      sellerId,
+      buyerId,
+    });
+
+    if (!room) {
+      const newRoom = await this.roomRepository.create({
+        productId,
+        sellerId,
+        buyerId,
+      });
+      room = await this.roomRepository.save(newRoom);
+    }
+
     return room;
   }
 

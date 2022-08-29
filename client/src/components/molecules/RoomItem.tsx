@@ -13,20 +13,28 @@ import { css } from '@emotion/css';
 import { TRoomReceive } from '@fleamarket/common';
 import { useNavigate } from 'react-router-dom';
 import { SLIDE_STATE } from '@constants/slideStyle';
+import { useRecoilValue } from 'recoil';
+import { authAtom } from '@stores/AuthRecoil';
 
 interface IProps {
   roomInfo: TRoomReceive;
 }
 
-// 웹 소켓과 합칠 시 타입을 새로 정의해야하므로 임시로 any 지정
 const RoomItem: React.FC<IProps> = ({ roomInfo }) => {
   const navigate = useNavigate();
-  const { id: roomId, product, buyer, lastChat } = roomInfo;
+  const Auth = useRecoilValue(authAtom);
+  const { product, buyer, seller, lastChat, buyerId } = roomInfo;
+  const { content: lastContent, createdAt: lastCreatedAt } = lastChat || {};
+
+  const isSeller = Auth?.id === seller.id;
+  const queryString = isSeller ? `?buyer=${buyerId}` : '';
 
   return (
     <ContainerDiv
       onClick={() =>
-        navigate(`/chat/${roomId}`, { state: { animate: SLIDE_STATE.LEFT } })
+        navigate(`/chat/${product.id}${queryString}`, {
+          state: { animate: SLIDE_STATE.LEFT },
+        })
       }
     >
       <div style={{ marginLeft: '24px' }}>
@@ -35,13 +43,14 @@ const RoomItem: React.FC<IProps> = ({ roomInfo }) => {
             ${TEXT_LINK_SMALL}
           `}
         >
-          {buyer.name}
+          {isSeller ? buyer.name : seller.name}
+          {isSeller ? ' (판매자)' : ' (구매자)'}
         </div>
-        <ContentDiv>{lastChat.content}</ContentDiv>
+        <ContentDiv>{lastContent ?? ''}</ContentDiv>
       </div>
 
       <RightWrapperDiv>
-        <TimeDiv>{getTimeGapString(lastChat.createdAt)}</TimeDiv>
+        <TimeDiv>{getTimeGapString(lastCreatedAt ?? 0)}</TimeDiv>
         <div aria-label={notificationsLabel(100)}>
           <Badge badgeContent={100} color='primary'>
             <ImageBox
@@ -65,6 +74,7 @@ const ContainerDiv = styled.div`
 
 const ContentDiv = styled.div`
   ${TEXT_SMALL};
+  height: 1rem;
   color: ${COLOR.background2};
   margin-top: 6px;
   max-width: 240px;
