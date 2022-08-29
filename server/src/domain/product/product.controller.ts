@@ -96,8 +96,9 @@ export class ProductController {
   }
 
   @Patch(':id')
-  update(@Param('id') id: string, @Body() updateProductDto) {
-    return this.productService.update(+id, updateProductDto);
+  @UseGuards(AuthGuard)
+  async update(@Param('id') id: string, @Body() updateProductDto) {
+    return await this.productService.update(+id, updateProductDto);
   }
 
   @Delete(':id')
