@@ -160,6 +160,14 @@ export class ProductService {
     }
   }
 
+  async updateHit(id: number): Promise<Product> {
+    const pureProduct = await this.productRepository.findOneBy({ id });
+    const hit = pureProduct.hit + 1;
+
+    await this.productRepository.update(id, { hit });
+    return { ...pureProduct, hit };
+  }
+
   async update(id: number, updateProductDto): Promise<Product> {
     const pureProduct = await this.productRepository.findOneBy({ id });
 
