@@ -175,6 +175,10 @@ export class ProductService {
     return { ...pureProduct, ...updateProductDto };
   }
 
+  findOneBasic(id: number) {
+    return this.productRepository.findOneBy({ id });
+  }
+
   async remove(id: number): Promise<DeleteResult> {
     const result = await this.productRepository.softDelete({ id });
 

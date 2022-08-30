@@ -1,9 +1,11 @@
+import { TProduct } from 'types/product';
 import { TUser } from 'types/user';
 import TRoom from '../room/TRoom';
 import TChat from './TChat';
 
 export type TChatConnect = {
-  roomId: TRoom['id'];
+  productId: TProduct['id'];
+  buyerId?: string;
   authToken: string;
 };
 

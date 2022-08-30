@@ -4,10 +4,11 @@ import Socket from '@src/sockets';
 import { getCookie } from '@utils/cookie';
 
 interface IProps {
-  roomId: number;
+  productId: number;
+  buyerId?: string;
 }
 
-const useChat = ({ roomId }: IProps) => {
+const useChat = ({ productId, buyerId }: IProps) => {
   const [chats, setChats] = useState<TChatReceive[]>([]);
   const [room, setRoom] = useState<TRoomReceive | undefined>();
   const [error, setError] = useState<string>('');
@@ -26,12 +27,12 @@ const useChat = ({ roomId }: IProps) => {
   );
   useLayoutEffect(() => {
     const { connect, disconnect } = socket;
-    connect({ roomId, authToken: getCookie('auth') ?? '' });
+    connect({ productId, buyerId, authToken: getCookie('auth') ?? '' });
 
     return () => {
       disconnect();
     };
-  }, [socket, roomId]);
+  }, [socket, productId, buyerId]);
 
   return {
     error,

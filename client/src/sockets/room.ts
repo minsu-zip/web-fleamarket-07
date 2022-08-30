@@ -23,7 +23,6 @@ const room =
   ({ setRooms, setError }: IProps): IReturns => {
     const connect = (connectDto: TRoomConnect) => {
       socket.once(ERoomEvent.entered, ({ rooms }: TRoomEntered) => {
-        console.log('entered');
         setRooms(() =>
           rooms.reduce((acc, room) => {
             acc[room.id] = room;
@@ -34,6 +33,7 @@ const room =
       });
       socket.on(ERoomEvent.receive, (newRoom: TRoomReceive) => {
         console.log('received', newRoom);
+        // 새로운 방 OR 채팅이 왔을 때 알람 처리
       });
       socket.on('exception', ({ message }) => {
         setError(message);

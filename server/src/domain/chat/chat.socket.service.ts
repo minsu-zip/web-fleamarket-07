@@ -4,33 +4,44 @@ import { EChatEvent, TChatConnect, TChatSending } from '@fleamarket/common';
 import { ChatService } from './chat.service';
 import { WsException } from '@nestjs/websockets';
 import { RoomService } from '../room/room.service';
+import { ProductService } from '../product/product.service';
 
 @Injectable()
 export class ChatSocketService {
   constructor(
     private readonly roomService: RoomService,
     private readonly chatService: ChatService,
+    private readonly productService: ProductService,
   ) {}
 
   private logger: Logger = new Logger('Chat Socket');
 
-  async connectChat(client: Socket, { roomId }: TChatConnect) {
+  async connectChat(client: Socket, { productId, buyerId }: TChatConnect) {
     this.logger.verbose(`CHAT-Connect : ${client.id}`);
     try {
-      const roomCode = roomId.toString();
-
+      const { userId } = client.data;
       client.leave(client.id);
 
-      const data = await this.roomService.findOne(roomId);
-      if (!data) throw Error('채팅 연결 오류 : 올바른 채팅에 접근해주세요.');
-      if (
-        !(
-          client.data.userId === data.buyerId ||
-          client.data.userId === data.sellerId
-        )
-      )
-        throw Error('채팅 연결 오류 : 참가 하고 있는 채팅에 접근해주세요.');
+      const product = await this.productService.findOneBasic(productId);
+      if (!product) throw Error('채팅 연결 오류 : 상품이 없습니다');
+      if (!buyerId && userId === product.userId)
+        throw Error(
+          '채팅 연결 오류 : 자기 자신 상품의 채팅을 생성할 수 없습니다',
+        );
 
+      let sellerId = userId;
+      if (!buyerId) {
+        buyerId = userId;
+        sellerId = product.userId;
+      }
+
+      const { id: roomId } = await this.roomService.findOrCreate(
+        productId,
+        +sellerId,
+        +buyerId,
+      );
+
+      const roomCode = roomId.toString();
       client.data.roomId = roomCode;
       client.join(roomCode);
     } catch ({ message }) {

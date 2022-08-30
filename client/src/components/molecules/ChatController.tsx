@@ -5,12 +5,12 @@ import { useRecoilValue } from 'recoil';
 import { ChatControllerAtom } from '@stores/Chat';
 
 interface IProps {
-  lastChat: TChatReceive;
+  lastChat?: TChatReceive;
   scrollToBottom: (options?: ScrollIntoViewOptions) => void;
 }
 
 const ChatController: React.FC<IProps> = ({ lastChat, scrollToBottom }) => {
-  const { content } = lastChat;
+  const { content } = lastChat || {};
   const isOpen = useRecoilValue(ChatControllerAtom);
 
   return (
@@ -23,7 +23,7 @@ const ChatController: React.FC<IProps> = ({ lastChat, scrollToBottom }) => {
           })
         }
       >
-        <span>{content}</span>
+        <span>{content ?? ''}</span>
       </div>
     </ContainerDiv>
   );
