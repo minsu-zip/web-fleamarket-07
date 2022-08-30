@@ -98,16 +98,22 @@ const ProductDetail: React.FC = () => {
         <ProductContent details={details} />
       </div>
       <footer className='foot'>
-        <Heart isLike={!!isLike} onClick={likeClick(details.id)} />
-        <PriceSpan>{price.toLocaleString()}원</PriceSpan>
-        <ChatButton
-          variant='contained'
-          onClick={() =>
-            navigate(`/chat/${1}`, { state: { animate: SLIDE_STATE.LEFT } })
-          }
-        >
-          문의하기
-        </ChatButton>
+        {details.userId === Auth?.id ? (
+          <PriceSpan>{price.toLocaleString()}원</PriceSpan>
+        ) : (
+          <>
+            <Heart isLike={!!isLike} onClick={likeClick(details.id)} />
+            <PriceSpan>{price.toLocaleString()}원</PriceSpan>
+            <ChatButton
+              variant='contained'
+              onClick={() =>
+                navigate(`/chat/${1}`, { state: { animate: SLIDE_STATE.LEFT } })
+              }
+            >
+              문의하기
+            </ChatButton>
+          </>
+        )}
       </footer>
     </ContainerDiv>
   );
