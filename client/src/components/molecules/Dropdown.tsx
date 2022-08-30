@@ -3,6 +3,7 @@ import Button from '@mui/material/Button';
 import Menu from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
 import { COLOR } from '@constants/style';
+import { EProductStatus } from '@fleamarket/common';
 
 interface IProps {
   id?: string;
@@ -51,7 +52,13 @@ const Dropdown: React.FC<IProps> = ({
         }}
       >
         {dropDownList?.map((item, index) => (
-          <MenuItem key={item} onClick={handleClose(item, id ? id : '')}>
+          <MenuItem
+            key={item}
+            onClick={handleClose(
+              item as keyof typeof EProductStatus,
+              id ? id : '',
+            )}
+          >
             {item !== '삭제하기' ? (
               item
             ) : (

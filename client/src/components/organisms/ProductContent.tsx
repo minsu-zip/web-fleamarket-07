@@ -1,8 +1,8 @@
-import React from 'react';
+import React, { useState } from 'react';
 import Carousel from 'react-material-ui-carousel';
 import styled from '@emotion/styled';
 import ImageBox, { EImageSize } from '@components/molecules/ImageBox';
-import { ProductStatus, TProductDetail } from '@fleamarket/common';
+import { EProductStatus, TProductDetail } from '@fleamarket/common';
 import Dropdown from '@components/molecules/Dropdown';
 import {
   COLOR,
@@ -13,17 +13,19 @@ import {
   TEXT_X_SMALL,
 } from '@constants/style';
 import { getTimeGapString } from '@utils/time';
+import { css } from '@emotion/css';
+import { productUpdateAPI } from '@apis/product';
 
 interface IProps {
   details: TProductDetail;
+  authId?: number;
 }
 
-const ProductContent: React.FC<IProps> = ({ details }) => {
+const ProductContent: React.FC<IProps> = ({ details, authId }) => {
   const {
     title,
     content,
     images,
-    status,
     categoryName,
     createdAt,
     rooms,
@@ -31,7 +33,16 @@ const ProductContent: React.FC<IProps> = ({ details }) => {
     hit,
     userName,
     locationName,
+    userId,
+    id,
   } = details;
+
+  const [status, setStatus] = useState(String(details.status));
+
+  const handleClick = async (value: string) => {
+    setStatus(value);
+    await productUpdateAPI({ productId: id, productStatus: value });
+  };
 
   return (
     <>
@@ -57,16 +68,25 @@ const ProductContent: React.FC<IProps> = ({ details }) => {
       </Carousel>
 
       <ContentDiv>
-        <Dropdown
-          dropDownList={Object.values(ProductStatus).filter(
-            (k) => k !== status,
-          )}
-          handleClick={(value) => {
-            return value;
-          }}
-        >
-          <DropdownDiv>{status}</DropdownDiv>
-        </Dropdown>
+        {userId === authId ? (
+          <Dropdown
+            dropDownList={Object.values(EProductStatus).filter(
+              (k) => k !== status,
+            )}
+            handleClick={handleClick}
+          >
+            <DropdownDiv>{status}</DropdownDiv>
+          </Dropdown>
+        ) : (
+          <span
+            className={css`
+              ${TEXT_LARGE}
+            `}
+          >
+            {status}
+          </span>
+        )}
+
         <h3 className='title'>{title}</h3>
         <span className='sub_title'>
           {categoryName}

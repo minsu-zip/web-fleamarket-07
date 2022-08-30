@@ -4,4 +4,4 @@ export { default as TProductCreate } from './TProductCreate';
 export { default as TProductDetail } from './TProductDetail';
 export { default as TProductSummary } from './TProductSummary';
 export { default as TProductUpdate } from './TProductUpdate';
-export { ProductStatus, EProductStatus } from './EProductStatus';
+export { EProductStatus } from './EProductStatus';

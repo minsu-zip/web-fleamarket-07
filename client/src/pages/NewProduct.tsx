@@ -76,6 +76,7 @@ const NewProduct: React.FC = () => {
 
   const handleSubmit = async () => {
     const productForm = new FormData();
+
     productForm.append('title', title);
     productForm.append('price', String(price));
     productForm.append('content', content);

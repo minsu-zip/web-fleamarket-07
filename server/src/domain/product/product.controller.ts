@@ -79,7 +79,7 @@ export class ProductController {
         HttpStatus.BAD_REQUEST,
       );
 
-    await this.productService.update(+id, null);
+    await this.productService.updateHit(+id);
     const data = await this.productService.findOne(+id, (req?.user ?? {}).id);
     return res.status(HttpStatus.OK).json({ product: data });
   }
@@ -96,8 +96,9 @@ export class ProductController {
   }
 
   @Patch(':id')
-  update(@Param('id') id: string, @Body() updateProductDto) {
-    return this.productService.update(+id, updateProductDto);
+  @UseGuards(AuthGuard)
+  async update(@Param('id') id: string, @Body() updateProductDto) {
+    return await this.productService.update(+id, updateProductDto);
   }
 
   @Delete(':id')

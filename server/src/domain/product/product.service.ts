@@ -160,16 +160,23 @@ export class ProductService {
     }
   }
 
-  findOneBasic(id: number) {
-    return this.productRepository.findOneBy({ id });
+  async updateHit(id: number): Promise<Product> {
+    const pureProduct = await this.productRepository.findOneBy({ id });
+    const hit = pureProduct.hit + 1;
+
+    await this.productRepository.update(id, { hit });
+    return { ...pureProduct, hit };
   }
 
   async update(id: number, updateProductDto): Promise<Product> {
     const pureProduct = await this.productRepository.findOneBy({ id });
-    const hit = pureProduct.hit + 1;
 
-    await this.productRepository.update(id, { ...updateProductDto, hit });
-    return { ...pureProduct, ...updateProductDto, hit };
+    await this.productRepository.update(id, updateProductDto);
+    return { ...pureProduct, ...updateProductDto };
+  }
+
+  findOneBasic(id: number) {
+    return this.productRepository.findOneBy({ id });
   }
 
   async remove(id: number): Promise<DeleteResult> {
