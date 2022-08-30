@@ -1,5 +1,5 @@
 import React, { useRef } from 'react';
-import { useParams } from 'react-router-dom';
+import { useParams, useSearchParams } from 'react-router-dom';
 import useChat from '@hooks/useChat';
 import ChatList from '@components/organisms/ChatList';
 import styled from '@emotion/styled';
@@ -14,24 +14,27 @@ import ChatController from '@components/molecules/ChatController';
 
 const Chat: React.FC = () => {
   const Auth = useRecoilValue(authAtom);
-  const { roomId: roomIdString } = useParams();
-  const roomId = Number(roomIdString);
+  const { productId: productIdString } = useParams();
+  const productId = Number(productIdString);
+  const [searchParams] = useSearchParams();
+  const buyerId = searchParams.get('buyer') ?? undefined;
 
   const listRef = useRef<HTMLSpanElement>(null);
   const scrollToBottom = (options: ScrollIntoViewOptions = {}) => {
     if (listRef.current) listRef.current.scrollIntoView(options);
   };
 
-  // TODO : Room ID 값이 isNaN일 때 처리
-  const { room, chats, sendMessage, error } = useChat({ roomId });
+  const { room, chats, sendMessage, error } = useChat({ productId, buyerId });
 
   if (error) {
-    <ContainerDiv>
-      <TopBar title={'채팅방'} background={COLOR.background} />
-      <div className='flex1'>
-        <Guide.Error message={error} />
-      </div>
-    </ContainerDiv>;
+    return (
+      <ContainerDiv>
+        <TopBar title={'채팅방'} background={COLOR.background} />
+        <div className='flex1'>
+          <Guide.Error message={error} />
+        </div>
+      </ContainerDiv>
+    );
   }
 
   if (!room || !Auth)
@@ -45,7 +48,7 @@ const Chat: React.FC = () => {
     );
 
   const targetName =
-    Auth.name === room.buyer ? room.seller.name : room.buyer.name;
+    Auth?.id === room.buyerId ? room.seller.name : room.buyer.name;
 
   return (
     <ContainerDiv>

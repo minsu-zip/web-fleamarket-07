@@ -160,6 +160,10 @@ export class ProductService {
     }
   }
 
+  findOneBasic(id: number) {
+    return this.productRepository.findOneBy({ id });
+  }
+
   async update(id: number, updateProductDto): Promise<Product> {
     const pureProduct = await this.productRepository.findOneBy({ id });
     const hit = pureProduct.hit + 1;
