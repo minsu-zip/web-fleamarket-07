@@ -66,11 +66,6 @@
   <ol>
     <li>
       <a href="#about-the-project">About The Project</a>
-      <ul>
-        <li><a href="#skills-with">Skills With</a></li>
-        <li><a href="#front-end">Front-End</a></li>
-        <li><a href="#back-end">Back-End</a></li>
-      </ul>
     </li>
     <li>
       <a href="#getting-started">Getting Started</a>
@@ -79,7 +74,16 @@
         <li><a href="#installation">Installation</a></li>
       </ul>
     </li>
-    <li><a href="#ui">UIs</a></li>
+    <li>
+      <a href="#ui">UIs</a>
+      <ul>
+        <li><a href="#main">Main</a></li>
+        <li><a href="#login">Login</a></li>
+        <li><a href="#location">Location</a></li>
+        <li><a href="#products">Products</a></li>
+        <li><a href="#menus">Menus</a></li>
+      </ul>
+    </li>
     <li><a href="#erd">ERD</a></li>
   </ol>
 </details>
@@ -169,7 +173,7 @@
 
 ## UIs
 
-### 메인 화면
+### Main
 
 현재 위치에 해당하는 상품 목록들을 제공해줍니다.
 
@@ -185,7 +189,7 @@
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
-### 로그인
+### Login
 
 Github OAuth를 통해서 유저 서비스를 제공하고 있습니다.
 
@@ -200,7 +204,7 @@ Github 정보 중 아이디, 프로필 사진을 이용해 회원가입과 로�
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
-### 위치 수정
+### Location
 
 현재 위치는 String 값으로 지정되고 있습니다.
 
@@ -218,9 +222,40 @@ String 값을 Unique하게 사용하여 현재 위치들을 필터링합니다.
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
-### Others...
+### Products
 
-준비중입니다
+리스트에서 물품 아이템을 클릭하면 상세 물품을 볼 수 있습니다.
+
+|                                                           다른 사람의 상세 물품                                                           |                                                             자신의 상세 물품                                                              |
+| :---------------------------------------------------------------------------------------------------------------------------------------: | :---------------------------------------------------------------------------------------------------------------------------------------: |
+| <img width="410" alt="image" src="https://user-images.githubusercontent.com/55688122/187354018-a613b73b-3ef0-4b43-b2ee-8ad37de6b1c5.png"> | <img width="410" alt="image" src="https://user-images.githubusercontent.com/55688122/187354084-29948ca7-de61-4c30-bfd1-3e30558f02ae.png"> |
+
+현재 페이지에서
+
+- 다른 사람의 상품을 하트를 눌러 관심 목록에 넣을 수 있습니다.
+- 자신의 상품은 현재 어떤 상태인지 변경할 수 있습니다
+
+|                                                       관심 목록에 추가하기                                                        |                                                        상대방에게 문의하기                                                        |
+| :-------------------------------------------------------------------------------------------------------------------------------: | :-------------------------------------------------------------------------------------------------------------------------------: |
+| ![ezgif com-gif-maker (1)](https://user-images.githubusercontent.com/55688122/187357343-c3eaa497-852d-41dd-85b1-a041f3aa6efa.gif) | ![ezgif com-gif-maker (2)](https://user-images.githubusercontent.com/55688122/187357438-e9a8833d-e484-4e70-84ac-ab18ea58b47d.gif) |
+
+### Menus
+
+로그인 한 상태에서 메인 화면에서 오른쪽 위의 아이콘을 클릭하면 사용자와 관련된 기능들을 사용할 수 있습니다.
+
+|                                                             사용자 판매 물품                                                              |                                                             사용자 관심 물품                                                              |                                                            사용자의 채팅 목록                                                             |
+| :---------------------------------------------------------------------------------------------------------------------------------------: | :---------------------------------------------------------------------------------------------------------------------------------------: | :---------------------------------------------------------------------------------------------------------------------------------------: |
+| <img width="273" alt="image" src="https://user-images.githubusercontent.com/55688122/187355056-86c2fcce-858a-4adc-ba52-3604b121ced0.png"> | <img width="273" alt="image" src="https://user-images.githubusercontent.com/55688122/187355161-9f69cdbd-f855-4566-8384-380b22becaac.png"> | <img width="273" alt="image" src="https://user-images.githubusercontent.com/55688122/187355268-b826de21-203d-45ea-a16c-c57f7e4270e4.png"> |
+
+### Chats
+
+상대방과의 실시간 채팅을 진행할 수 있습니다.
+
+채팅을 확인하다가 다른 사람의 채팅이 오면 아래에 보이며 클릭하면 맨 아래로 이동합니다.
+
+|                                                                실시간 채팅                                                                |                                                          최근 채팅 확인 및 이동                                                           |
+| :---------------------------------------------------------------------------------------------------------------------------------------: | :---------------------------------------------------------------------------------------------------------------------------------------: |
+| <img width="548" alt="image" src="https://user-images.githubusercontent.com/55688122/187359458-3239cf0e-bd20-4998-9840-f524dfc901e8.gif"> | <img width="262" alt="image" src="https://user-images.githubusercontent.com/55688122/187359713-7dec199a-e408-49fb-bb22-3abf1f9c2e91.gif"> |
 
 <br/>
 <!-- Entity Relationship Diagram -->
