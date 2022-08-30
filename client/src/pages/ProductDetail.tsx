@@ -107,7 +107,9 @@ const ProductDetail: React.FC = () => {
             <ChatButton
               variant='contained'
               onClick={() =>
-                navigate(`/chat/${1}`, { state: { animate: SLIDE_STATE.LEFT } })
+                navigate(`/chat/${productId}`, {
+                  state: { animate: SLIDE_STATE.LEFT },
+                })
               }
             >
               문의하기
